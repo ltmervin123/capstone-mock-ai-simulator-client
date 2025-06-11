@@ -18,7 +18,8 @@ This template provides a minimal setup to get React working in Vite with HMR and
 │ ├── contexts/ # React context files (AuthContext, ThemeContext)
 │ ├── App.jsx # Root component
 │ ├── main.jsx # Vite's entry point
-│ └── index.css # TailwindCSS entry styles
+├── index.css # TailwindCSS entry styles
+├── .env # Environment variables
 ├── .vscode/ # VSCode workspace settings (optional)
 ├── .editorconfig # Editor formatting rules
 ├── .prettierrc # Prettier config
