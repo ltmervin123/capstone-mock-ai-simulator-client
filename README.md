@@ -43,6 +43,6 @@ To ensure consistency and maintainability across the project, follow these conve
 | **Config Files**    | `dotfiles` or lowercase | `.env`, `vite.config.js`       |
 
 🧪 Run Linting & Formatting
-
+- Control + s for code and tailwind class formatting
 - npx eslint src --ext js,jsx
 - npx prettier --write .
