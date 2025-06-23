@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { INPUT_CLASSES, BUTTON_TOGGLE_CLASSES } from '../constants/sharedClasses';
+import PasswordToggle from '../layouts/PasswordToggle';
 
 export default function LoginForm() {
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -19,10 +22,13 @@ export default function LoginForm() {
     e.preventDefault();
   };
 
+  const handlePasswordToggle = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
   return (
     <div className="flex h-screen items-center justify-center bg-green-50">
       <div className="mx-auto mt-20 w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-        {/* Profile Icon */}
         <div className="mb-4 flex justify-center">
           <svg
             width="150"
@@ -44,11 +50,11 @@ export default function LoginForm() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Input */}
           <div className="space-y-2">
             <label htmlFor="email" className="text-black-600 text-2x1 block font-inter">
               Email
             </label>
+
             <div className="relative">
               <span className="absolute inset-y-0 left-2 flex items-center text-gray-500">
                 <svg
@@ -73,13 +79,12 @@ export default function LoginForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your @normi.edu.ph email"
-                className="w-full rounded-md border border-green-700 py-2 pl-10 pr-4 font-inter transition-all duration-300 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+                className={`${INPUT_CLASSES} pl-10`}
                 required
               />
             </div>
           </div>
 
-          {/* Password Input */}
           <div className="space-y-2">
             <label htmlFor="password" className="text-black-600 text-2x1 block font-inter">
               Password
@@ -100,15 +105,22 @@ export default function LoginForm() {
                 </svg>
               </span>
               <input
-                type="password"
+                type={isShowPassword ? 'text' : 'password'}
                 id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className="w-full rounded-md border border-green-700 py-2 pl-10 pr-4 font-inter transition-all duration-300 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+                className={`${INPUT_CLASSES} pl-10 pr-10`}
                 required
               />
+              <button
+                type="button"
+                onClick={handlePasswordToggle}
+                className={BUTTON_TOGGLE_CLASSES}
+              >
+                <PasswordToggle isShowPassword={isShowPassword} />
+              </button>
             </div>
             <div className="text-left">
               <Link
@@ -119,9 +131,6 @@ export default function LoginForm() {
               </Link>
             </div>
           </div>
-
-          {/* Login Button */}
-
           <button
             type="submit"
             className="flex h-10 w-full items-center justify-center rounded-md bg-green-700 font-inter text-2xl font-normal text-white transition-colors duration-300 hover:bg-green-800"
@@ -129,7 +138,6 @@ export default function LoginForm() {
             Log in
           </button>
 
-          {/* Sign Up Link */}
           <div className="text-black-600 text-center font-inter text-sm">
             Need account?{' '}
             <Link to="/signup" className="font-medium text-green-700 hover:underline">
