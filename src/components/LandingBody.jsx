@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function LandingBody() {
@@ -30,7 +30,7 @@ export default function LandingBody() {
           </div>
           <p className="mx-auto max-w-3xl font-inter text-base leading-relaxed text-gray-700 sm:text-lg lg:text-xl">
             Prepare for job interviews with personalized feedback, realistic scenarios, and
-            AI-powered coaching. Available exclusively for NMCI 4th year students.
+            AI-powered coaching. Available exclusively for NORMI 4th year students.
           </p>
           <div className="pt-4">
             <Link

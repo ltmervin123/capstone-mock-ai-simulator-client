@@ -8,7 +8,7 @@ export default function LandingHeader() {
         <div className="flex items-center">
           <div className="flex items-baseline">
             <span className="font-inter text-3xl font-bold text-white md:text-5xl lg:text-5xl">
-              NMCI
+              NORMI
             </span>
             <span className="font-inter text-sm font-semibold text-white md:text-3xl lg:text-3xl">
               Interview Simulator
