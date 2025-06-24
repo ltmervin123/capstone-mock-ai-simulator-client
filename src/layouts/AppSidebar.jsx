@@ -15,7 +15,11 @@ export default function AppSidebar() {
   const isLinkActive = (path) => location.pathname === path;
   return (
     <SidebarProvider>
-      {isMobile && <SidebarTrigger className="text-green-700" />}
+      {isMobile && (
+        <div className="fixed top-28 z-50">
+          <SidebarTrigger className="rounded-full bg-white text-green-700 shadow-md" />
+        </div>
+      )}
       <Sidebar className="relative border-none" variant="sidebar" side="left">
         <SidebarContent className="bg-green-100">
           <nav className="flex-1 p-4">
