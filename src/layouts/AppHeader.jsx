@@ -12,7 +12,7 @@ export default function AppHeader() {
         <div className="mx-auto flex h-24 max-w-[1440px] items-center justify-between px-3 py-2 sm:px-4 md:px-6 lg:px-8">
           <Link to="/dashboard">
             <div className="flex items-center">
-              <div className="flex items-baseline">
+              <div className=".block flex flex-col sm:flex-row sm:items-baseline">
                 <span className="font-inter text-3xl font-bold text-white md:text-5xl lg:text-5xl">
                   NORMI
                 </span>
@@ -23,9 +23,11 @@ export default function AppHeader() {
             </div>
           </Link>
           <div className="flex items-center gap-4">
-            <span className="text-base font-medium text-white">{user.name}</span>
+            <span className="hidden text-sm font-medium text-white sm:block sm:text-base">
+              {user.name}
+            </span>
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
-              <span className="text-lg font-bold">{user.initials}</span>
+              <span className="text-base font-bold sm:text-lg">{user.initials}</span>
             </div>
           </div>
         </div>
