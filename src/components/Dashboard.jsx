@@ -1,6 +1,7 @@
 import React from 'react';
 import DashboardHeader from './DashboardHeader';
 import DashboardCards from './DashboardCards';
+import DashboardLineChart from './DashboardLineChart';
 
 export default function Dashboard() {
   return (
@@ -13,8 +14,8 @@ export default function Dashboard() {
       </div>
 
       {/* Main content section */}
-      <div className="min-h-[200px] rounded">
-        <div className="h-full rounded bg-white p-4 shadow-sm"></div>
+      <div className="min-h-[250px] rounded">
+        <DashboardLineChart />
       </div>
 
       {/* Bottom section */}
