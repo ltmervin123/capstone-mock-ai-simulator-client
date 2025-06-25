@@ -9,7 +9,7 @@ export default function AppHeader() {
   return (
     <div>
       <header className="fixed z-50 w-full bg-green-700 font-inter md:relative">
-        <div className="mx-auto flex h-24 max-w-[1440px] items-center justify-between px-3 py-2 sm:px-4 md:px-6 lg:px-8">
+        <div className="mx-auto flex h-24 items-center justify-between p-4 py-2">
           <Link to="/dashboard">
             <div className="flex items-center">
               <div className=".block flex flex-col sm:flex-row sm:items-baseline">

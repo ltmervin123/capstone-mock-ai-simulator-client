@@ -32,9 +32,9 @@ export default function DropDown({ selectedOption, setSelectedOption }) {
     <div className=": relative" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
-        className="flex h-9 w-32 items-center justify-between rounded-md border border-gray-300 px-4 py-2"
+        className="flex w-24 items-center justify-between rounded-md border border-gray-300 px-4 py-2 sm:h-9 sm:w-32"
       >
-        <span>{selectedOption}</span>
+        <span className="text-xs sm:text-base">{selectedOption}</span>
         <svg
           className={`ml-2 h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
@@ -56,7 +56,7 @@ export default function DropDown({ selectedOption, setSelectedOption }) {
           {options.map((option, index) => (
             <div
               key={index}
-              className={`cursor-pointer px-4 py-2 ${
+              className={`cursor-pointer px-4 py-2 text-xs sm:text-base ${
                 selectedOption === option ? 'bg-gray-100 font-medium' : ''
               }`}
               onClick={() => handleOptionClick(option)}

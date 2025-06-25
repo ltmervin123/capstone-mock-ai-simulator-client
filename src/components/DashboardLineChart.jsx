@@ -8,7 +8,7 @@ export default function DashboardLineChart() {
   return (
     <div className="flex h-full flex-col rounded bg-white p-4 font-inter shadow-sm">
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-green-700">Progress Over Time</h1>
+        <h1 className="text-sm font-bold text-green-700 sm:text-lg">Progress Over Time</h1>
 
         <DropDown selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
       </div>
