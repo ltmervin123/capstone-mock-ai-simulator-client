@@ -16,8 +16,8 @@ export default function AppSidebar() {
   return (
     <SidebarProvider>
       {isMobile && (
-        <div className="fixed top-28 z-50">
-          <SidebarTrigger className="rounded-full bg-white text-green-700 shadow-md" />
+        <div className="fixed left-2 top-28 z-50 rounded-full bg-white text-green-700 shadow-md">
+          <SidebarTrigger className="h-10 w-10" />
         </div>
       )}
       <Sidebar className="relative border-none" variant="sidebar" side="left">
