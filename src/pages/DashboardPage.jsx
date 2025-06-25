@@ -8,7 +8,7 @@ export default function DashboardPage() {
     <div className="flex min-h-screen flex-col bg-green-50">
       <AppHeader />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden pt-24 md:pt-0">
         <div className="shrink-0 overflow-y-auto">
           <AppSidebar />
         </div>
