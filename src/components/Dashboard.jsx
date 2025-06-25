@@ -9,7 +9,7 @@ export default function Dashboard() {
       {/* Header section */}
       <DashboardHeader />
       {/* Stats cards */}
-      <div className="grid min-h-[150px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
+      <div className="grid min-h-[150px] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCards />
       </div>
 
