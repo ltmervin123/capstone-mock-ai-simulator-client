@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function DropDown() {
+export default function DropDown({ selectedOption, setSelectedOption }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('Daily');
   const dropdownRef = useRef(null);
 
   const options = ['Daily', 'Weekly', 'Monthly'];

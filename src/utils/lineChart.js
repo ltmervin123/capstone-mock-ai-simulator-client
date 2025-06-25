@@ -49,25 +49,13 @@ export const getOptions = () => {
   };
 };
 
-export const getChartData = () => {
-  const labels = [
-    '1:00AM',
-    '2:00AM',
-    '3:00AM',
-    '4:00AM',
-    '5:00AM',
-    '6:00AM',
-    '7:00AM',
-    '8:00AM',
-    '9:00AM',
-    '10:00AM',
-  ];
+export const getChartData = ({ data = [], labels = [], label = 'Score' }) => {
   return {
     labels,
     datasets: [
       {
-        label: 'Scores',
-        data: [50, 19, 30, 40, 60, 10, 70, 80, 90, 100],
+        label: label,
+        data: data,
         borderColor: '#0A7E32',
         backgroundColor: '#0A7E32',
       },
