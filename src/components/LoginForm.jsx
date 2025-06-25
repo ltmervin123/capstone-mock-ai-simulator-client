@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { INPUT_CLASSES, BUTTON_TOGGLE_CLASSES } from '../constants/sharedClasses';
 import PasswordToggle from '../layouts/PasswordToggle';
 
 export default function LoginForm() {
+  const navigate = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -20,6 +21,7 @@ export default function LoginForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    navigate('/dashboard', { replace: true });
   };
 
   const handlePasswordToggle = () => {
