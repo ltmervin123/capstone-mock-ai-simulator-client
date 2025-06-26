@@ -2,26 +2,22 @@ import React from 'react';
 import DashboardHeader from './DashboardHeader';
 import DashboardCards from './DashboardCards';
 import DashboardLineChart from './DashboardLineChart';
+import DashboardStat from './DashboardStat';
 
 export default function Dashboard() {
   return (
-    <div className="front-inter grid grid-cols-1 gap-6">
-      {/* Header section */}
+    <div className="grid grid-cols-1 gap-6 font-inter">
       <DashboardHeader />
-      {/* Stats cards */}
+
       <div className="grid min-h-[150px] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCards />
       </div>
-
-      {/* Main content section */}
       <div className="min-h-[250px] rounded">
         <DashboardLineChart />
       </div>
 
-      {/* Bottom section */}
-      <div className="grid min-h-[150px] grid-cols-1 gap-6 sm:grid-cols-2">
-        <div className="h-[150px] rounded bg-white p-4 shadow-sm"></div>
-        <div className="h-[150px] rounded bg-white p-4 shadow-sm"></div>
+      <div className="grid min-h-[150px] grid-cols-1 gap-6 lg:grid-cols-2">
+        <DashboardStat />
       </div>
     </div>
   );

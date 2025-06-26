@@ -19,7 +19,7 @@ export default function LineChart({ selectedOption = 'Daily' }) {
     label: 'Average Score',
     daily: {
       labels: ['1:00AM', '2:00AM', '3:00AM', '4:00AM', '5:00AM', '6:00AM', '7:00AM', '8:00AM'],
-      data: [10, 8, 30, 40,30, 60, 70, 80],
+      data: [10, 8, 30, 40, 30, 60, 70, 80],
     },
     weekly: {
       labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
