@@ -20,8 +20,8 @@ export default function AppSidebar() {
           <SidebarTrigger className="h-10 w-10" />
         </div>
       )}
-      <Sidebar className="relative border-none" variant="sidebar" side="left">
-        <SidebarContent className="bg-green-100">
+      <Sidebar className="h-screen border-none pt-24" variant="sidebar" side="left">
+        <SidebarContent className="flex h-full flex-col bg-green-100">
           <nav className="flex-1 p-4">
             <ul className="space-y-2">
               <li>
@@ -74,12 +74,14 @@ export default function AppSidebar() {
               </li>
             </ul>
           </nav>
-          <Separator />
-          <div className="p-4">
-            <Button variant="ghost" className="w-full justify-start gap-2 hover:bg-green-200">
-              <LogoutSvg />
-              <span className="text-lg text-gray-500">Log out</span>
-            </Button>
+          <div className="mt-auto">
+            <Separator />
+            <div className="p-4">
+              <Button variant="ghost" className="w-full justify-start gap-2 hover:bg-green-200">
+                <LogoutSvg />
+                <span className="text-lg text-gray-500">Log out</span>
+              </Button>
+            </div>
           </div>
         </SidebarContent>
       </Sidebar>

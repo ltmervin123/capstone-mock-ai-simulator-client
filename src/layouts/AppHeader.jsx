@@ -8,7 +8,7 @@ export default function AppHeader() {
   };
   return (
     <div>
-      <header className="fixed z-50 w-full bg-green-700 font-inter md:relative">
+      <header className="fixed z-50 w-full bg-green-700 font-inter">
         <div className="mx-auto flex h-24 items-center justify-between p-4 py-2">
           <Link to="/dashboard">
             <div className="flex items-center">

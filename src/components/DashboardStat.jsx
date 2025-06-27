@@ -1,5 +1,6 @@
 import React from 'react';
 import ProgressBar from '../layouts/ProgressBar';
+import InterviewTypeScoreBar from '../layouts/InterviewTypeScoreBar';
 
 export default function DashboardStat() {
   const PerformanceBreakdownData = [
@@ -20,6 +21,21 @@ export default function DashboardStat() {
       value: 90,
     },
   ];
+
+  const InterviewTypeScores = [
+    {
+      type: 'Basic Interview',
+      score: 100,
+    },
+    {
+      type: 'Behavioral Interview',
+      score: 90,
+    },
+    {
+      type: 'Expert Interview',
+      score: 80,
+    },
+  ];
   return (
     <>
       {/* Performance Breakdown */}
@@ -33,8 +49,12 @@ export default function DashboardStat() {
       </div>
 
       {/* Interview Scores */}
-      <div className="h-auto rounded bg-white p-4 shadow-sm">
+      <div className="grid-cols-1rounded grid h-auto gap-3 bg-white p-4">
         <h1 className="mb-2 text-lg font-bold text-green-700">Interview Type Scores</h1>
+
+        {InterviewTypeScores.map((item, index) => (
+          <InterviewTypeScoreBar key={index} type={item.type} score={item.score} />
+        ))}
       </div>
     </>
   );

@@ -5,17 +5,17 @@ import Dashboard from '../components/Dashboard';
 
 export default function DashboardPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-green-50">
+    <div className="flex flex-col bg-green-50">
       <AppHeader />
 
-      <div className="flex flex-1 overflow-hidden pt-24 md:pt-0">
-        <div className="shrink-0 overflow-y-auto">
+      <div className="flex min-h-screen flex-1 overflow-hidden pt-24">
+        <div>
           <AppSidebar />
         </div>
 
-        <main className="flex-1 overflow-y-auto p-4">
+        <div className="min-h-screen flex-1 overflow-hidden p-4">
           <Dashboard />
-        </main>
+        </div>
       </div>
     </div>
   );
