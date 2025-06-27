@@ -33,8 +33,8 @@ export default function DashboardStat() {
       </div>
 
       {/* Interview Scores */}
-      <div className="h-[150px] rounded bg-white p-4 shadow-sm">
-        <h1 className="text-sm font-bold text-green-700 sm:text-lg">Interview Type Scores</h1>
+      <div className="h-auto rounded bg-white p-4 shadow-sm">
+        <h1 className="mb-2 text-lg font-bold text-green-700">Interview Type Scores</h1>
       </div>
     </>
   );
