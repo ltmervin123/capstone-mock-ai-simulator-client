@@ -1,4 +1,8 @@
-export default function PasswordToggle({ isShowPassword }) {
+interface PasswordToggleProps {
+  isShowPassword: boolean;
+}
+
+export default function PasswordToggle({ isShowPassword }: PasswordToggleProps) {
   return (
     <div>
       <>

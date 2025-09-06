@@ -1,7 +1,11 @@
-import React from 'react';
 import { Progress } from '@/components/ui/progress';
 
-export default function ProgressBar({ label, value }) {
+interface ProgressBarProps {
+  label: string;
+  value: number;
+}
+
+export default function ProgressBar({ label, value }: ProgressBarProps) {
   return (
     <div className="md:gap-3lg:gap-4 grid grid-cols-12 items-center gap-1 text-xs sm:gap-2 sm:text-sm">
       <span className="col-span-3 truncate sm:col-span-2">{label}</span>

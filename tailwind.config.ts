@@ -1,10 +1,8 @@
+import tailwindcssAnimate from 'tailwindcss-animate';
+
 export default {
   darkMode: ['class'],
-  // content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  content: {
-    files: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-    safelist: ['border-border'], // <-- move here
-  },
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
@@ -93,7 +91,5 @@ export default {
       },
     },
   },
-  // eslint-disable-next-line no-undef
-  // plugins: [require('tailwindcss-animate')],
-  // safelist: ['border-border'],
+  plugins: [tailwindcssAnimate],
 };

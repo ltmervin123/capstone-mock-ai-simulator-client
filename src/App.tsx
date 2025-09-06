@@ -9,7 +9,7 @@ import DashboardPage from './pages/DashboardPage';
 import HistoryPage from './pages/HistoryPage';
 import InterviewPage from './pages/InterviewPage';
 
-function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -24,6 +24,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

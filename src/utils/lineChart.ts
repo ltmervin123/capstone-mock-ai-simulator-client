@@ -1,4 +1,6 @@
-export const getOptions = () => {
+import { ChartOptions } from 'chart.js';
+
+export const getOptions = (): ChartOptions<'line'> => {
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -49,7 +51,13 @@ export const getOptions = () => {
   };
 };
 
-export const getChartData = ({ data = [], labels = [], label = 'Score' }) => {
+interface ChartDataParams {
+  data?: number[];
+  labels?: string[];
+  label?: string;
+}
+
+export const getChartData = ({ data = [], labels = [], label = 'Score' }: ChartDataParams) => {
   return {
     labels,
     datasets: [

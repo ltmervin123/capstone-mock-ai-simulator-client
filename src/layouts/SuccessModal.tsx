@@ -1,4 +1,8 @@
-export default function SuccessModal({ onClose }) {
+interface SuccessModalProps {
+  onClose: () => void;
+}
+
+export default function SuccessModal({ onClose }: SuccessModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-in-out] items-center justify-center bg-white/30 backdrop-blur-[1px]">
       <div className="w-[550px] animate-[scaleIn_0.3s_ease-in-out] rounded-lg bg-white p-8 shadow-xl">
