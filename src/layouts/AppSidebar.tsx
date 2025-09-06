@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import DashboardSvg from '../assets/svg-components/DashboardSvg';
 import InterviewSvg from '../assets/svg-components/InterviewSvg';
@@ -12,7 +11,7 @@ import { Separator } from '../components/ui/separator';
 export default function AppSidebar() {
   const isMobile = useIsMobile();
   const location = useLocation();
-  const isLinkActive = (path) => location.pathname === path;
+  const isLinkActive = (path: string) => location.pathname === path;
   return (
     <SidebarProvider>
       {isMobile && (

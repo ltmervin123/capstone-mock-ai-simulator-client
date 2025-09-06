@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-export default function DropDown({ selectedOption, setSelectedOption }) {
+export default function DropDown({ selectedOption, setSelectedOption, options }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  const options = ['Daily', 'Weekly', 'Monthly'];
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

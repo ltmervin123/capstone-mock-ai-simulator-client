@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 export default function AppHeader() {
@@ -6,9 +6,10 @@ export default function AppHeader() {
     name: 'Alvincent F. Sangco',
     initials: 'AS',
   };
+
   return (
     <div>
-      <header className="fixed z-50 w-full bg-green-700 font-inter">
+      <header className="z-50 w-full bg-green-700 font-inter">
         <div className="mx-auto flex h-24 items-center justify-between p-4 py-2">
           <Link to="/dashboard">
             <div className="flex items-center">
