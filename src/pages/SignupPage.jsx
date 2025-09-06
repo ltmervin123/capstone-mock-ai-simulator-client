@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../layouts/Header';
-import SignupForm from '../components/SignupForm';
+import SignupForm from '../components/sign-up/SignupForm';
 
 export default function SignupPage() {
   return (

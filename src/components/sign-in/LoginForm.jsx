@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { INPUT_CLASSES, BUTTON_TOGGLE_CLASSES } from '../constants/sharedClasses';
-import PasswordToggle from '../layouts/PasswordToggle';
+import { INPUT_CLASSES, BUTTON_TOGGLE_CLASSES } from '../../constants/sharedClasses';
+import PasswordToggle from '../../layouts/PasswordToggle';
 
 export default function LoginForm() {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import DropDown from './ui/drop-down';
-import LineChart from '../layouts/LineChart';
+import DropDown from '../ui/drop-down';
+import LineChart from '../../layouts/LineChart';
 
 export default function DashboardLineChart() {
   const [selectedOption, setSelectedOption] = useState('Daily');

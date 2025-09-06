@@ -1,7 +1,7 @@
 import React from 'react';
 import AppHeader from '../layouts/AppHeader';
 import AppSidebar from '../layouts/AppSidebar';
-import Dashboard from '../components/Dashboard';
+import Dashboard from '../components/dashboard/Dashboard';
 
 export default function DashboardPage() {
   return (

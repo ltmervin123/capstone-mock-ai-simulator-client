@@ -1,7 +1,7 @@
 import React from 'react';
 import AppHeader from '../layouts/AppHeader';
 import AppSidebar from '../layouts/AppSidebar';
-import History from '../components/History';
+import History from '../components/history/History';
 export default function HistoryPage() {
   return (
     <div className="flex min-h-screen flex-col bg-green-50">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { INPUT_CLASSES } from '../constants/sharedClasses';
+import { INPUT_CLASSES } from '../../constants/sharedClasses';
 
 export default function ForgotPasswordForm() {
   return (

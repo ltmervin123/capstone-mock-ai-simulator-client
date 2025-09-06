@@ -1,20 +1,20 @@
 import React from 'react';
 import AppHeader from '../layouts/AppHeader';
 import AppSidebar from '../layouts/AppSidebar';
-import Interview from '../components/Interview';
+import Interview from '../components/interview/Interview';
 export default function InterviewPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-green-50">
+    <div className="flex flex-col bg-green-50">
       <AppHeader />
 
-      <div className="flex min-h-0 flex-1">
+      <div className="flex min-h-screen flex-1 overflow-hidden pt-24">
         <div>
           <AppSidebar />
         </div>
 
-        <main className="flex-1 overflow-y-auto p-6">
+        <div className="min-h-screen flex-1 overflow-hidden p-4">
           <Interview />
-        </main>
+        </div>
       </div>
     </div>
   );

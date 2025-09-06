@@ -1,6 +1,6 @@
 import React from 'react';
-import ProgressBar from '../layouts/ProgressBar';
-import InterviewTypeScoreBar from '../layouts/InterviewTypeScoreBar';
+import ProgressBar from '../../layouts/ProgressBar';
+import InterviewTypeScoreBar from '../../layouts/InterviewTypeScoreBar';
 
 export default function DashboardStat() {
   const PerformanceBreakdownData = [

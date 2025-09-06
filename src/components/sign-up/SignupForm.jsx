@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { INPUT_CLASSES, LABEL_CLASSES, BUTTON_TOGGLE_CLASSES } from '../constants/sharedClasses';
-import PasswordToggle from '../layouts/PasswordToggle';
-import SuccessModal from '../layouts/SuccessModal';
+import { INPUT_CLASSES, LABEL_CLASSES, BUTTON_TOGGLE_CLASSES } from '../../constants/sharedClasses';
+import PasswordToggle from '../../layouts/PasswordToggle';
+import SuccessModal from '../../layouts/SuccessModal';
 
 export default function SignupForm() {
   const navigate = useNavigate();
