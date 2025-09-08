@@ -1,7 +1,10 @@
+import BottomSection from './BottomSection';
 import InterviewHeader from '../interview/InterviewHeader';
 import InterviewCard from '../interview/InterviewCard';
 import InterviewerDropDown from '../ui/drop-down';
 import { useState } from 'react';
+import BehavioralCategory from './BehavioralCategory';
+import ResumeUpload from './ResumeUpload';
 
 export type InterviewType = 'Basic' | 'Behavioral' | 'Expert' | 'Custom';
 
@@ -32,8 +35,29 @@ const INTERVIEW_CARDS: Array<{
 
 export default function Interview() {
   const OPTIONS = ['Stella', 'Steve'];
-
   const [selectedOption, setSelectedOption] = useState('Stella');
+  const [showBehavioralModal, setShowBehavioralModal] = useState(false);
+  const [showResumeUpload, setShowResumeUpload] = useState(false);
+
+  const handleOnProceedResumeUpload = (resumeFile: File | null, jobTitle: string) => {
+    console.log('Resume File: ', resumeFile);
+    console.log('Job Title: ', jobTitle);
+    setShowResumeUpload(false);
+  };
+
+  const handleCardSelect = (type: InterviewType) => {
+    if (type === 'Behavioral') {
+      setShowBehavioralModal(true);
+    } else if (type === 'Expert') {
+      setShowResumeUpload(true);
+    }
+  };
+
+  const handleOnSelectBehavioral = (selectedCategory: string) => {
+    console.log('Selected Behavioral Category: ', selectedCategory);
+    setShowBehavioralModal(false);
+  };
+
   return (
     <div className="mx-auto max-w-7xl rounded bg-white p-4 font-inter">
       <InterviewHeader />
@@ -44,46 +68,32 @@ export default function Interview() {
             type={card.type}
             title={card.title}
             description={card.description}
+            handleCardSelect={handleCardSelect}
           />
         ))}
       </div>
-      <div className="flex justify-start pt-6">
+      <div className="flex w-32 flex-col justify-start gap-2 pt-6">
         <InterviewerDropDown
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
           options={OPTIONS}
         />
+        <div className="text-xs">Select Interviewer</div>
       </div>
 
-      {/* Bottom Section with Webcam Check and Next Button */}
-      <div className="mt-8 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-600">
-            <svg
-              className="h-4 w-4 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <span className="text-sm text-gray-700">
-            Please ensure your webcam and microphone are working
-          </span>
-        </div>
+      <BottomSection />
 
-        <button
-          className={`rounded bg-green-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700`}
-        >
-          Next
-        </button>
-      </div>
+      <BehavioralCategory
+        isOpen={showBehavioralModal}
+        onClose={() => setShowBehavioralModal(false)}
+        onCategorySelect={handleOnSelectBehavioral}
+      />
+
+      <ResumeUpload
+        isOpen={showResumeUpload}
+        onClose={() => setShowResumeUpload(false)}
+        onProceed={handleOnProceedResumeUpload}
+      />
     </div>
   );
 }

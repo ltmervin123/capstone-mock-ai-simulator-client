@@ -27,7 +27,7 @@ export default function DropDown({ selectedOption, setSelectedOption, options })
     };
   }, []);
   return (
-    <div className=": relative" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="flex w-24 items-center justify-between rounded-md border border-gray-300 px-4 py-2 sm:h-9 sm:w-32"
