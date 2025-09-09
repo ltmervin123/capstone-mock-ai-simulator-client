@@ -1,4 +1,3 @@
-import React from 'react';
 import ProgressBar from '../../layouts/ProgressBar';
 import InterviewTypeScoreBar from '../../layouts/InterviewTypeScoreBar';
 
