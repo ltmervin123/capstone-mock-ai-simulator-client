@@ -5,14 +5,9 @@ import InterviewerDropDown from '../ui/drop-down';
 import { useState } from 'react';
 import BehavioralCategory from './BehavioralCategory';
 import ResumeUpload from './ResumeUpload';
+import { InterviewType } from '@/types/shared/interview-type';
 
-export type InterviewType = 'Basic' | 'Behavioral' | 'Expert' | 'Custom';
-
-const INTERVIEW_CARDS: Array<{
-  type: InterviewType;
-  title: string;
-  description: string;
-}> = [
+const INTERVIEW_CARDS = [
   {
     type: 'Basic',
     title: 'Beginner Friendly',
@@ -45,7 +40,7 @@ export default function Interview() {
     setShowResumeUpload(false);
   };
 
-  const handleCardSelect = (type: InterviewType) => {
+  const handleCardSelect = (type: string) => {
     if (type === 'Behavioral') {
       setShowBehavioralModal(true);
     } else if (type === 'Expert') {
@@ -65,7 +60,7 @@ export default function Interview() {
         {INTERVIEW_CARDS.map((card) => (
           <InterviewCard
             key={card.type}
-            type={card.type}
+            type={card.type as InterviewType}
             title={card.title}
             description={card.description}
             handleCardSelect={handleCardSelect}

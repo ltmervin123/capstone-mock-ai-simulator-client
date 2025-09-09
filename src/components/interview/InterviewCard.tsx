@@ -1,14 +1,14 @@
-import { InterviewType } from './Interview';
+import { InterviewType } from '@/types/shared/interview-type';
 
 type Props = {
   type: InterviewType;
   title: string;
   description: string;
-  handleCardSelect: (type: InterviewType) => void;
+  handleCardSelect: (type: string) => void;
 };
 
 const CLASS_COLOR: Record<
-  InterviewType,
+  string,
   {
     bg: string;
     border: string;

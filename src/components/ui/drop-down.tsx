@@ -1,22 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
 
-export default function DropDown({ selectedOption, setSelectedOption, options }) {
+type DropDownProps = {
+  selectedOption: string;
+  setSelectedOption: (option: string) => void;
+  options: string[];
+};
+
+export default function DropDown({ selectedOption, setSelectedOption, options }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     setIsOpen(false);
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -30,7 +35,7 @@ export default function DropDown({ selectedOption, setSelectedOption, options })
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
-        className="flex w-24 items-center justify-between rounded-md border border-gray-300 px-4 py-2 sm:h-9 sm:w-32"
+        className="flex w-24 items-center justify-between rounded-md border border-green-600 px-4 py-2 sm:h-9 sm:w-32"
       >
         <span className="text-xs sm:text-base">{selectedOption}</span>
         <svg
