@@ -19,9 +19,18 @@ interface HistoryCardProps {
   questions: number;
   score: number;
   totalScore: number;
+  setIsViewingDetail: (isViewing: boolean) => void;
 }
 
-function HistoryCard({ type, date, duration, questions, score, totalScore }: HistoryCardProps) {
+function HistoryCard({
+  type,
+  date,
+  duration,
+  questions,
+  score,
+  totalScore,
+  setIsViewingDetail,
+}: HistoryCardProps) {
   return (
     <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
       <div className="flex items-center justify-between pr-4">
@@ -50,9 +59,12 @@ function HistoryCard({ type, date, duration, questions, score, totalScore }: His
         </div>
 
         {/* View Details button */}
-        <button className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700">
+        <button
+          className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+          onClick={() => setIsViewingDetail(true)}
+        >
           View Details
-        </button>
+        </button> 
       </div>
     </div>
   );
