@@ -2,6 +2,7 @@ import { InterviewType } from '@/types/shared/interview-type';
 import HistoryCard from './HistoryCard';
 import Pagination from '../ui/pagination';
 import { useState } from 'react';
+import InterviewDetail from './InterviewDetail';
 
 const MOCK_HISTORY = [
   {
@@ -96,6 +97,7 @@ const MOCK_HISTORY = [
 
 export default function HistoryTableSection() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isViewingDetail, setIsViewingDetail] = useState(false);
   return (
     <div className="flex flex-col gap-4 rounded bg-white p-4">
       <h1 className="semi-bold text-xl text-gray-500">Interview Session</h1>
@@ -109,6 +111,7 @@ export default function HistoryTableSection() {
             questions={history.questions}
             score={history.score}
             totalScore={history.totalScore}
+            setIsViewingDetail={setIsViewingDetail}
           />
         ))}
       </div>
@@ -120,6 +123,8 @@ export default function HistoryTableSection() {
           onPageChange={(page) => setCurrentPage(page)}
         />
       </div>
+
+      <InterviewDetail isOpen={isViewingDetail} onClose={() => setIsViewingDetail(false)} />
     </div>
   );
 }
