@@ -5,6 +5,7 @@ export interface BehavioralCategoryProps {
   isOpen: boolean;
   onClose: () => void;
   onCategorySelect: (category: string) => void;
+  handleStart: () => void;
 }
 
 const BEHAVIORAL_CATEGORIES = [
@@ -46,11 +47,17 @@ const BEHAVIORAL_CATEGORIES = [
   },
 ];
 
-function BehavioralCategory({ isOpen, onClose, onCategorySelect }: BehavioralCategoryProps) {
+function BehavioralCategory({
+  isOpen,
+  onClose,
+  onCategorySelect,
+  handleStart,
+}: BehavioralCategoryProps) {
   if (!isOpen) return null;
 
   const handleCategorySelect = (categoryId: string) => {
     onCategorySelect(categoryId);
+    handleStart();
   };
 
   return (
