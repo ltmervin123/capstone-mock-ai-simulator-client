@@ -5,7 +5,7 @@ export default function AnswerPage() {
     <div className="flex h-screen flex-col bg-green-50 font-inter">
       <AppHeader />
 
-      <div className="flex justify-center p-10 w-full h-full">
+      <div className="flex h-full w-full justify-center p-10">
         <Answer />
       </div>
     </div>
