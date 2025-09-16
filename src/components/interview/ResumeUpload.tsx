@@ -5,9 +5,10 @@ interface ResumeUploadProps {
   isOpen: boolean;
   onClose: () => void;
   onProceed: (resumeFile: File | null, jobTitle: string) => void;
+  handleStart: () => void;
 }
 
-function ResumeUpload({ isOpen, onClose, onProceed }: ResumeUploadProps) {
+function ResumeUpload({ isOpen, onClose, onProceed, handleStart }: ResumeUploadProps) {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [jobTitle, setJobTitle] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
@@ -61,6 +62,7 @@ function ResumeUpload({ isOpen, onClose, onProceed }: ResumeUploadProps) {
 
   const handleProceed = () => {
     onProceed(resumeFile, jobTitle);
+    handleStart();
   };
 
   const handleClose = () => {
