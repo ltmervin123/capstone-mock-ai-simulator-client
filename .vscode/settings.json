@@ -3,11 +3,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact"
-  ],
-  "cSpell.words": [
-    "Normi"
-  ]
+  "eslint.validate": ["javascript", "javascriptreact"],
+  "cSpell.words": ["Normi", "PREPWISE"]
 }
