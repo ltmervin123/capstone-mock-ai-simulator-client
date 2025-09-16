@@ -27,11 +27,30 @@ export default {
             opacity: '1',
           },
         },
+        pulseBorder: {
+          '0%': {
+            borderColor: 'rgb(22 163 74)',
+            boxShadow: '0 0 0px rgba(74, 222, 128, 0.2)',
+            filter: 'blur(0px)',
+          },
+          '50%': {
+            borderColor: 'rgb(74, 222, 128)',
+            boxShadow: '0 0 15px rgba(74, 222, 128, 0.6)',
+            filter: 'blur(1px)',
+          },
+          '100%': {
+            borderColor: 'rgb(22 163 74)',
+            boxShadow: '0 0 0px rgba(74, 222, 128, 0.2)',
+            filter: 'blur(0px)',
+          },
+        },
       },
       animation: {
         fadeIn: 'fadeIn 0.2s ease-in-out forwards',
         scaleIn: 'scaleIn 0.3s ease-in-out forwards',
+        'pulse-border': 'pulseBorder 1.5s ease-in-out infinite',
       },
+
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

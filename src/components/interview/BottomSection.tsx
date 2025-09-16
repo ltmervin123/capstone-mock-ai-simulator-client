@@ -16,10 +16,6 @@ function BottomSection() {
           Please ensure your microphone are working
         </span>
       </div>
-
-      <button className="w-full rounded bg-green-600 p-2 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 sm:w-auto sm:px-6 h-auto">
-        Next
-      </button>
     </div>
   );
 }

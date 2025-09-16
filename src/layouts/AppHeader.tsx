@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 
 export default function AppHeader() {
@@ -8,19 +7,14 @@ export default function AppHeader() {
   };
 
   return (
-    <div>
+    <div className="relative z-50">
       <header className="z-50 w-full bg-green-700 font-inter">
         <div className="mx-auto flex h-24 items-center justify-between p-4 py-2">
-          <Link to="/dashboard">
+          <Link to="/dashboard" className="hover:cursor-pointer">
             <div className="flex items-center">
-              <div className=".block flex flex-col sm:flex-row sm:items-baseline">
-                <span className="font-inter text-3xl font-bold text-white md:text-5xl lg:text-5xl">
-                  NORMI
-                </span>
-                <span className="font-inter text-sm font-semibold text-white md:text-3xl lg:text-3xl">
-                  Interview Simulator
-                </span>
-              </div>
+              <span className="font-inter text-3xl font-bold text-white md:text-5xl lg:text-5xl">
+                PrepWise
+              </span>
             </div>
           </Link>
           <div className="flex items-center gap-4">

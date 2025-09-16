@@ -25,12 +25,14 @@ export default function LandingBody() {
               Ace Your Interviews
             </h1>
             <h2 className="font-inter text-4xl font-bold text-green-700 sm:text-5xl lg:text-6xl">
-              Preparation Tools
+              With <span className="font-black text-gray-800">PrepWise</span>
             </h2>
           </div>
           <p className="mx-auto max-w-3xl font-inter text-base leading-relaxed text-gray-700 sm:text-lg lg:text-xl">
-            Prepare for job interviews with personalized feedback, realistic scenarios, and
-            AI-powered coaching. Available exclusively for NORMI 4th year students.
+            PrepWise is an AI-powered interview system that builds your confidence and skills for
+            the job market. Practice with realistic interview scenarios, receive personalized
+            feedback, and track your improvement over time. Designed exclusively for NORMI 4th year
+            students.
           </p>
           <div className="pt-4">
             <Link

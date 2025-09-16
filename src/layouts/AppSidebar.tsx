@@ -23,6 +23,19 @@ export default function AppSidebar() {
         <SidebarContent className="flex h-full flex-col bg-green-100">
           <nav className="flex-1 p-4">
             <ul className="space-y-2">
+              {isMobile && (
+                <li>
+                  <Button asChild variant="ghost" className={`w-full justify-start`}>
+                    <Link to="/dashboard" className="flex items-center gap-2">
+                      <span
+                        className={`font-inter text-3xl font-bold text-gray-500 md:text-5xl lg:text-5xl`}
+                      >
+                        PrepWise
+                      </span>
+                    </Link>
+                  </Button>
+                </li>
+              )}
               <li>
                 <Button
                   asChild
@@ -77,8 +90,10 @@ export default function AppSidebar() {
             <Separator />
             <div className="p-4">
               <Button variant="ghost" className="w-full justify-start gap-2 hover:bg-green-200">
-                <LogoutSvg />
-                <span className="text-lg text-gray-500">Log out</span>
+                <Link to="/login" className="flex items-center gap-2">
+                  <LogoutSvg />
+                  <span className="text-lg text-gray-500">Log out</span>
+                </Link>
               </Button>
             </div>
           </div>
