@@ -8,6 +8,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/DashboardPage';
 import HistoryPage from './pages/HistoryPage';
 import InterviewPage from './pages/InterviewPage';
+import AnswerPage from './pages/AnswerPage';
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/interview/answer" element={<AnswerPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/interview" element={<InterviewPage />} />
         <Route path="*" element={<NotFoundPage />} />
