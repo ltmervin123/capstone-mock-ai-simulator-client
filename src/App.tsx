@@ -19,9 +19,9 @@ const App: React.FC = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/interview/answer" element={<AnswerPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/interview" element={<InterviewPage />} />
+        <Route path="/interview/answer" element={<AnswerPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
