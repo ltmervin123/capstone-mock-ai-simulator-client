@@ -9,10 +9,7 @@ export default function Header() {
           <div className="flex items-center">
             <div className=".block flex flex-col sm:flex-row sm:items-baseline">
               <span className="font-inter text-3xl font-bold text-white md:text-5xl lg:text-5xl">
-                NORMI
-              </span>
-              <span className="font-inter text-sm font-semibold text-white md:text-3xl lg:text-3xl">
-                Interview Simulator
+                PrepWise
               </span>
             </div>
           </div>
