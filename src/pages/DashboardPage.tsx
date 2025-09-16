@@ -4,7 +4,7 @@ import Dashboard from '../components/dashboard/Dashboard';
 
 export default function DashboardPage() {
   return (
-    <div className="flex h-screen flex-col bg-green-50">
+    <div className="flex h-screen flex-col bg-green-50 font-inter">
       <AppHeader />
 
       <div className="flex flex-1 overflow-hidden">
