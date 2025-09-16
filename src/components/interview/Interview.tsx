@@ -6,6 +6,7 @@ import { useState } from 'react';
 import BehavioralCategory from './BehavioralCategory';
 import ResumeUpload from './ResumeUpload';
 import { InterviewType } from '@/types/shared/interview-type';
+import { useNavigate } from 'react-router-dom';
 
 const INTERVIEW_CARDS = [
   {
@@ -33,6 +34,7 @@ export default function Interview() {
   const [selectedOption, setSelectedOption] = useState('Stella');
   const [showBehavioralModal, setShowBehavioralModal] = useState(false);
   const [showResumeUpload, setShowResumeUpload] = useState(false);
+  const navigate = useNavigate();
 
   const handleOnProceedResumeUpload = (resumeFile: File | null, jobTitle: string) => {
     console.log('Resume File: ', resumeFile);
@@ -41,16 +43,29 @@ export default function Interview() {
   };
 
   const handleCardSelect = (type: string) => {
+    if (type === 'Basic') {
+      handleStart();
+      return;
+    }
+
     if (type === 'Behavioral') {
       setShowBehavioralModal(true);
-    } else if (type === 'Expert') {
+      return;
+    }
+
+    if (type === 'Expert') {
       setShowResumeUpload(true);
+      return;
     }
   };
 
   const handleOnSelectBehavioral = (selectedCategory: string) => {
     console.log('Selected Behavioral Category: ', selectedCategory);
     setShowBehavioralModal(false);
+  };
+
+  const handleStart = () => {
+    navigate('/interview/answer');
   };
 
   return (
@@ -82,12 +97,14 @@ export default function Interview() {
         isOpen={showBehavioralModal}
         onClose={() => setShowBehavioralModal(false)}
         onCategorySelect={handleOnSelectBehavioral}
+        handleStart={handleStart}
       />
 
       <ResumeUpload
         isOpen={showResumeUpload}
         onClose={() => setShowResumeUpload(false)}
         onProceed={handleOnProceedResumeUpload}
+        handleStart={handleStart}
       />
     </div>
   );
