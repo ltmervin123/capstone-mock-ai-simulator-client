@@ -4,7 +4,7 @@ import InterviewSvg from '../assets/svg-components/InterviewSvg';
 import HistorySvg from '../assets/svg-components/HistorySvg';
 import LogoutSvg from '../assets/svg-components/LogoutSvg';
 import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '../components/ui/sidebar';
-import { useIsMobile } from '../hooks/use-mobile';
+import { useIsMobile } from '../hooks/shared/useMobile';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
 
