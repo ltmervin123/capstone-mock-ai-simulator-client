@@ -2,7 +2,7 @@ import { InterviewType } from '@/types/shared/interview-type';
 import HistoryCard from './HistoryCard';
 import Pagination from '../ui/pagination';
 import { useState } from 'react';
-import InterviewDetail from './InterviewDetail';
+import InterviewDetail from './InterviewDetailModal';
 
 const MOCK_HISTORY = [
   {

@@ -1,7 +1,9 @@
-import React from 'react';
 import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
 
 export default function DashboardCards() {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="min-h-[100px] rounded bg-white p-4 text-center shadow-sm md:text-left">
@@ -22,7 +24,10 @@ export default function DashboardCards() {
       </div>
       <div className="min-h-[100px] rounded bg-white p-4 text-center shadow-sm md:col-span-1 md:text-left">
         <h1 className="text-2xl font-semibold">Quick Start</h1>
-        <Button className="mt-4 min-h-[50px] rounded-3xl bg-green-700 hover:bg-green-600">
+        <Button
+          className="mt-4 min-h-[50px] rounded-3xl bg-green-700 hover:bg-green-600"
+          onClick={() => navigate('/interview')}
+        >
           New Interview
         </Button>
       </div>
