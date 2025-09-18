@@ -3,8 +3,8 @@ import InterviewHeader from '../interview/InterviewHeader';
 import InterviewCard from '../interview/InterviewCard';
 import InterviewerDropDown from '../ui/drop-down';
 import { useState } from 'react';
-import BehavioralCategory from './BehavioralCategory';
-import ResumeUpload from './ResumeUpload';
+import BehavioralCategory from './BehavioralCategoryModal';
+import ResumeUpload from './ResumeUploadModal';
 import { InterviewType } from '@/types/shared/interview-type';
 import { useNavigate } from 'react-router-dom';
 
