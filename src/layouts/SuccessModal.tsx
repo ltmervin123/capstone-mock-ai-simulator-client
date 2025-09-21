@@ -27,8 +27,8 @@ export default function SuccessModal({ onClose }: SuccessModalProps) {
           </div>
 
           <p className="text-center text-gray-800">
-            Thanks for signing up! We've sent an activation link to the email address you provided.
-            Please check your inbox and click the link to verify your email and activate your
+            Thanks for signing up! We've sent a verification link to the email address you provided.
+            Please check your inbox and click the link to verify your email and register your
             account.
           </p>
 
