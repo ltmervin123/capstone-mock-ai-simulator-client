@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { validateSignUpData, ValidationErrors } from '../../utils/validators/sign-up';
-import { SignupFormData } from '../../zod-schemas/sign-up';
-import { signup } from '@/services/auth';
+import { validateSignUpData, ValidationErrors } from '../../utils/validators/sign-up-validator';
+import { SignupFormData } from '../../zod-schemas/sign-up-zod-schema';
+import { signup } from '@/services/auth-service';
 import { AxiosError } from 'axios';
 import { ResponseErrorType } from '@/types/shared/response-type';
 export default function useSignup() {

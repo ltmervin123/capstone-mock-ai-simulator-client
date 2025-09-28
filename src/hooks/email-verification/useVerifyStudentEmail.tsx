@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { verifyStudentEmail } from '@/services/auth';
+import { verifyStudentEmail } from '@/services/auth-service';
 import { AxiosError } from 'axios';
 import { ResponseErrorType, ResponseSuccessType } from '@/types/shared/response-type';
 import { useSearchParams } from 'react-router-dom';
