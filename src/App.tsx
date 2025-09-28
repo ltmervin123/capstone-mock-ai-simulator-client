@@ -9,12 +9,14 @@ import DashboardPage from './pages/DashboardPage';
 import HistoryPage from './pages/HistoryPage';
 import InterviewPage from './pages/InterviewPage';
 import AnswerPage from './pages/AnswerPage';
+import EmailVerificationPage from './pages/EmailVerificationPage';
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/verify-email" element={<EmailVerificationPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
