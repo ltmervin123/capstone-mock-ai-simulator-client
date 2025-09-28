@@ -7,3 +7,9 @@ export async function signup(data: SignupType) {
   const URL = `${BASE_URL}/signup`;
   return axiosClient.post(URL, data);
 }
+
+export async function verifyStudentEmail(token: string) {
+  const URL = `${BASE_URL}/verify-email/${token}`;
+  return axiosClient.post(URL);
+}
+ 

@@ -15,7 +15,7 @@ export default function Spinner({ height = 'h-8', width = 'w-8', type = 'center'
 
   if (type === 'fullscreen') {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent">
         {spinner}
       </div>
     );
