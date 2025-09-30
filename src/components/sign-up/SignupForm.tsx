@@ -160,6 +160,7 @@ export default function SignupForm() {
                 onChange={handleChange}
                 error={validationErrors.password}
                 disabled={isSubmitting}
+                placeholder="Create a strong password"
               />
             </div>
             <div className="md:col-span-2">

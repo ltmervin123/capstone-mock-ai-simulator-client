@@ -11,6 +11,7 @@ type InputFieldProps = {
   className?: string;
   maxLength?: number;
   disabled?: boolean;
+  icon?: React.ReactNode;
 };
 
 export default function InputField({
@@ -24,6 +25,7 @@ export default function InputField({
   className,
   maxLength,
   disabled,
+  icon,
 }: InputFieldProps) {
   return (
     <div className={className}>
@@ -33,17 +35,20 @@ export default function InputField({
       >
         {label}
       </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        className={`w-full rounded-md border border-green-700 px-4 py-2 font-inter transition-all duration-300 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:opacity-50 ${error ? 'border-red-500 ring-2 ring-red-300 focus:border-red-500 focus:ring-red-300' : ''}`}
-        value={value}
-        onChange={onChange}
-        maxLength={maxLength}
-        disabled={disabled}
-      />
+      <div className="relative">
+        {icon}
+        <input
+          id={name}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          className={`w-full rounded-md border border-green-700 px-4 py-2 font-inter transition-all duration-300 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:opacity-50 ${error ? 'border-red-500 ring-2 ring-red-300 focus:border-red-500 focus:ring-red-300' : ''} ${icon ? 'pl-10' : ''}`}
+          value={value}
+          onChange={onChange}
+          maxLength={maxLength}
+          disabled={disabled}
+        />
+      </div>
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );

@@ -6,13 +6,24 @@ type PasswordFieldProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   disabled?: boolean;
+  placeholder?: string;
+  icon?: React.ReactNode;
+  className?: string;
 };
 
-export default function PasswordField({ error, value, onChange, disabled }: PasswordFieldProps) {
+export default function PasswordField({
+  error,
+  value,
+  onChange,
+  disabled,
+  placeholder,
+  icon,
+  className,
+}: PasswordFieldProps) {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   return (
-    <>
+    <div className={className}>
       {' '}
       <label
         htmlFor="password"
@@ -21,12 +32,13 @@ export default function PasswordField({ error, value, onChange, disabled }: Pass
         Password
       </label>
       <div className="relative">
+        {icon}
         <input
           id="password"
           name="password"
           type={isShowPassword ? 'text' : 'password'}
-          placeholder="Create a strong password"
-          className={`w-full rounded-md border border-green-700 px-4 py-2 font-inter transition-all duration-300 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:opacity-50 ${error ? 'border-red-500 ring-2 ring-red-300 focus:border-red-500 focus:ring-red-300' : ''}`}
+          placeholder={placeholder}
+          className={`w-full rounded-md border border-green-700 px-4 py-2 font-inter transition-all duration-300 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:opacity-50 ${error ? 'border-red-500 ring-2 ring-red-300 focus:border-red-500 focus:ring-red-300' : ''} ${icon ? 'pl-10' : ''}`}
           value={value}
           onChange={onChange}
           disabled={disabled}
@@ -39,6 +51,6 @@ export default function PasswordField({ error, value, onChange, disabled }: Pass
         </span>
         {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
       </div>
-    </>
+    </div>
   );
 }

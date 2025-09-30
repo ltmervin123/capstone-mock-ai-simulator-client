@@ -10,6 +10,7 @@ import HistoryPage from './pages/HistoryPage';
 import InterviewPage from './pages/InterviewPage';
 import AnswerPage from './pages/AnswerPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
+import AuthCheck from './middlewares/AuthCheck';
 
 const App: React.FC = () => {
   return (
@@ -20,10 +21,14 @@ const App: React.FC = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/interview" element={<InterviewPage />} />
-        <Route path="/interview/answer" element={<AnswerPage />} />
+
+        <Route element={<AuthCheck />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/interview" element={<InterviewPage />} />
+          <Route path="/interview/answer" element={<AnswerPage />} />
+        </Route>
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
