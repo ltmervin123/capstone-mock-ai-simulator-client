@@ -18,3 +18,13 @@ export async function signin(data: SigninType) {
   const URL = `${BASE_URL}/signin`;
   return axiosClient.post(URL, data);
 }
+
+export async function verifySession() {
+  const URL = `${BASE_URL}/me`;
+  return axiosClient.post(URL);
+}
+
+export async function signout() {
+  const URL = `${BASE_URL}/signout`;
+  return axiosClient.post(URL);
+}

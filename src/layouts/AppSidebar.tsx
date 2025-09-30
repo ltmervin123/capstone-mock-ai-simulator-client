@@ -7,10 +7,13 @@ import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '../com
 import { useIsMobile } from '../hooks/shared/useMobile';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
+import useSignout from '@/hooks/sign-out/useSignout';
+import Spinner from '@/components/ui/spinner';
 
 export default function AppSidebar() {
   const isMobile = useIsMobile();
   const location = useLocation();
+  const { isLoading, handleSignout } = useSignout();
   const isLinkActive = (path: string) => location.pathname === path;
   return (
     <SidebarProvider>
@@ -89,10 +92,15 @@ export default function AppSidebar() {
           <div className="mt-auto">
             <Separator />
             <div className="p-4">
-              <Button variant="ghost" className="w-full justify-start gap-2 hover:bg-green-200">
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-2 hover:bg-green-200 disabled:cursor-not-allowed"
+                onClick={handleSignout}
+                disabled={isLoading}
+              >
                 <Link to="/login" className="flex items-center gap-2">
                   <LogoutSvg />
-                  <span className="text-lg text-gray-500">Log out</span>
+                  {isLoading ? <Spinner /> : <span className="text-lg text-gray-500">Log out</span>}
                 </Link>
               </Button>
             </div>
