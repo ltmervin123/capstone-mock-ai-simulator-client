@@ -1,12 +1,53 @@
-import { Video } from 'lucide-react';
+import { Video, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 type PreviewSectionProps = {
+  isRecording: boolean;
   isCameraOn: boolean;
   isInterviewActive: boolean;
   videoRef: React.RefObject<HTMLVideoElement>;
+  setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function CandidateVideo({ isCameraOn, isInterviewActive, videoRef }: PreviewSectionProps) {
+function CandidateVideo({
+  isCameraOn,
+  isInterviewActive,
+  videoRef,
+  isRecording,
+  setIsRecording,
+}: PreviewSectionProps) {
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    //Stop recording after 3 minutes
+    if (elapsedTime >= 180 && isRecording) {
+      setIsRecording(false);
+    }
+
+    if (isRecording) {
+      // Start timer when recording begins
+      interval = setInterval(() => {
+        setElapsedTime((prevTime) => prevTime + 1);
+      }, 1000);
+    } else {
+      // Reset timer when recording stops
+      setElapsedTime(0);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isRecording]);
+
+  // Format seconds into MM:SS format
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-2xl">
       {isCameraOn && isInterviewActive ? (
@@ -37,6 +78,17 @@ function CandidateVideo({ isCameraOn, isInterviewActive, videoRef }: PreviewSect
           <div className="h-3 w-3 animate-pulse rounded-full bg-red-500"></div>
         </div>
       )}
+
+      {/* Recording Timer Indicator */}
+      {isRecording && (
+        <div className="absolute right-4 top-4 flex items-center gap-1.5 rounded-md bg-red-500/40 px-2 py-1 backdrop-blur-sm">
+          <div className="h-2 w-2 animate-pulse rounded-full bg-white"></div>
+          <span className="text-[10px] font-bold text-white opacity-80">
+            {formatTime(elapsedTime)}
+            <span className="ml-1">/ 03:00</span>
+          </span>
+        </div>
+      )}
     </div>
   );
 }
@@ -44,7 +96,7 @@ function CandidateVideo({ isCameraOn, isInterviewActive, videoRef }: PreviewSect
 function AIInterviewer({ isInterviewActive }: { isInterviewActive: boolean }) {
   return (
     <div
-      className={`relative aspect-video overflow-hidden rounded-xl border-4 bg-slate-900 shadow-2xl transition-all duration-300 ${isInterviewActive ? 'animate-borderPulse border-green-500' : ''}`}
+      className={`relative aspect-video overflow-hidden rounded-xl border-4 bg-slate-900 shadow-2xl transition-all duration-300 ${true ? 'animate-borderPulse border-green-500' : ''}`}
     >
       <div className="flex h-full w-full items-center justify-center">
         <div className="text-center">
@@ -65,6 +117,8 @@ export default function PreviewSection({
   isCameraOn,
   isInterviewActive,
   videoRef,
+  isRecording,
+  setIsRecording,
 }: PreviewSectionProps) {
   return (
     <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">
@@ -72,6 +126,8 @@ export default function PreviewSection({
         isCameraOn={isCameraOn}
         isInterviewActive={isInterviewActive}
         videoRef={videoRef}
+        isRecording={isRecording}
+        setIsRecording={setIsRecording}
       />
 
       <AIInterviewer isInterviewActive={isInterviewActive} />

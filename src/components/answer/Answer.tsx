@@ -6,6 +6,7 @@ import AIResponse from './AIResponse';
 import ControlPanel from './ControlPanel';
 import GettingStarted from './GettingStarted';
 import useRecord from '../../hooks/answer/useRecord';
+import useGreeting from '../../hooks/answer/useGreeting';
 
 const MOCK_QUESTIONS = [
   'Can you tell me about yourself?',
@@ -16,9 +17,9 @@ const MOCK_QUESTIONS = [
 
 const InterviewPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState('');
-  const [aiResponse, setAiResponse] = useState('');
   const [questionHistory, setQuestionHistory] = useState([]);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const { AIIntroductionMessage, isGreeting, setIsGreeting } = useGreeting();
   const {
     isInterviewActive,
     isMuted,
@@ -30,6 +31,8 @@ const InterviewPage = () => {
     toggleMute,
     toggleCamera,
     setIsInterviewActive,
+    isRecording,
+    setIsRecording,
   } = useRecord();
 
   const nextQuestion = () => {
@@ -42,7 +45,7 @@ const InterviewPage = () => {
           "This is a simulated user response. In a real implementation, this would be the user's actual spoken or typed answer.",
         timestamp: new Date().toLocaleTimeString(),
       };
-      setQuestionHistory((prev) => [...prev, newHistoryItem]);
+      // setQuestionHistory((prev) => [...prev, newHistoryItem]);
     }
 
     // Move to next question
@@ -57,16 +60,16 @@ const InterviewPage = () => {
   };
 
   const simulateAIResponse = (text: string) => {
-    setAiResponse('');
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < text.length) {
-        setAiResponse((prev) => prev + text[index]);
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 30);
+    // setAiResponse('');
+    // let index = 0;
+    // const interval = setInterval(() => {
+    //   if (index < text.length) {
+    //     setAiResponse((prev) => prev + text[index]);
+    //     index++;
+    //   } else {
+    //     clearInterval(interval);
+    //   }
+    // }, 30);
   };
 
   const startInterview = () => {
@@ -89,7 +92,7 @@ const InterviewPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6">
       <div className="mx-auto max-w-7xl">
         {/* Question Panel */}
-        {isInterviewActive && currentQuestion && (
+        {/* {isInterviewActive && currentQuestion && (
           <QuestionSection
             currentQuestion={currentQuestion}
             questionHistory={questionHistory.length}
@@ -97,28 +100,33 @@ const InterviewPage = () => {
             questionIndex={MOCK_QUESTIONS.indexOf(currentQuestion)}
             setIsHistoryModalOpen={setIsHistoryModalOpen}
           />
-        )}
+        )} */}
 
         {/* Video Grid */}
         <PreviewSection
+          isRecording={isRecording}
+          setIsRecording={setIsRecording}
           isCameraOn={isCameraOn}
           isInterviewActive={isInterviewActive}
           videoRef={videoRef as React.RefObject<HTMLVideoElement>}
         />
 
         {/* AI Response Area */}
-        {isInterviewActive && aiResponse && <AIResponse aiResponse={aiResponse} />}
+        {isInterviewActive && <AIResponse aiResponse={AIIntroductionMessage} />}
 
         {/* Control Panel */}
         <ControlPanel
           isInterviewActive={isInterviewActive}
+          isGreeting={isGreeting}
           isMuted={isMuted}
           isCameraOn={isCameraOn}
           startInterview={startInterview}
           endInterview={endInterview}
           toggleMute={toggleMute}
           toggleCamera={toggleCamera}
-          nextQuestion={nextQuestion}
+          setIsHistoryModalOpen={setIsHistoryModalOpen}
+          isRecording={isRecording}
+          setIsRecording={setIsRecording}
         />
 
         {!isInterviewActive && <GettingStarted />}

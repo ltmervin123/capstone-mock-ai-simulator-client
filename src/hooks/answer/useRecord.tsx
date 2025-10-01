@@ -4,6 +4,7 @@ export default function useRecord() {
   const [isInterviewActive, setIsInterviewActive] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
+  const [isRecording, setIsRecording] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -64,5 +65,7 @@ export default function useRecord() {
     toggleMute,
     toggleCamera,
     setIsInterviewActive,
+    isRecording,
+    setIsRecording,
   };
 }

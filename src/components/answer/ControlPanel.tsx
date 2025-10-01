@@ -1,23 +1,27 @@
-import { Mic, MicOff, Phone, PhoneOff, Video, VideoOff } from 'lucide-react';
+import { Mic, MicOff, Square, Circle, Video, VideoOff } from 'lucide-react';
 type ControlPanelProps = {
   isInterviewActive: boolean;
+  isGreeting: boolean;
   isMuted: boolean;
   isCameraOn: boolean;
+  isRecording: boolean;
   startInterview: () => void;
   endInterview: () => void;
   toggleMute: () => void;
   toggleCamera: () => void;
-  nextQuestion: () => void;
+  setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsHistoryModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function ControlPanel({
   isInterviewActive,
   isMuted,
   isCameraOn,
   startInterview,
-  endInterview,
   toggleMute,
   toggleCamera,
-  nextQuestion,
+  isRecording,
+  setIsHistoryModalOpen,
+  setIsRecording,
 }: ControlPanelProps) {
   return (
     <div className="rounded-xl bg-white p-6 shadow-lg">
@@ -27,7 +31,6 @@ export default function ControlPanel({
             onClick={startInterview}
             className="flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl sm:w-auto"
           >
-            <Phone className="h-5 w-5" />
             Start Interview
           </button>
         ) : (
@@ -57,19 +60,25 @@ export default function ControlPanel({
             </button>
 
             <button
-              onClick={endInterview}
-              className="rounded-full bg-red-500 p-4 text-white shadow-lg transition-all duration-200 hover:bg-red-600 hover:shadow-xl"
-              title="End Interview"
+              onClick={() => setIsRecording(!isRecording)}
+              className={`rounded-full p-4 text-white shadow-lg transition-all duration-200 hover:shadow-xl ${
+                isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
+              }`}
+              title={isRecording ? 'Stop Recording' : 'Start Recording'}
             >
-              <PhoneOff className="h-6 w-6" />
+              {isRecording ? (
+                <Square className="h-6 w-6" />
+              ) : (
+                <Circle className="h-6 w-6" fill="white" />
+              )}
             </button>
 
             <button
-              onClick={nextQuestion}
+              onClick={() => setIsHistoryModalOpen(true)}
               className="rounded-full bg-green-500 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:bg-green-600 hover:shadow-xl"
-              title="Next Question"
+              title="View Interview History"
             >
-              Next Question
+              Interview History
             </button>
           </>
         )}
