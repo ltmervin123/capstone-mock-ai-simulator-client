@@ -10,11 +10,13 @@ type QuestionHistory = {
 type QuestionHistoryProps = {
   questionHistory: QuestionHistory[];
   setIsHistoryModalOpen: (isOpen: boolean) => void;
+  interviewType: string;
 };
 
 export default function HistoryModal({
   questionHistory,
   setIsHistoryModalOpen,
+  interviewType,
 }: QuestionHistoryProps) {
   return (
     <div className="fixed inset-0 z-50 flex animate-fadeIn items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
@@ -24,7 +26,7 @@ export default function HistoryModal({
           <div>
             <h2 className="flex items-center gap-3 text-2xl font-bold text-slate-800">
               <Clock className="h-6 w-6 text-blue-600" />
-              Interview History
+              {interviewType}
             </h2>
             <p className="mt-1 text-sm text-slate-600">
               Review your previous questions and responses

@@ -20,7 +20,7 @@ export default function QuestionSection({
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-blue-600">
-            Current Question {questionIndex + 1} of {numberOfQuestions}
+            Question {questionIndex + 1} of {numberOfQuestions}
           </h2>
           <p className="text-lg font-medium leading-relaxed text-slate-800 md:text-xl">
             {currentQuestion}

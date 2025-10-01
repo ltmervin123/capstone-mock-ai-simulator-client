@@ -1,12 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
-import { Video, VideoOff, Mic, MicOff, Phone, PhoneOff, Clock, X } from 'lucide-react';
+import { useState } from 'react';
 import QuestionSection from './QuestionSection';
 import PreviewSection from './PreviewSection';
 import HistoryModal from './HistoryModal';
 import AIResponse from './AIResponse';
 import ControlPanel from './ControlPanel';
-import { is } from 'zod/v4/locales';
 import GettingStarted from './GettingStarted';
+import useRecord from '../../hooks/answer/useRecord';
 
 const MOCK_QUESTIONS = [
   'Can you tell me about yourself?',
@@ -16,65 +15,22 @@ const MOCK_QUESTIONS = [
 ];
 
 const InterviewPage = () => {
-  const [isInterviewActive, setIsInterviewActive] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isCameraOn, setIsCameraOn] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [questionHistory, setQuestionHistory] = useState([]);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-
-  useEffect(() => {
-    if (isCameraOn && isInterviewActive) {
-      startCamera();
-    } else {
-      stopCamera();
-    }
-    return () => stopCamera();
-  }, [isCameraOn, isInterviewActive]);
-
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-      streamRef.current = stream;
-    } catch (err) {
-      console.error('Camera access denied:', err);
-    }
-  };
-
-  const stopCamera = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
-      streamRef.current = null;
-    }
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;
-    }
-  };
-
-  const startInterview = () => {
-    setIsInterviewActive(true);
-    setCurrentQuestion(MOCK_QUESTIONS[0]);
-    setQuestionHistory([]);
-    simulateAIResponse(
-      "Hello! I'm your AI interviewer today. Let's begin with our first question."
-    );
-  };
-
-  const endInterview = () => {
-    setIsInterviewActive(false);
-    setCurrentQuestion('');
-    setAiResponse('');
-    stopCamera();
-  };
+  const {
+    isInterviewActive,
+    isMuted,
+    isCameraOn,
+    videoRef,
+    streamRef,
+    startCamera,
+    stopCamera,
+    toggleMute,
+    toggleCamera,
+    setIsInterviewActive,
+  } = useRecord();
 
   const nextQuestion = () => {
     // Save current question and simulated response to history
@@ -100,7 +56,7 @@ const InterviewPage = () => {
     }
   };
 
-  const simulateAIResponse = (text) => {
+  const simulateAIResponse = (text: string) => {
     setAiResponse('');
     let index = 0;
     const interval = setInterval(() => {
@@ -113,17 +69,20 @@ const InterviewPage = () => {
     }, 30);
   };
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-    if (streamRef.current) {
-      streamRef.current.getAudioTracks().forEach((track) => {
-        track.enabled = isMuted;
-      });
-    }
+  const startInterview = () => {
+    setIsInterviewActive(true);
+    setCurrentQuestion(MOCK_QUESTIONS[0]);
+    setQuestionHistory([]);
+    simulateAIResponse(
+      "Hello! I'm your AI interviewer today. Let's begin with our first question."
+    );
   };
 
-  const toggleCamera = () => {
-    setIsCameraOn(!isCameraOn);
+  const endInterview = () => {
+    setIsInterviewActive(false);
+    setCurrentQuestion('');
+    setAiResponse('');
+    stopCamera();
   };
 
   return (
@@ -169,6 +128,7 @@ const InterviewPage = () => {
           <HistoryModal
             questionHistory={questionHistory}
             setIsHistoryModalOpen={setIsHistoryModalOpen}
+            interviewType="Basic Interview"
           />
         )}
       </div>
