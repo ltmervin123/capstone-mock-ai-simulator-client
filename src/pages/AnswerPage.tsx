@@ -5,7 +5,7 @@ export default function AnswerPage() {
     <div className="flex flex-col bg-green-50 font-inter">
       <AppHeader />
 
-      <div className="h-full w-full p-10">
+      <div className="p-4 py-2">
         <Answer />
       </div>
     </div>
