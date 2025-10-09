@@ -21,7 +21,8 @@ export async function signin(data: SigninType) {
 
 export async function verifySession() {
   const URL = `${BASE_URL}/me`;
-  return axiosClient.post(URL);
+  const response = await axiosClient.post(URL);
+  return response.data;
 }
 
 export async function signout() {

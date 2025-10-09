@@ -1,14 +1,9 @@
 import { Clock, X } from 'lucide-react';
 import { useId } from 'react';
-
-type QuestionHistory = {
-  question: string;
-  timestamp: string;
-  answer: string;
-};
+import { QuestionHistoryType } from '@/hooks/answer/useQuestion';
 
 type QuestionHistoryProps = {
-  questionHistory: QuestionHistory[];
+  questionHistory: QuestionHistoryType[];
   setIsHistoryModalOpen: (isOpen: boolean) => void;
   interviewType: string;
 };
@@ -26,7 +21,7 @@ export default function HistoryModal({
           <div>
             <h2 className="flex items-center gap-3 text-2xl font-bold text-slate-800">
               <Clock className="h-6 w-6 text-blue-600" />
-              {interviewType}
+              {interviewType} Interview
             </h2>
             <p className="mt-1 text-sm text-slate-600">
               Review your previous questions and responses
@@ -87,7 +82,7 @@ export default function HistoryModal({
                       Your Response
                     </h3>
                     <p className="rounded-lg bg-green-50/50 p-4 pl-4 leading-relaxed text-slate-700">
-                      {item.answer}
+                      {item.userResponse}
                     </p>
                   </div>
                 </div>

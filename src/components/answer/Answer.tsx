@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import QuestionSection from './QuestionSection';
+import { useState, useEffect } from 'react';
 import PreviewSection from './PreviewSection';
 import HistoryModal from './HistoryModal';
 import AIResponse from './AIResponse';
@@ -7,101 +6,92 @@ import ControlPanel from './ControlPanel';
 import GettingStarted from './GettingStarted';
 import useRecord from '../../hooks/answer/useRecord';
 import useGreeting from '../../hooks/answer/useGreeting';
-
-const MOCK_QUESTIONS = [
-  'Can you tell me about yourself?',
-  'What are your strengths and weaknesses?',
-  'Why do you want to work here?',
-  'Describe a challenging situation you faced and how you handled it.',
-];
+import useQuestion from '@/hooks/answer/useQuestion';
+import useSpeak from '@/hooks/answer/useSpeak';
+import interviewStore from '@/stores/interview-store';
+import socketStore from '@/stores/socket-io-store';
+import Modal from '@/layouts/Modal';
+import Spinner from '../ui/spinner';
 
 const InterviewPage = () => {
-  const [currentQuestion, setCurrentQuestion] = useState('');
-  const [questionHistory, setQuestionHistory] = useState([]);
+  const {
+    questions,
+    questionIndex,
+    setQuestionIndex,
+    currentQuestion,
+    setCurrentQuestion,
+    questionHistory,
+    setQuestionHistory,
+  } = useQuestion();
+  const connected = socketStore((state) => state.connected);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const { AIIntroductionMessage, isGreeting, setIsGreeting } = useGreeting();
+  const [aiResponse, setAiResponse] = useState('');
   const {
     isInterviewActive,
-    isMuted,
     isCameraOn,
     videoRef,
-    streamRef,
-    startCamera,
     stopCamera,
-    toggleMute,
     toggleCamera,
     setIsInterviewActive,
     isRecording,
     setIsRecording,
+    startRecording,
+    stopRecording,
+    finalAnswer,
+    realTimeTranscription,
+    isUserSpeaking,
   } = useRecord();
+  const { isPlaying: isAISpeaking, isLoading: isSpeakingLoading, handleSpeak } = useSpeak();
+  const interviewOption = interviewStore((state) => state.interviewOption);
+
+  useEffect(() => {
+    if (currentQuestion) {
+      setAiResponse(currentQuestion);
+    }
+  }, [currentQuestion]);
 
   const nextQuestion = () => {
-    // Save current question and simulated response to history
+    setAiResponse(currentQuestion);
+
+    if (isGreeting) {
+      setIsGreeting(false);
+      return;
+    }
+
     if (currentQuestion) {
       const newHistoryItem = {
         id: Date.now(),
         question: currentQuestion,
-        userResponse:
-          "This is a simulated user response. In a real implementation, this would be the user's actual spoken or typed answer.",
+        userResponse: finalAnswer,
         timestamp: new Date().toLocaleTimeString(),
       };
-      // setQuestionHistory((prev) => [...prev, newHistoryItem]);
+      setQuestionHistory((prev) => [...prev, newHistoryItem]);
     }
 
-    // Move to next question
-    const currentIndex = MOCK_QUESTIONS.indexOf(currentQuestion);
-    if (currentIndex < MOCK_QUESTIONS.length - 1) {
-      const nextQ = MOCK_QUESTIONS[currentIndex + 1];
-      setCurrentQuestion(nextQ);
-      simulateAIResponse("Great answer! Let's move on to the next question.");
-    } else {
-      simulateAIResponse('Thank you! That completes our interview session.');
+    if (questionIndex < questions.length - 1) {
+      setQuestionIndex(questionIndex + 1);
     }
-  };
-
-  const simulateAIResponse = (text: string) => {
-    // setAiResponse('');
-    // let index = 0;
-    // const interval = setInterval(() => {
-    //   if (index < text.length) {
-    //     setAiResponse((prev) => prev + text[index]);
-    //     index++;
-    //   } else {
-    //     clearInterval(interval);
-    //   }
-    // }, 30);
   };
 
   const startInterview = () => {
     setIsInterviewActive(true);
-    setCurrentQuestion(MOCK_QUESTIONS[0]);
-    setQuestionHistory([]);
-    simulateAIResponse(
-      "Hello! I'm your AI interviewer today. Let's begin with our first question."
-    );
+
+    if (isGreeting) {
+      setAiResponse(AIIntroductionMessage);
+      return;
+    }
   };
 
   const endInterview = () => {
     setIsInterviewActive(false);
     setCurrentQuestion('');
-    setAiResponse('');
     stopCamera();
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6">
       <div className="mx-auto max-w-7xl">
-        {/* Question Panel */}
-        {/* {isInterviewActive && currentQuestion && (
-          <QuestionSection
-            currentQuestion={currentQuestion}
-            questionHistory={questionHistory.length}
-            numberOfQuestions={MOCK_QUESTIONS.length}
-            questionIndex={MOCK_QUESTIONS.indexOf(currentQuestion)}
-            setIsHistoryModalOpen={setIsHistoryModalOpen}
-          />
-        )} */}
-
         {/* Video Grid */}
         <PreviewSection
           isRecording={isRecording}
@@ -109,24 +99,37 @@ const InterviewPage = () => {
           isCameraOn={isCameraOn}
           isInterviewActive={isInterviewActive}
           videoRef={videoRef as React.RefObject<HTMLVideoElement>}
+          isAISpeaking={isAISpeaking}
+          isUserSpeaking={isUserSpeaking}
+          realTimeTranscription={realTimeTranscription}
+          stopRecording={stopRecording}
         />
 
         {/* AI Response Area */}
-        {isInterviewActive && <AIResponse aiResponse={AIIntroductionMessage} />}
+        {isInterviewActive && (
+          <AIResponse
+            aiResponse={aiResponse}
+            handleSpeak={handleSpeak}
+            selectedVoice={interviewOption?.selectedInterviewee!}
+          />
+        )}
 
         {/* Control Panel */}
         <ControlPanel
           isInterviewActive={isInterviewActive}
-          isGreeting={isGreeting}
-          isMuted={isMuted}
           isCameraOn={isCameraOn}
           startInterview={startInterview}
           endInterview={endInterview}
-          toggleMute={toggleMute}
           toggleCamera={toggleCamera}
           setIsHistoryModalOpen={setIsHistoryModalOpen}
           isRecording={isRecording}
           setIsRecording={setIsRecording}
+          nextQuestion={nextQuestion}
+          questions={questions}
+          isSpeakingLoading={isSpeakingLoading}
+          isAISpeaking={isAISpeaking}
+          startRecording={startRecording}
+          stopRecording={stopRecording}
         />
 
         {!isInterviewActive && <GettingStarted />}
@@ -136,10 +139,15 @@ const InterviewPage = () => {
           <HistoryModal
             questionHistory={questionHistory}
             setIsHistoryModalOpen={setIsHistoryModalOpen}
-            interviewType="Basic Interview"
+            interviewType={interviewOption?.interviewType!}
           />
         )}
       </div>
+      {!connected && (
+        <Modal>
+          <Spinner type="fullscreen" width="w-32" height="h-32" message="Connecting..." />
+        </Modal>
+      )}
     </div>
   );
 };

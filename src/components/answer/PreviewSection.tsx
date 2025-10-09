@@ -1,5 +1,6 @@
-import { Video, Clock } from 'lucide-react';
+import { Video } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import interviewStore from '@/stores/interview-store';
 
 type PreviewSectionProps = {
   isRecording: boolean;
@@ -7,6 +8,10 @@ type PreviewSectionProps = {
   isInterviewActive: boolean;
   videoRef: React.RefObject<HTMLVideoElement>;
   setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
+  isAISpeaking?: boolean;
+  isUserSpeaking?: boolean;
+  realTimeTranscription: string;
+  stopRecording: () => void;
 };
 
 function CandidateVideo({
@@ -15,33 +20,36 @@ function CandidateVideo({
   videoRef,
   isRecording,
   setIsRecording,
+  isUserSpeaking,
+  realTimeTranscription,
+  stopRecording,
 }: PreviewSectionProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
-    //Stop recording after 3 minutes
-    if (elapsedTime >= 180 && isRecording) {
-      setIsRecording(false);
+    if (!isRecording) {
+      setElapsedTime(0);
+      return;
     }
 
-    if (isRecording) {
-      // Start timer when recording begins
-      interval = setInterval(() => {
-        setElapsedTime((prevTime) => prevTime + 1);
-      }, 1000);
-    } else {
-      // Reset timer when recording stops
+    if (elapsedTime >= 180 && isRecording) {
+      stopRecording();
+      setIsRecording(false);
       setElapsedTime(0);
+      return;
     }
+
+    interval = setInterval(() => {
+      setElapsedTime((prevTime) => prevTime + 1);
+    }, 1000);
 
     return () => {
       if (interval) clearInterval(interval);
     };
   }, [isRecording]);
 
-  // Format seconds into MM:SS format
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -49,7 +57,9 @@ function CandidateVideo({
   };
 
   return (
-    <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-2xl">
+    <div
+      className={`relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-2xl transition-all duration-300 ${isUserSpeaking ? 'animate-borderPulse border-4 border-green-400' : ''}`}
+    >
       {isCameraOn && isInterviewActive ? (
         <video
           ref={videoRef}
@@ -61,8 +71,8 @@ function CandidateVideo({
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
           <div className="text-center">
-            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-700 md:h-24 md:w-24">
-              <Video className="h-10 w-10 text-slate-400 md:h-12 md:w-12" />
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-700 md:h-32 md:w-32">
+              <Video className="h-20 w-20 text-slate-400 md:h-12 md:w-12" />
             </div>
             <p className="text-sm text-slate-400 md:text-base">
               {isInterviewActive ? 'Camera Off' : 'Camera Ready'}
@@ -70,7 +80,7 @@ function CandidateVideo({
           </div>
         </div>
       )}
-      <div className="absolute bottom-4 left-4 rounded-lg bg-slate-900/80 px-3 py-1.5 backdrop-blur-sm">
+      <div className="absolute bottom-4 left-4 rounded-lg bg-blue-900/80 px-3 py-1.5 backdrop-blur-sm">
         <span className="text-sm font-medium text-white">You</span>
       </div>
       {isInterviewActive && (
@@ -89,21 +99,32 @@ function CandidateVideo({
           </span>
         </div>
       )}
+      {/* Real-time Transcription Display */}
+      {realTimeTranscription && (
+        <div className="absolute bottom-12 left-1/2 w-11/12 -translate-x-1/2 rounded-md bg-black/60 px-4 py-2 text-center backdrop-blur-sm">
+          <p className="text-sm italic text-white">{realTimeTranscription}</p>
+        </div>
+      )}
     </div>
   );
 }
 
-function AIInterviewer({ isInterviewActive }: { isInterviewActive: boolean }) {
+function AIInterviewer({ isAISpeaking }: { isAISpeaking: boolean }) {
+  const interviewOption = interviewStore((state) => state.interviewOption);
   return (
     <div
-      className={`relative aspect-video overflow-hidden rounded-xl border-4 bg-slate-900 shadow-2xl transition-all duration-300 ${true ? 'animate-borderPulse border-green-500' : ''}`}
+      className={`relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-2xl transition-all duration-300 ${isAISpeaking ? 'animate-borderPulse border-4' : ''}`}
     >
       <div className="flex h-full w-full items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-700 md:h-32 md:w-32">
-            <span className="text-4xl text-white md:text-6xl">S</span>
+            <span className="text-4xl text-slate-400 md:text-6xl">
+              {interviewOption?.selectedInterviewee.charAt(0)}
+            </span>
           </div>
-          <p className="text-base font-semibold text-white md:text-lg">Steve</p>
+          <p className="text-sm text-slate-400 md:text-base">
+            {interviewOption?.selectedInterviewee}
+          </p>
         </div>
       </div>
       <div className="absolute bottom-4 left-4 rounded-lg bg-blue-900/80 px-3 py-1.5 backdrop-blur-sm">
@@ -119,6 +140,10 @@ export default function PreviewSection({
   videoRef,
   isRecording,
   setIsRecording,
+  isAISpeaking,
+  isUserSpeaking,
+  realTimeTranscription,
+  stopRecording,
 }: PreviewSectionProps) {
   return (
     <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">
@@ -128,9 +153,12 @@ export default function PreviewSection({
         videoRef={videoRef}
         isRecording={isRecording}
         setIsRecording={setIsRecording}
+        isUserSpeaking={isUserSpeaking}
+        realTimeTranscription={realTimeTranscription}
+        stopRecording={stopRecording}
       />
 
-      <AIInterviewer isInterviewActive={isInterviewActive} />
+      <AIInterviewer isAISpeaking={isAISpeaking!} />
     </div>
   );
 }

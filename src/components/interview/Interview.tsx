@@ -7,6 +7,7 @@ import BehavioralCategory from './BehavioralCategoryModal';
 import ResumeUpload from './ResumeUploadModal';
 import { InterviewType } from '@/types/shared/interview-type';
 import { useNavigate } from 'react-router-dom';
+import interviewStore from '@/stores/interview-store';
 
 const INTERVIEW_CARDS = [
   {
@@ -29,21 +30,34 @@ const INTERVIEW_CARDS = [
   },
 ];
 
+const INTERVIEWEE_OPTIONS = ['Alice', 'Steve'];
+
 export default function Interview() {
-  const OPTIONS = ['Stella', 'Steve'];
-  const [selectedOption, setSelectedOption] = useState('Stella');
+  const [selectedOption, setSelectedOption] = useState(INTERVIEWEE_OPTIONS[0]);
   const [showBehavioralModal, setShowBehavioralModal] = useState(false);
   const [showResumeUpload, setShowResumeUpload] = useState(false);
   const navigate = useNavigate();
+  const setInterviewOption = interviewStore((state) => state.setInterviewOption);
 
   const handleOnProceedResumeUpload = (resumeFile: File | null, jobTitle: string) => {
     console.log('Resume File: ', resumeFile);
     console.log('Job Title: ', jobTitle);
+    setInterviewOption({
+      interviewType: 'Expert',
+      resumeFile,
+      jobTitle,
+      selectedInterviewee: selectedOption as 'Alice' | 'Steve',
+    });
     setShowResumeUpload(false);
   };
 
   const handleCardSelect = (type: string) => {
     if (type === 'Basic') {
+      setInterviewOption({
+        interviewType: 'Basic',
+        selectedInterviewee: selectedOption as 'Alice' | 'Steve',
+      });
+
       handleStart();
       return;
     }
@@ -61,6 +75,11 @@ export default function Interview() {
 
   const handleOnSelectBehavioral = (selectedCategory: string) => {
     console.log('Selected Behavioral Category: ', selectedCategory);
+    setInterviewOption({
+      interviewType: 'Behavioral',
+      category: selectedCategory,
+      selectedInterviewee: selectedOption as 'Alice' | 'Steve',
+    });
     setShowBehavioralModal(false);
   };
 
@@ -86,7 +105,7 @@ export default function Interview() {
         <InterviewerDropDown
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
-          options={OPTIONS}
+          options={INTERVIEWEE_OPTIONS}
         />
         <div className="text-xs">Select Interviewer</div>
       </div>

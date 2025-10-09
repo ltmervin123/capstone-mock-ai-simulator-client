@@ -1,27 +1,34 @@
-import { Mic, MicOff, Square, Circle, Video, VideoOff } from 'lucide-react';
+import { Square, Circle, Video, VideoOff } from 'lucide-react';
 type ControlPanelProps = {
   isInterviewActive: boolean;
-  isGreeting: boolean;
-  isMuted: boolean;
   isCameraOn: boolean;
   isRecording: boolean;
+  questions: string[];
+  isSpeakingLoading: boolean;
+  isAISpeaking: boolean;
   startInterview: () => void;
   endInterview: () => void;
-  toggleMute: () => void;
   toggleCamera: () => void;
   setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
   setIsHistoryModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  nextQuestion: () => void;
+  startRecording: () => void;
+  stopRecording: () => void;
 };
 export default function ControlPanel({
   isInterviewActive,
-  isMuted,
   isCameraOn,
   startInterview,
-  toggleMute,
   toggleCamera,
   isRecording,
   setIsHistoryModalOpen,
   setIsRecording,
+  nextQuestion,
+  questions,
+  isSpeakingLoading,
+  isAISpeaking,
+  stopRecording,
+  startRecording,
 }: ControlPanelProps) {
   return (
     <div className="rounded-xl bg-white p-6 shadow-lg">
@@ -36,18 +43,6 @@ export default function ControlPanel({
         ) : (
           <>
             <button
-              onClick={toggleMute}
-              className={`rounded-full p-4 transition-all duration-200 ${
-                isMuted
-                  ? 'bg-red-100 text-red-600 hover:bg-red-200'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
-              title={isMuted ? 'Unmute' : 'Mute'}
-            >
-              {isMuted ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
-            </button>
-
-            <button
               onClick={toggleCamera}
               className={`rounded-full p-4 transition-all duration-200 ${
                 !isCameraOn
@@ -60,11 +55,20 @@ export default function ControlPanel({
             </button>
 
             <button
-              onClick={() => setIsRecording(!isRecording)}
-              className={`rounded-full p-4 text-white shadow-lg transition-all duration-200 hover:shadow-xl ${
+              onClick={() => {
+                setIsRecording(!isRecording);
+                if (isRecording) {
+                  stopRecording();
+                  nextQuestion();
+                } else {
+                  startRecording();
+                }
+              }}
+              className={`rounded-full p-4 text-white shadow-lg transition-all duration-200 hover:shadow-xl disabled:opacity-50 ${
                 isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
               }`}
-              title={isRecording ? 'Stop Recording' : 'Start Recording'}
+              title={isRecording ? 'Submit Response' : 'Record Response'}
+              disabled={isSpeakingLoading || isAISpeaking}
             >
               {isRecording ? (
                 <Square className="h-6 w-6" />
@@ -78,31 +82,11 @@ export default function ControlPanel({
               className="rounded-full bg-green-500 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:bg-green-600 hover:shadow-xl"
               title="View Interview History"
             >
-              Interview History
+              {questions.length === 0 ? 'Generate Questions' : 'Interview History'}
             </button>
           </>
         )}
       </div>
-
-      {/* Status Indicators */}
-      {isInterviewActive && (
-        <div className="mt-6 border-t border-slate-200 pt-6">
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              <div
-                className={`h-2 w-2 rounded-full ${isMuted ? 'bg-red-500' : 'bg-green-500'}`}
-              ></div>
-              <span className="text-slate-600">Microphone: {isMuted ? 'Muted' : 'Active'}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div
-                className={`h-2 w-2 rounded-full ${isCameraOn ? 'bg-green-500' : 'bg-red-500'}`}
-              ></div>
-              <span className="text-slate-600">Camera: {isCameraOn ? 'On' : 'Off'}</span>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

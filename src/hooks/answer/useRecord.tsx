@@ -1,12 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
-
+import socketStore from '@/stores/socket-io-store';
 export default function useRecord() {
+  const socket = socketStore((state) => state.socket);
+  const emitEvent = socketStore((state) => state.emitEvent);
+  const disconnectSocket = socketStore((state) => state.disconnectSocket);
+  const connectSocket = socketStore((state) => state.connectSocket);
   const [isInterviewActive, setIsInterviewActive] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
+  const [finalAnswer, setFinalAnswer] = useState('');
+  const [realTimeTranscription, setRealTimeTranscription] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const micRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const [isUserSpeaking, setIsUserSpeaking] = useState(false);
 
   useEffect(() => {
     if (isCameraOn && isInterviewActive) {
@@ -17,55 +25,194 @@ export default function useRecord() {
     return () => stopCamera();
   }, [isCameraOn, isInterviewActive]);
 
+  useEffect(() => {
+    connectSocket();
+
+    return () => {
+      disconnectSocket();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (micRef.current && !mediaRecorderRef.current) {
+      mediaRecorderRef.current = new MediaRecorder(micRef.current);
+    }
+  }, [micRef.current]);
+
+  useEffect(() => {
+    const init = async () => {
+      await askMicPermission();
+    };
+    init();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (socket) {
+        socket.off('real-time-transcription');
+        socket.off('final-transcription');
+        socket.off('transcription-complete');
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (mediaRecorderRef.current?.state === 'recording') {
+        mediaRecorderRef.current.stop();
+      }
+      mediaRecorderRef.current = null;
+    };
+  }, []);
+
+  const askMicPermission = async () => {
+    try {
+      //  setInitializing(true);
+      micRef.current = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (error) {
+      console.error('Error initializing microphone:', error);
+      //  setMicError(true);
+    } finally {
+      //setInitializing(false);
+    }
+  };
+
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
       });
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
+
       streamRef.current = stream;
+
+      // Extract audio tracks for the microphone reference
+      const audioTracks = stream.getAudioTracks();
+      if (audioTracks.length > 0) {
+        micRef.current = new MediaStream(audioTracks);
+        // Initialize MediaRecorder with audio stream
+        if (!mediaRecorderRef.current) {
+          mediaRecorderRef.current = new MediaRecorder(micRef.current);
+        }
+      } else {
+        console.warn('No audio tracks available in the stream');
+      }
     } catch (err) {
       console.error('Camera access denied:', err);
     }
   };
 
   const stopCamera = () => {
+    // Stop recording if active
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      mediaRecorderRef.current.stop();
+    }
+
+    // Stop all tracks in the stream
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current.getTracks().forEach((track) => {
+        track.stop();
+      });
       streamRef.current = null;
     }
+
+    // Clean up the audio stream
+    if (micRef.current) {
+      micRef.current.getTracks().forEach((track) => track.stop());
+      micRef.current = null;
+    }
+
+    // Reset video element
     if (videoRef.current) {
       videoRef.current.srcObject = null;
     }
-  };
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-    if (streamRef.current) {
-      streamRef.current.getAudioTracks().forEach((track) => {
-        track.enabled = isMuted;
-      });
-    }
+    // Reset MediaRecorder
+    mediaRecorderRef.current = null;
   };
 
   const toggleCamera = () => {
     setIsCameraOn(!isCameraOn);
   };
+
+  const startRecording = async () => {
+    try {
+      if (!micRef.current || !mediaRecorderRef.current) return;
+      setIsRecording(true);
+      setIsUserSpeaking(true);
+
+      socket!.off('real-time-transcription');
+
+      socket!.on('real-time-transcription', (data) => {
+        if (data.isFinal) {
+          console.log('REAL TIME TRANSCRIPTION:', data.text);
+          setFinalAnswer((prev) => `${prev} ${data.text.trim()}`);
+          setRealTimeTranscription(data.text.trim());
+        }
+      });
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          emitEvent('audio-stream', event.data);
+        }
+      };
+      mediaRecorderRef.current.start(100);
+    } catch (error) {
+      console.error('Error starting recording:', error);
+    }
+  };
+
+  const stopRecording = async () => {
+    setIsRecording(false);
+    setFinalAnswer('');
+    setRealTimeTranscription('');
+    setIsUserSpeaking(false);
+
+    // resetVoiceActivityDetection();
+
+    if (!mediaRecorderRef.current) return;
+
+    mediaRecorderRef.current.stop();
+    mediaRecorderRef.current.onstop = async () => {
+      if (socket!.connected) {
+        emitEvent('stop-transcription');
+      }
+    };
+    // Listen for final transcription
+    socket!.once('final-transcription', (data) => {
+      if (data?.isFinal) {
+        console.log('FINAL TRANSCRIPTION:', data.text);
+        setFinalAnswer((prev) => `${prev} ${data.text.trim()}`);
+      }
+    });
+    // Wait for transcription completion
+    await new Promise<void>((resolve) => {
+      socket!.once('transcription-complete', (data) => {
+        if (data?.message) {
+          resolve();
+        }
+      });
+    });
+  };
+
   return {
     isInterviewActive,
-    isMuted,
     isCameraOn,
     videoRef,
     streamRef,
     startCamera,
     stopCamera,
-    toggleMute,
     toggleCamera,
     setIsInterviewActive,
     isRecording,
     setIsRecording,
+    startRecording,
+    stopRecording,
+    finalAnswer,
+    realTimeTranscription,
+    isUserSpeaking,
   };
 }
