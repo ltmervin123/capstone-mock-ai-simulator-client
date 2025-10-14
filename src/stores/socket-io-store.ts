@@ -22,8 +22,8 @@ const socketStore = create<SocketState>((set, get) => ({
 
     const socketInstance = io(API_ENDPOINT, {
       path: '/socket.io',
-      reconnectionAttempts: 5,
-      reconnectionDelay: 1000,
+      reconnectionAttempts: 10,
+      reconnectionDelay: 2000,
       autoConnect: true,
       withCredentials: true,
     });

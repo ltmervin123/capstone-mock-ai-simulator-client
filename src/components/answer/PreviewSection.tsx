@@ -7,10 +7,10 @@ type PreviewSectionProps = {
   isCameraOn: boolean;
   isInterviewActive: boolean;
   videoRef: React.RefObject<HTMLVideoElement>;
-  setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
   isAISpeaking?: boolean;
   isUserSpeaking?: boolean;
   realTimeTranscription: string;
+  setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
   stopRecording: () => void;
 };
 
@@ -111,6 +111,7 @@ function CandidateVideo({
 
 function AIInterviewer({ isAISpeaking }: { isAISpeaking: boolean }) {
   const interviewOption = interviewStore((state) => state.interviewOption);
+
   return (
     <div
       className={`relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-2xl transition-all duration-300 ${isAISpeaking ? 'animate-borderPulse border-4' : ''}`}
@@ -143,6 +144,7 @@ export default function PreviewSection({
   isAISpeaking,
   isUserSpeaking,
   realTimeTranscription,
+
   stopRecording,
 }: PreviewSectionProps) {
   return (

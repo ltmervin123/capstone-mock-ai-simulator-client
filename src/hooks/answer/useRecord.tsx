@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import socketStore from '@/stores/socket-io-store';
+import interviewStore from '@/stores/interview-store';
 export default function useRecord() {
   const socket = socketStore((state) => state.socket);
   const emitEvent = socketStore((state) => state.emitEvent);
   const disconnectSocket = socketStore((state) => state.disconnectSocket);
   const connectSocket = socketStore((state) => state.connectSocket);
+  const setAiResponse = interviewStore((state) => state.setAiResponse);
   const [isInterviewActive, setIsInterviewActive] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
@@ -15,15 +17,8 @@ export default function useRecord() {
   const micRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
-
-  useEffect(() => {
-    if (isCameraOn && isInterviewActive) {
-      startCamera();
-    } else {
-      stopCamera();
-    }
-    return () => stopCamera();
-  }, [isCameraOn, isInterviewActive]);
+  const [hasPermissionError, setHasPermissionError] = useState(false);
+  const [isInitializing, setInitializing] = useState(false);
 
   useEffect(() => {
     connectSocket();
@@ -40,13 +35,6 @@ export default function useRecord() {
   }, [micRef.current]);
 
   useEffect(() => {
-    const init = async () => {
-      await askMicPermission();
-    };
-    init();
-  }, []);
-
-  useEffect(() => {
     return () => {
       if (socket) {
         socket.off('real-time-transcription');
@@ -58,26 +46,17 @@ export default function useRecord() {
 
   useEffect(() => {
     return () => {
-      if (mediaRecorderRef.current?.state === 'recording') {
-        mediaRecorderRef.current.stop();
-      }
-      mediaRecorderRef.current = null;
+      // if (mediaRecorderRef.current?.state === 'recording') {
+      //   mediaRecorderRef.current.stop();
+      // }
+      // mediaRecorderRef.current = null;
+      stopCamera();
     };
   }, []);
 
-  const askMicPermission = async () => {
-    try {
-      //  setInitializing(true);
-      micRef.current = await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch (error) {
-      console.error('Error initializing microphone:', error);
-      //  setMicError(true);
-    } finally {
-      //setInitializing(false);
-    }
-  };
-
-  const startCamera = async () => {
+  const startCamera = async (AIIntroductionMessage: string) => {
+    setHasPermissionError(false);
+    setInitializing(true);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -101,8 +80,12 @@ export default function useRecord() {
       } else {
         console.warn('No audio tracks available in the stream');
       }
+      setAiResponse(AIIntroductionMessage);
     } catch (err) {
       console.error('Camera access denied:', err);
+      setHasPermissionError(true);
+    } finally {
+      setInitializing(false);
     }
   };
 
@@ -149,7 +132,6 @@ export default function useRecord() {
 
       socket!.on('real-time-transcription', (data) => {
         if (data.isFinal) {
-          console.log('REAL TIME TRANSCRIPTION:', data.text);
           setFinalAnswer((prev) => `${prev} ${data.text.trim()}`);
           setRealTimeTranscription(data.text.trim());
         }
@@ -167,11 +149,7 @@ export default function useRecord() {
 
   const stopRecording = async () => {
     setIsRecording(false);
-    setFinalAnswer('');
-    setRealTimeTranscription('');
     setIsUserSpeaking(false);
-
-    // resetVoiceActivityDetection();
 
     if (!mediaRecorderRef.current) return;
 
@@ -184,11 +162,10 @@ export default function useRecord() {
     // Listen for final transcription
     socket!.once('final-transcription', (data) => {
       if (data?.isFinal) {
-        console.log('FINAL TRANSCRIPTION:', data.text);
         setFinalAnswer((prev) => `${prev} ${data.text.trim()}`);
       }
     });
-    // Wait for transcription completion
+
     await new Promise<void>((resolve) => {
       socket!.once('transcription-complete', (data) => {
         if (data?.message) {
@@ -196,6 +173,9 @@ export default function useRecord() {
         }
       });
     });
+
+    setFinalAnswer('');
+    setRealTimeTranscription('');
   };
 
   return {
@@ -203,16 +183,18 @@ export default function useRecord() {
     isCameraOn,
     videoRef,
     streamRef,
+    isRecording,
+    finalAnswer,
+    realTimeTranscription,
+    isUserSpeaking,
+    isInitializing,
+    hasPermissionError,
+    setIsRecording,
+    startRecording,
+    stopRecording,
     startCamera,
     stopCamera,
     toggleCamera,
     setIsInterviewActive,
-    isRecording,
-    setIsRecording,
-    startRecording,
-    stopRecording,
-    finalAnswer,
-    realTimeTranscription,
-    isUserSpeaking,
   };
 }

@@ -1,4 +1,5 @@
 export type IntervieweeOption = 'Alice' | 'Steve';
+type interviewType = 'Basic' | 'Behavioral' | 'Expert';
 
 type BasicInterviewOption = {
   interviewType: 'Basic';
@@ -25,6 +26,33 @@ export type InterviewOption =
 
 export type InterviewState = {
   interviewOption: InterviewOption | null;
+  interviewConversation: InterviewConversation;
+  aiResponse: string;
+  setAiResponse: (response: string) => void;
   setInterviewOption: (option: InterviewOption) => void;
   clearInterviewOption: () => void;
+  setInterviewConversation: (conversation: InterviewConversation) => void;
+  clearInterviewConversation: () => void;
+  clearAiResponse: () => void;
+  clearInterviewStore: () => void;
+};
+
+export type GreetingParams = {
+  userName: string;
+  interviewerName: IntervieweeOption;
+  interviewType: interviewType;
+  conversation: {
+    AI: string;
+    CANDIDATE: string;
+  };
+};
+
+export type InterviewConversation = {
+  AI: string;
+  CANDIDATE: string;
+}[];
+
+export type FollowUpQuestionParams = {
+  interviewType: interviewType;
+  conversation: InterviewConversation;
 };
