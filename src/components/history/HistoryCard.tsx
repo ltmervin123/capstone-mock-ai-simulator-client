@@ -1,4 +1,5 @@
 import { InterviewType } from '@/types/shared/interview-type';
+import { handleDateFormat } from '@/utils/handleDates';
 
 const CLASS_COLOR = {
   Basic: {
@@ -14,11 +15,10 @@ const CLASS_COLOR = {
 
 interface HistoryCardProps {
   type: InterviewType;
-  date: string;
+  date: Date;
   duration: string;
   questions: number;
   score: number;
-  totalScore: number;
   setIsViewingDetail: (isViewing: boolean) => void;
 }
 
@@ -28,7 +28,6 @@ function HistoryCard({
   duration,
   questions,
   score,
-  totalScore,
   setIsViewingDetail,
 }: HistoryCardProps) {
   return (
@@ -48,13 +47,11 @@ function HistoryCard({
 
             {/* Date and duration */}
             <div className="text-sm text-gray-600">
-              {date} • {duration} — {questions}/5 questions
+              {handleDateFormat(date)} • {duration} • {questions} questions
             </div>
 
             {/* Score */}
-            <div className="font-medium text-gray-800">
-              Score: {score}/{totalScore}
-            </div>
+            <div className="font-medium text-gray-800">Score: {score}/100</div>
           </div>
         </div>
 
@@ -64,7 +61,7 @@ function HistoryCard({
           onClick={() => setIsViewingDetail(true)}
         >
           View Details
-        </button> 
+        </button>
       </div>
     </div>
   );

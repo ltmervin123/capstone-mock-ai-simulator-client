@@ -1,5 +1,7 @@
 import {
   GenerateInterviewFeedbackPayload,
+  InterviewClientDocument,
+  InterviewHistory,
   type FollowUpQuestionParams,
   type GreetingParams,
 } from '@/types/interview/interview-option-type';
@@ -30,4 +32,16 @@ export async function makeInterviewFeedback(data: GenerateInterviewFeedbackPaylo
   const URL = `${BASE_URL}/make-interview-feedback`;
   const response = await axiosClient.post(URL, data);
   return response.data;
+}
+
+export async function getInterviewHistory(): Promise<InterviewHistory[]> {
+  const URL = `${BASE_URL}/history`;
+  const response = await axiosClient.get(URL);
+  return response.data.interviewHistory;
+}
+
+export async function getInterviewDetail(interviewId: string): Promise<InterviewClientDocument> {
+  const URL = `${BASE_URL}/${interviewId}`;
+  const response = await axiosClient.get(URL);
+  return response.data.interviewDetail;
 }

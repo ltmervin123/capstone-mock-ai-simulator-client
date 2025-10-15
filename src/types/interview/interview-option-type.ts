@@ -70,3 +70,34 @@ export type GenerateInterviewFeedbackPayload = {
     CANDIDATE: string;
   }[];
 };
+
+export type InterviewHistory = {
+  _id: string;
+  interviewType: 'Basic' | 'Behavioral' | 'Expert';
+  createdAt: Date;
+  duration: string;
+  numberOfQuestions: number;
+  totalScore: number;
+};
+
+export type InterviewClientDocument = {
+  _id: string;
+  interviewType: 'Basic' | 'Behavioral' | 'Expert';
+  duration: string;
+  numberOfQuestions: number;
+  scores: {
+    grammar: number;
+    experience: number;
+    skills: number;
+    relevance: number;
+    fillerCount: number;
+    totalScore: number;
+  };
+  feedbacks: {
+    question: string;
+    answer: string;
+    areaOfImprovement: string;
+    answerFeedback: string;
+  }[];
+  createdAt?: Date;
+};

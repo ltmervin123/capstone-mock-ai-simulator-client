@@ -1,9 +1,10 @@
 import { Printer } from 'lucide-react';
 import { InterviewType } from '@/types/shared/interview-type';
+import { handleDateFormat } from '@/utils/handleDates';
 
 type InterviewSummaryProps = {
   type: InterviewType;
-  date: string;
+  date: Date;
   duration: string;
   questions: number;
 };
@@ -28,7 +29,7 @@ export default function InterviewSummary({
       </div>
       <h2 className="mb-3 text-lg font-semibold text-gray-700">{type} Interview</h2>
       <p className="text-sm text-gray-600">
-        {date} — {duration} — {questions} questions
+        {handleDateFormat(date)} — {duration} — {questions} questions
       </p>
     </div>
   );

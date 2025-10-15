@@ -1,7 +1,12 @@
 type ControllerProps = {
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
-  data: object[];
+  data: {
+    question: string;
+    answer: string;
+    areaOfImprovement: string;
+    answerFeedback: string;
+  }[];
 };
 
 export default function Controller({

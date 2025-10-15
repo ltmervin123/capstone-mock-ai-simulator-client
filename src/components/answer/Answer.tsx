@@ -68,7 +68,7 @@ const InterviewPage = () => {
 
   const { mutate: makeFeedback, isPending } = useMakeInterviewFeedback({
     onSuccess: () => {
-      setIsInterviewEnd(true);
+      setIsInterviewEnd(false);
       setIsShowSuccessModal(true);
     },
     onError: (error: Error) => {
