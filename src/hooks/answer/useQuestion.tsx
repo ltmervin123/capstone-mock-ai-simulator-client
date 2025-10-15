@@ -13,6 +13,7 @@ export type QuestionHistoryType = {
 
 export default function useQuestion() {
   const interviewOption = interviewStore((state) => state.interviewOption);
+  const setEndAt = interviewStore((state) => state.setEndAt);
   const setAiResponse = interviewStore((state) => state.setAiResponse);
   const [questions, setQuestions] = useState<string[]>([]);
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -53,11 +54,13 @@ export default function useQuestion() {
         }
       );
     } else {
-      setAiResponse(
-        'Thank you for your time. This concludes our interview. You will be notified for the feedbacks.'
-      );
-      setIsInterviewEnd(true);
+      handleInterviewEnd();
     }
+  };
+
+  const handleInterviewEnd = () => {
+    setEndAt(new Date());
+    setIsInterviewEnd(true);
   };
 
   const handleChangeQuestion = () => {
@@ -88,5 +91,6 @@ export default function useQuestion() {
     isGeneratingQuestion,
     handleNextQuestion,
     isInterviewEnd,
+    setIsInterviewEnd,
   };
 }

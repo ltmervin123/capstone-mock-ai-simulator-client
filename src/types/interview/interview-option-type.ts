@@ -28,6 +28,10 @@ export type InterviewState = {
   interviewOption: InterviewOption | null;
   interviewConversation: InterviewConversation;
   aiResponse: string;
+  startAt: Date | null;
+  endAt: Date | null;
+  setStartAt: (date: Date) => void;
+  setEndAt: (date: Date) => void;
   setAiResponse: (response: string) => void;
   setInterviewOption: (option: InterviewOption) => void;
   clearInterviewOption: () => void;
@@ -55,4 +59,14 @@ export type InterviewConversation = {
 export type FollowUpQuestionParams = {
   interviewType: interviewType;
   conversation: InterviewConversation;
+};
+
+export type GenerateInterviewFeedbackPayload = {
+  interviewType: 'Basic' | 'Behavioral' | 'Expert';
+  duration: string;
+  numberOfQuestions: number;
+  conversation: {
+    AI: string;
+    CANDIDATE: string;
+  }[];
 };

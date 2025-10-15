@@ -2,6 +2,7 @@ import { type SpeakParams as SpeakParamsType } from '@/hooks/answer/useSpeak';
 import { IntervieweeOption } from '@/types/interview/interview-option-type';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import interviewStore from '@/stores/interview-store';
 
 type AIResponseProps = {
   aiResponse: string;
@@ -20,6 +21,7 @@ export default function AIResponseComponent({
   isInterviewEnd,
   handleSpeak,
 }: AIResponseProps) {
+  const setEndAt = interviewStore((state) => state.setEndAt);
   const processedResponse = useRef('');
   const navigate = useNavigate();
 
@@ -28,10 +30,12 @@ export default function AIResponseComponent({
       if (aiResponse && aiResponse !== processedResponse.current) {
         processedResponse.current = aiResponse;
         await handleSpeak({ text: aiResponse, selectedVoice });
-        if (isInterviewEnd) {
-          processedResponse.current = '';
-          navigate('/dashboard', { replace: true });
-        }
+        // if (isInterviewEnd) {
+        //   // Execute all UI logic after speaking and interview ends
+        //   // processedResponse.current = '';
+        //   // navigate('/dashboard', { replace: true });
+        //   setEndAt(new Date());
+        // }
       }
     };
     speakFunction();

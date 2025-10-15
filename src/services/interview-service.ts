@@ -1,4 +1,5 @@
 import {
+  GenerateInterviewFeedbackPayload,
   type FollowUpQuestionParams,
   type GreetingParams,
 } from '@/types/interview/interview-option-type';
@@ -23,4 +24,10 @@ export async function followUpQuestions(data: FollowUpQuestionParams) {
   const URL = `${BASE_URL}/follow-up-question`;
   const response = await axiosClient.post(URL, data);
   return response.data.followUpQuestion;
+}
+
+export async function makeInterviewFeedback(data: GenerateInterviewFeedbackPayload) {
+  const URL = `${BASE_URL}/make-interview-feedback`;
+  const response = await axiosClient.post(URL, data);
+  return response.data;
 }

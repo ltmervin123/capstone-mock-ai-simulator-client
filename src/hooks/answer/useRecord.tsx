@@ -46,10 +46,6 @@ export default function useRecord() {
 
   useEffect(() => {
     return () => {
-      // if (mediaRecorderRef.current?.state === 'recording') {
-      //   mediaRecorderRef.current.stop();
-      // }
-      // mediaRecorderRef.current = null;
       stopCamera();
     };
   }, []);

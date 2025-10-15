@@ -1,19 +1,27 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { greetingResponse, followUpQuestions } from '@/services/interview-service';
+import { useMutation } from '@tanstack/react-query';
+import * as InterviewService from '@/services/interview-service';
 import {
   FollowUpQuestionParams,
+  GenerateInterviewFeedbackPayload,
   type GreetingParams,
 } from '@/types/interview/interview-option-type';
 export const useGreetingResponse = (options = {}) => {
   return useMutation({
-    mutationFn: (data: GreetingParams) => greetingResponse(data),
+    mutationFn: (data: GreetingParams) => InterviewService.greetingResponse(data),
     ...options,
   });
 };
 
 export const useBasicInterviewFollowUpQuestions = (options = {}) => {
   return useMutation({
-    mutationFn: (data: FollowUpQuestionParams) => followUpQuestions(data),
+    mutationFn: (data: FollowUpQuestionParams) => InterviewService.followUpQuestions(data),
+    ...options,
+  });
+};
+
+export const useMakeInterviewFeedback = (options = {}) => {
+  return useMutation({
+    mutationFn: (data: GenerateInterviewFeedbackPayload) => InterviewService.makeInterviewFeedback(data),
     ...options,
   });
 };
