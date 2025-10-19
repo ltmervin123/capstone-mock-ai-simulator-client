@@ -74,12 +74,12 @@ export default function Interview() {
   };
 
   const handleOnSelectBehavioral = (selectedCategory: string) => {
-    console.log('Selected Behavioral Category: ', selectedCategory);
     setInterviewOption({
       interviewType: 'Behavioral',
       category: selectedCategory,
       selectedInterviewee: selectedOption as 'Alice' | 'Steve',
     });
+    handleStart();
     setShowBehavioralModal(false);
   };
 
@@ -116,7 +116,6 @@ export default function Interview() {
         isOpen={showBehavioralModal}
         onClose={() => setShowBehavioralModal(false)}
         onCategorySelect={handleOnSelectBehavioral}
-        handleStart={handleStart}
       />
 
       <ResumeUpload

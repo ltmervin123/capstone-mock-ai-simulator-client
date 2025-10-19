@@ -260,7 +260,7 @@ const InterviewPage = () => {
 
       {isInterviewEnd && (
         <Modal>
-          <div className="flex w-full max-w-4xl flex-col rounded-xl bg-white p-6 shadow-lg">
+          <div className="flex max-h-[90vh] w-full max-w-4xl flex-col rounded-xl bg-white p-6 shadow-lg">
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-2xl font-bold text-blue-700">Interview Complete</h2>
               {startAt && endAt && (

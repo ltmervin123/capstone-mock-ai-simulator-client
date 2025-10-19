@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import interviewStore from '@/stores/interview-store';
 import { useBasicInterviewFollowUpQuestions } from '@/queries/useInterview';
+import { useGetBehavioralQuestion } from '@/queries/useBehavioralQuestion';
 import { InterviewConversation } from '@/types/interview/interview-option-type';
+
 const BASIC_INTERVIEW_FIRST_QUESTIONS = 'Can you tell me about yourself?';
 
 export type QuestionHistoryType = {
@@ -20,19 +22,30 @@ export default function useQuestion() {
   const [currentQuestion, setCurrentQuestion] = useState(questions[questionIndex]);
   const [questionHistory, setQuestionHistory] = useState<QuestionHistoryType[]>([]);
   const [isInterviewEnd, setIsInterviewEnd] = useState(false);
-  const { mutate: fetchFollowUpQuestions, isPending: isGeneratingQuestion } =
+  const { mutate: fetchFollowUpQuestions, isPending: isGeneratingQuestionFallowUpQuestion } =
     useBasicInterviewFollowUpQuestions();
+  const questionId =
+    interviewOption?.interviewType === 'Behavioral' ? interviewOption.category : '';
+  const { data: questionData } = useGetBehavioralQuestion(questionId);
 
   const handleBasicInterviewQuestions = () => {
-    if (interviewOption?.interviewType === 'Basic' && questionIndex === 0) {
+    if (questionIndex === 0) {
       setQuestions([BASIC_INTERVIEW_FIRST_QUESTIONS, '', '', '', '']);
       setAiResponse(BASIC_INTERVIEW_FIRST_QUESTIONS);
       setCurrentQuestion(BASIC_INTERVIEW_FIRST_QUESTIONS);
     }
   };
 
+  const handleBehavioralInterviewQuestions = () => {
+    if (questionIndex === 0) {
+      setQuestions(questionData!.questions!);
+      setAiResponse(questionData!.questions![0]);
+      setCurrentQuestion(questionData!.questions![0]);
+    }
+  };
+
   const handleBasicInterviewFollowUpQuestions = (updatedConversation: InterviewConversation) => {
-    if (interviewOption?.interviewType === 'Basic' && questionIndex < questions.length - 1) {
+    if (questionIndex < questions.length - 1) {
       fetchFollowUpQuestions(
         {
           interviewType: interviewOption?.interviewType!,
@@ -58,25 +71,57 @@ export default function useQuestion() {
     }
   };
 
+  const handleBehavioralNextQuestion = () => {
+    if (questionIndex < questions.length - 1) {
+      const nextIndex = questionIndex + 1;
+      setQuestionIndex(nextIndex);
+      setCurrentQuestion(questions[nextIndex]);
+      setAiResponse(questions[nextIndex]);
+    } else {
+      handleInterviewEnd();
+    }
+  };
+
   const handleInterviewEnd = () => {
     setEndAt(new Date());
     setIsInterviewEnd(true);
   };
 
-  const handleChangeQuestion = () => {
-    if (questionIndex < questions.length) {
-      setCurrentQuestion(questions[questionIndex]);
-      setAiResponse(questions[questionIndex]);
+  const handleNextQuestion = (updatedConversation: InterviewConversation) => {
+    if (interviewOption?.interviewType === 'Basic') {
+      handleBasicInterviewFollowUpQuestions(updatedConversation);
+      return;
+    }
+
+    if (interviewOption?.interviewType === 'Behavioral') {
+      handleBehavioralNextQuestion();
+      return;
+    }
+
+    if (interviewOption?.interviewType === 'Expert') {
+      // Handle expert interview questions
+      return;
     }
   };
 
-  const handleNextQuestion = (updatedConversation: InterviewConversation) => {
-    handleBasicInterviewFollowUpQuestions(updatedConversation);
+  const makeQuestions = () => {
+    if (interviewOption?.interviewType === 'Basic') {
+      handleBasicInterviewQuestions();
+      return;
+    }
+
+    if (interviewOption?.interviewType === 'Behavioral') {
+      handleBehavioralInterviewQuestions();
+      return;
+    }
+
+    if (interviewOption?.interviewType === 'Expert') {
+      // Handle expert interview questions
+      return;
+    }
   };
 
-  const makeQuestions = () => {
-    handleBasicInterviewQuestions();
-  };
+  const isGeneratingQuestion = isGeneratingQuestionFallowUpQuestion;
 
   return {
     questions,
