@@ -39,18 +39,6 @@ export default function Interview() {
   const navigate = useNavigate();
   const setInterviewOption = interviewStore((state) => state.setInterviewOption);
 
-  const handleOnProceedResumeUpload = (resumeFile: File | null, jobTitle: string) => {
-    console.log('Resume File: ', resumeFile);
-    console.log('Job Title: ', jobTitle);
-    setInterviewOption({
-      interviewType: 'Expert',
-      resumeFile,
-      jobTitle,
-      selectedInterviewee: selectedOption as 'Alice' | 'Steve',
-    });
-    setShowResumeUpload(false);
-  };
-
   const handleCardSelect = (type: string) => {
     if (type === 'Basic') {
       setInterviewOption({
@@ -71,16 +59,6 @@ export default function Interview() {
       setShowResumeUpload(true);
       return;
     }
-  };
-
-  const handleOnSelectBehavioral = (selectedCategory: string) => {
-    setInterviewOption({
-      interviewType: 'Behavioral',
-      category: selectedCategory,
-      selectedInterviewee: selectedOption as 'Alice' | 'Steve',
-    });
-    handleStart();
-    setShowBehavioralModal(false);
   };
 
   const handleStart = () => {
@@ -115,14 +93,15 @@ export default function Interview() {
       <BehavioralCategory
         isOpen={showBehavioralModal}
         onClose={() => setShowBehavioralModal(false)}
-        onCategorySelect={handleOnSelectBehavioral}
+        handleStart={handleStart}
+        selectedOption={selectedOption}
       />
 
       <ResumeUpload
         isOpen={showResumeUpload}
         onClose={() => setShowResumeUpload(false)}
-        onProceed={handleOnProceedResumeUpload}
         handleStart={handleStart}
+        selectedOption={selectedOption}
       />
     </div>
   );

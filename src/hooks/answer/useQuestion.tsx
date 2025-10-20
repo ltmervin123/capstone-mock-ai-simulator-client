@@ -26,6 +26,8 @@ export default function useQuestion() {
     useBasicInterviewFollowUpQuestions();
   const questionId =
     interviewOption?.interviewType === 'Behavioral' ? interviewOption.category : '';
+  const expertQuestions =
+    interviewOption?.interviewType === 'Expert' ? interviewOption.questions : [];
   const { data: questionData } = useGetBehavioralQuestion(questionId);
 
   const handleBasicInterviewQuestions = () => {
@@ -41,6 +43,14 @@ export default function useQuestion() {
       setQuestions(questionData!.questions!);
       setAiResponse(questionData!.questions![0]);
       setCurrentQuestion(questionData!.questions![0]);
+    }
+  };
+
+  const handleExpertInterviewQuestions = () => {
+    if (questionIndex === 0) {
+      setQuestions(expertQuestions);
+      setAiResponse(expertQuestions[0]);
+      setCurrentQuestion(expertQuestions[0]);
     }
   };
 
@@ -71,7 +81,7 @@ export default function useQuestion() {
     }
   };
 
-  const handleBehavioralNextQuestion = () => {
+  const handleInterviewNextQuestion = () => {
     if (questionIndex < questions.length - 1) {
       const nextIndex = questionIndex + 1;
       setQuestionIndex(nextIndex);
@@ -93,13 +103,11 @@ export default function useQuestion() {
       return;
     }
 
-    if (interviewOption?.interviewType === 'Behavioral') {
-      handleBehavioralNextQuestion();
-      return;
-    }
-
-    if (interviewOption?.interviewType === 'Expert') {
-      // Handle expert interview questions
+    if (
+      interviewOption?.interviewType === 'Behavioral' ||
+      interviewOption?.interviewType === 'Expert'
+    ) {
+      handleInterviewNextQuestion();
       return;
     }
   };
@@ -116,7 +124,7 @@ export default function useQuestion() {
     }
 
     if (interviewOption?.interviewType === 'Expert') {
-      // Handle expert interview questions
+      handleExpertInterviewQuestions();
       return;
     }
   };

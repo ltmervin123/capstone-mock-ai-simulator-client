@@ -1,18 +1,32 @@
 import { X } from 'lucide-react';
 import { useGetBehavioralCategory } from '@/queries/useBehavioralQuestion';
+import interviewStore from '@/stores/interview-store';
 
 export interface BehavioralCategoryProps {
   isOpen: boolean;
+  selectedOption: string;
   onClose: () => void;
-  onCategorySelect: (category: string) => void;
+  handleStart: () => void;
 }
 
-function BehavioralCategory({ isOpen, onClose, onCategorySelect }: BehavioralCategoryProps) {
+function BehavioralCategory({
+  isOpen,
+  onClose,
+  selectedOption,
+  handleStart,
+}: BehavioralCategoryProps) {
   const { data: categories = [], isLoading, isError } = useGetBehavioralCategory();
+  const setInterviewOption = interviewStore((state) => state.setInterviewOption);
+
   if (!isOpen) return null;
 
-  const handleCategorySelect = (categoryId: string) => {
-    onCategorySelect(categoryId);
+  const handleOnSelectBehavioral = (selectedCategory: string) => {
+    setInterviewOption({
+      interviewType: 'Behavioral',
+      category: selectedCategory,
+      selectedInterviewee: selectedOption as 'Alice' | 'Steve',
+    });
+    handleStart();
   };
 
   return (
@@ -57,7 +71,7 @@ function BehavioralCategory({ isOpen, onClose, onCategorySelect }: BehavioralCat
             {categories.map((question) => (
               <div
                 key={question._id}
-                onClick={() => handleCategorySelect(question._id)}
+                // onClick={() => handleCategorySelect(question._id)}
                 className="cursor-pointer rounded-lg border-2 border-gray-200 bg-white p-4 transition-all hover:border-green-300 hover:shadow-md"
               >
                 <div className="flex items-center justify-between">
@@ -69,7 +83,7 @@ function BehavioralCategory({ isOpen, onClose, onCategorySelect }: BehavioralCat
                     className="ml-4 flex-shrink-0 rounded bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCategorySelect(question._id);
+                      handleOnSelectBehavioral(question._id);
                     }}
                   >
                     START

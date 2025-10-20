@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import * as InterviewService from '@/services/interview-service';
 import {
+  ExpertInterviewPayload,
   FollowUpQuestionParams,
   GenerateInterviewFeedbackPayload,
   InterviewClientDocument,
@@ -49,3 +50,20 @@ export const useGetInterviewDetail = (interviewId: string) => {
     refetchInterval: 50 * 60 * 1000,
   });
 };
+
+export const useExpertInterview = (options = {}) => {
+  return useMutation({
+    mutationFn: (data: FormData) => InterviewService.getExpertInterviewQuestions(data),
+    ...options,
+  });
+};
+
+// export const useExpertInterview = (data: ExpertInterviewPayload) => {
+//   return useQuery<string[], Error>({
+//     queryKey: ['interview-detail', data],
+//     queryFn: () => InterviewService.getExpertInterviewQuestions(data),
+//     enabled: !!data,
+//     staleTime: 10 * 60 * 1000,
+//     retry: false,
+//   });
+// };

@@ -17,6 +17,7 @@ type ExpertInterviewOption = {
   resumeFile: File | null;
   jobTitle: string;
   selectedInterviewee: IntervieweeOption;
+  questions: string[];
 };
 
 export type InterviewOption =
@@ -100,4 +101,9 @@ export type InterviewClientDocument = {
     answerFeedback: string;
   }[];
   createdAt?: Date;
+};
+
+export type ExpertInterviewPayload = {
+  resume: File;
+  jobTitle: string;
 };
