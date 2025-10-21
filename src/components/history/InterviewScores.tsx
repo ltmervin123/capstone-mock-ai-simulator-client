@@ -3,6 +3,17 @@ type BarProps = {
   score: number;
 };
 
+type InterviewScoresProps = {
+  scores: {
+    grammar: number;
+    skills: number;
+    experience: number;
+    relevance: number;
+    totalScore: number;
+    fillerCount: number;
+  };
+};
+
 function Bar({ label, score }: BarProps) {
   const total = 100;
   const percentage = (score / total) * 100;
@@ -33,38 +44,28 @@ function Bar({ label, score }: BarProps) {
   );
 }
 
-export default function InterviewScores() {
-  const scores = {
-    grammar: { score: 90 },
-    skills: { score: 80 },
-    experience: { score: 90 },
-    relevance: { score: 70 },
-  };
-
-  const overallScore = 100;
-  const fillerCount = 4;
-
+export default function InterviewScores({ scores }: InterviewScoresProps) {
   return (
     <div className="w-full rounded bg-white p-4">
       <h1 className="mb-4 font-bold">Scores</h1>
       <div className="grid gap-6 md:grid md:grid-cols-3">
         <div className="grid grid-cols-1">
-          <Bar label="Grammar" score={scores.grammar.score} />
-          <Bar label="Skills" score={scores.skills.score} />
+          <Bar label="Grammar" score={scores.grammar} />
+          <Bar label="Skills" score={scores.skills} />
         </div>
 
         <div className="grid grid-cols-1">
-          <Bar label="Experience" score={scores.experience.score} />
-          <Bar label="Relevance" score={scores.relevance.score} />
+          <Bar label="Experience" score={scores.experience} />
+          <Bar label="Relevance" score={scores.relevance} />
         </div>
         <div className="grid grid-cols-1 place-items-center">
           <div className="mb-2 text-center">
             <div className="text-sm font-medium">Filler Count</div>
-            <div className="text-lg font-bold text-red-500">{fillerCount}</div>
+            <div className="text-lg font-bold text-red-500">{scores.fillerCount}</div>
           </div>
 
           <div className="relative grid h-20 w-20 place-items-center">
-            <svg className="h-20 w-20 -rotate-90 transform" viewBox="0 0 36 36">
+            <svg className="h-20 w-20" viewBox="0 0 36 36">
               <path
                 d="m18,2.0845 a 15.9155,15.9155 0 0,1 0,31.831 a 15.9155,15.9155 0 0,1 0,-31.831"
                 fill="none"
@@ -76,13 +77,13 @@ export default function InterviewScores() {
                 fill="none"
                 stroke="#10b981"
                 strokeWidth="4"
-                strokeDasharray={`${overallScore}, 100`}
+                strokeDasharray={`${scores.totalScore}, 100`}
               />
             </svg>
 
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-lg font-bold text-green-600">{overallScore}</div>
+                <div className="text-lg font-bold text-green-600">{scores.totalScore}</div>
                 <p className="text-xs text-gray-500">Overall</p>
               </div>
             </div>

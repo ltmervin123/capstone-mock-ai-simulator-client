@@ -7,6 +7,7 @@ import BehavioralCategory from './BehavioralCategoryModal';
 import ResumeUpload from './ResumeUploadModal';
 import { InterviewType } from '@/types/shared/interview-type';
 import { useNavigate } from 'react-router-dom';
+import interviewStore from '@/stores/interview-store';
 
 const INTERVIEW_CARDS = [
   {
@@ -29,21 +30,22 @@ const INTERVIEW_CARDS = [
   },
 ];
 
+const INTERVIEWEE_OPTIONS = ['Alice', 'Steve'];
+
 export default function Interview() {
-  const OPTIONS = ['Stella', 'Steve'];
-  const [selectedOption, setSelectedOption] = useState('Stella');
+  const [selectedOption, setSelectedOption] = useState(INTERVIEWEE_OPTIONS[0]);
   const [showBehavioralModal, setShowBehavioralModal] = useState(false);
   const [showResumeUpload, setShowResumeUpload] = useState(false);
   const navigate = useNavigate();
-
-  const handleOnProceedResumeUpload = (resumeFile: File | null, jobTitle: string) => {
-    console.log('Resume File: ', resumeFile);
-    console.log('Job Title: ', jobTitle);
-    setShowResumeUpload(false);
-  };
+  const setInterviewOption = interviewStore((state) => state.setInterviewOption);
 
   const handleCardSelect = (type: string) => {
     if (type === 'Basic') {
+      setInterviewOption({
+        interviewType: 'Basic',
+        selectedInterviewee: selectedOption as 'Alice' | 'Steve',
+      });
+
       handleStart();
       return;
     }
@@ -57,11 +59,6 @@ export default function Interview() {
       setShowResumeUpload(true);
       return;
     }
-  };
-
-  const handleOnSelectBehavioral = (selectedCategory: string) => {
-    console.log('Selected Behavioral Category: ', selectedCategory);
-    setShowBehavioralModal(false);
   };
 
   const handleStart = () => {
@@ -86,7 +83,7 @@ export default function Interview() {
         <InterviewerDropDown
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
-          options={OPTIONS}
+          options={INTERVIEWEE_OPTIONS}
         />
         <div className="text-xs">Select Interviewer</div>
       </div>
@@ -96,15 +93,15 @@ export default function Interview() {
       <BehavioralCategory
         isOpen={showBehavioralModal}
         onClose={() => setShowBehavioralModal(false)}
-        onCategorySelect={handleOnSelectBehavioral}
         handleStart={handleStart}
+        selectedOption={selectedOption}
       />
 
       <ResumeUpload
         isOpen={showResumeUpload}
         onClose={() => setShowResumeUpload(false)}
-        onProceed={handleOnProceedResumeUpload}
         handleStart={handleStart}
+        selectedOption={selectedOption}
       />
     </div>
   );

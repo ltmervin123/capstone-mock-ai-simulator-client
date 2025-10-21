@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 export default function useAuthCheck() {
   const clearUser = authStore((state) => state.clearUser);
   const user = authStore((state) => state.user);
+  const setUser = authStore((state) => state.setUser);
   const [isLoading, setIsLoading] = useState(true);
   const [responseError, setResponseError] = useState<AxiosError | null>(null);
 
@@ -17,7 +18,8 @@ export default function useAuthCheck() {
         }
         setIsLoading(true);
 
-        await verifySession();
+        const response = await verifySession();
+        setUser(response.user);
       } catch (error) {
         clearUser();
         setResponseError(error as AxiosError);

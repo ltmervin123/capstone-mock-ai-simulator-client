@@ -1,68 +1,37 @@
-import { useState } from 'react';
 import { X } from 'lucide-react';
+import { useGetBehavioralCategory } from '@/queries/useBehavioralQuestion';
+import interviewStore from '@/stores/interview-store';
 
 export interface BehavioralCategoryProps {
   isOpen: boolean;
+  selectedOption: string;
   onClose: () => void;
-  onCategorySelect: (category: string) => void;
   handleStart: () => void;
 }
-
-const BEHAVIORAL_CATEGORIES = [
-  {
-    id: 'teamwork',
-    title: 'Teamwork and Collaboration',
-    description:
-      'Working effectively with others to achieve common goals, while building trust and resolving conflicts constructively.',
-  },
-  {
-    id: 'leadership',
-    title: 'Leadership',
-    description:
-      'Guiding and motivating others, making decisions, and taking responsibility to lead effectively.',
-  },
-  {
-    id: 'problem-solving',
-    title: 'Problem Solving and Critical Thinking',
-    description:
-      'Analyzing complex problems, thinking creatively, and making informed decisions based on logic and creativity.',
-  },
-  {
-    id: 'adaptability',
-    title: 'Adaptability and Flexibility',
-    description:
-      'Adjusting to new conditions, managing change, and maintaining effectiveness in dynamic environments.',
-  },
-  {
-    id: 'communication',
-    title: 'Communication',
-    description:
-      'Clearly conveying ideas through listening, speaking, and ensuring effective information exchange.',
-  },
-  {
-    id: 'initiative',
-    title: 'Initiative and Motivation',
-    description:
-      'Taking proactive action without being asked, showing drive, and seeking continuous improvement.',
-  },
-];
 
 function BehavioralCategory({
   isOpen,
   onClose,
-  onCategorySelect,
+  selectedOption,
   handleStart,
 }: BehavioralCategoryProps) {
+  const { data: categories = [], isLoading, isError } = useGetBehavioralCategory();
+  const setInterviewOption = interviewStore((state) => state.setInterviewOption);
+
   if (!isOpen) return null;
 
-  const handleCategorySelect = (categoryId: string) => {
-    onCategorySelect(categoryId);
+  const handleOnSelectBehavioral = (selectedCategory: string) => {
+    setInterviewOption({
+      interviewType: 'Behavioral',
+      category: selectedCategory,
+      selectedInterviewee: selectedOption as 'Alice' | 'Steve',
+    });
     handleStart();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="flex max-h-[90vh] w-full max-w-2xl flex-col rounded-lg bg-white shadow-xl">
+      <div className="flex h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-lg bg-white shadow-xl">
         {/* Header - Fixed */}
         <div className="flex items-center justify-between border-b border-gray-200 p-3 sm:p-4 md:p-6">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -94,22 +63,27 @@ function BehavioralCategory({
         {/* Categories List - Scrollable */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="space-y-3">
-            {BEHAVIORAL_CATEGORIES.map((category) => (
+            {isLoading && <p>Loading categories...</p>}
+            {isError && (
+              <p className="text-red-500">Error loading categories. Please try again later.</p>
+            )}
+            {categories.length === 0 && <p>No categories found.</p>}
+            {categories.map((question) => (
               <div
-                key={category.id}
-                onClick={() => handleCategorySelect(category.id)}
+                key={question._id}
+                // onClick={() => handleCategorySelect(question._id)}
                 className="cursor-pointer rounded-lg border-2 border-gray-200 bg-white p-4 transition-all hover:border-green-300 hover:shadow-md"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1 pr-4">
-                    <h3 className="mb-2 font-semibold text-gray-900">{category.title}</h3>
-                    <p className="text-sm text-gray-600">{category.description}</p>
+                    <h3 className="mb-2 font-semibold text-gray-900">{question.category}</h3>
+                    <p className="text-sm text-gray-600">{question.description}</p>
                   </div>
                   <button
                     className="ml-4 flex-shrink-0 rounded bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCategorySelect(category.id);
+                      handleOnSelectBehavioral(question._id);
                     }}
                   >
                     START

@@ -65,8 +65,7 @@ export default function InterviewCard({ type, title, description, handleCardSele
 
         <p className="mb-6 text-center text-sm leading-relaxed text-gray-600">{description}</p>
       </div>
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-500">5 questions</span>
+      <div className="flex items-center justify-center">
         <button
           className={`rounded px-4 py-2 text-sm font-medium text-white transition-colors ${currentColors.button}`}
           type="button"

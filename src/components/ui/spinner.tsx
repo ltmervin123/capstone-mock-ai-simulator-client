@@ -2,9 +2,15 @@ type SpinnerProps = {
   height?: string;
   width?: string;
   type?: 'fullscreen' | 'center';
+  message?: string;
 };
 
-export default function Spinner({ height = 'h-8', width = 'w-8', type = 'center' }: SpinnerProps) {
+export default function Spinner({
+  height = 'h-8',
+  width = 'w-8',
+  type = 'center',
+  message,
+}: SpinnerProps) {
   const spinner = (
     <div
       role="status"
@@ -15,8 +21,11 @@ export default function Spinner({ height = 'h-8', width = 'w-8', type = 'center'
 
   if (type === 'fullscreen') {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent">
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-transparent">
         {spinner}
+        {message && (
+          <p className="mt-4 animate-pulse text-center text-lg font-medium text-white">{message}</p>
+        )}
       </div>
     );
   }
