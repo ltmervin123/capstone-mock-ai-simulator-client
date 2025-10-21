@@ -169,9 +169,6 @@ export default function useRecord() {
         }
       });
     });
-
-    setFinalAnswer('');
-    setRealTimeTranscription('');
   };
 
   return {
@@ -185,12 +182,13 @@ export default function useRecord() {
     isUserSpeaking,
     isInitializing,
     hasPermissionError,
-    setIsRecording,
     startRecording,
     stopRecording,
     startCamera,
     stopCamera,
     toggleCamera,
     setIsInterviewActive,
+    setFinalAnswer,
+    setRealTimeTranscription,
   };
 }

@@ -14,7 +14,6 @@ type ControlPanelProps = {
   startInterview: () => void;
   endInterview: () => void;
   toggleCamera: () => void;
-  setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
   setIsHistoryModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   nextQuestion: () => void;
   startRecording: () => void;
@@ -28,7 +27,6 @@ export default function ControlPanel({
   toggleCamera,
   isRecording,
   setIsHistoryModalOpen,
-  setIsRecording,
   nextQuestion,
   questions,
   isSpeakingLoading,
@@ -89,7 +87,6 @@ export default function ControlPanel({
 
             <button
               onClick={() => {
-                setIsRecording(!isRecording);
                 if (isRecording) {
                   stopRecording();
                   nextQuestion();

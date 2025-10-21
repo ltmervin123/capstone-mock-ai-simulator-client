@@ -10,8 +10,8 @@ type PreviewSectionProps = {
   isAISpeaking?: boolean;
   isUserSpeaking?: boolean;
   realTimeTranscription: string;
-  setIsRecording: React.Dispatch<React.SetStateAction<boolean>>;
   stopRecording: () => void;
+  nextQuestion: () => void;
 };
 
 function CandidateVideo({
@@ -19,10 +19,10 @@ function CandidateVideo({
   isInterviewActive,
   videoRef,
   isRecording,
-  setIsRecording,
   isUserSpeaking,
   realTimeTranscription,
   stopRecording,
+  nextQuestion,
 }: PreviewSectionProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -34,21 +34,24 @@ function CandidateVideo({
       return;
     }
 
-    if (elapsedTime >= 180 && isRecording) {
-      stopRecording();
-      setIsRecording(false);
-      setElapsedTime(0);
-      return;
-    }
-
     interval = setInterval(() => {
-      setElapsedTime((prevTime) => prevTime + 1);
+      setElapsedTime((prevTime) => {
+        return prevTime + 1;
+      });
     }, 1000);
 
     return () => {
       if (interval) clearInterval(interval);
     };
   }, [isRecording]);
+
+  useEffect(() => {
+    if (elapsedTime >= 180 && isRecording) {
+      stopRecording();
+      setElapsedTime(0);
+      nextQuestion();
+    }
+  }, [elapsedTime, stopRecording, nextQuestion]);
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
@@ -140,12 +143,11 @@ export default function PreviewSection({
   isInterviewActive,
   videoRef,
   isRecording,
-  setIsRecording,
   isAISpeaking,
   isUserSpeaking,
   realTimeTranscription,
-
   stopRecording,
+  nextQuestion,
 }: PreviewSectionProps) {
   return (
     <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">
@@ -154,10 +156,10 @@ export default function PreviewSection({
         isInterviewActive={isInterviewActive}
         videoRef={videoRef}
         isRecording={isRecording}
-        setIsRecording={setIsRecording}
         isUserSpeaking={isUserSpeaking}
         realTimeTranscription={realTimeTranscription}
         stopRecording={stopRecording}
+        nextQuestion={nextQuestion}
       />
 
       <AIInterviewer isAISpeaking={isAISpeaking!} />

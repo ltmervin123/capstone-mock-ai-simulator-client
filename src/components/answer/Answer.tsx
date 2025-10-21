@@ -48,10 +48,11 @@ const InterviewPage = () => {
     stopCamera,
     toggleCamera,
     setIsInterviewActive,
-    setIsRecording,
     startRecording,
     stopRecording,
     startCamera,
+    setFinalAnswer,
+    setRealTimeTranscription,
   } = useRecord();
   const {
     questions,
@@ -99,6 +100,8 @@ const InterviewPage = () => {
           },
         }
       );
+      setFinalAnswer('');
+      setRealTimeTranscription('');
       setIsGreeting(false);
       return;
     }
@@ -122,6 +125,9 @@ const InterviewPage = () => {
     }
 
     handleNextQuestion(updatedConversation);
+
+    setFinalAnswer('');
+    setRealTimeTranscription('');
   };
 
   const startInterview = async () => {
@@ -151,7 +157,6 @@ const InterviewPage = () => {
         {/* Video Grid */}
         <PreviewSection
           isRecording={isRecording}
-          setIsRecording={setIsRecording}
           isCameraOn={isCameraOn}
           isInterviewActive={isInterviewActive}
           videoRef={videoRef as React.RefObject<HTMLVideoElement>}
@@ -159,6 +164,7 @@ const InterviewPage = () => {
           isUserSpeaking={isUserSpeaking}
           realTimeTranscription={realTimeTranscription}
           stopRecording={stopRecording}
+          nextQuestion={nextQuestion}
         />
 
         {/* AI Response Area */}
@@ -182,7 +188,6 @@ const InterviewPage = () => {
           toggleCamera={toggleCamera}
           setIsHistoryModalOpen={setIsHistoryModalOpen}
           isRecording={isRecording}
-          setIsRecording={setIsRecording}
           nextQuestion={nextQuestion}
           questions={questions}
           isSpeakingLoading={isSpeakingLoading}
