@@ -3,7 +3,26 @@ import DropDown from '../ui/drop-down';
 import LineChart from '../../layouts/LineChart';
 const OPTIONS = ['Daily', 'Weekly', 'Monthly'];
 
-export default function DashboardLineChart() {
+export type ProgressOverTime = {
+  daily: {
+    labels: string[];
+    data: number[];
+  };
+  weekly: {
+    labels: string[];
+    data: number[];
+  };
+  monthly: {
+    labels: string[];
+    data: number[];
+  };
+};
+
+export type DashboardLineChartProps = {
+  progressOverTime?: ProgressOverTime;
+};
+
+export default function DashboardLineChart({ progressOverTime }: DashboardLineChartProps) {
   const [selectedOption, setSelectedOption] = useState('Daily');
 
   return (
@@ -17,7 +36,10 @@ export default function DashboardLineChart() {
           options={OPTIONS}
         />
       </div>
-      <LineChart selectedOption={selectedOption} />
+      <LineChart
+        selectedOption={selectedOption.toLowerCase()}
+        progressOverTime={progressOverTime}
+      />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function LandingHeader() {
@@ -18,7 +17,7 @@ export default function LandingHeader() {
           to="/login"
           className="flex h-11 w-max items-center justify-center rounded-full bg-white p-4 font-inter font-semibold text-green-700 transition-all duration-300 hover:scale-105 sm:h-14 sm:w-36 sm:text-lg md:text-lg lg:text-2xl"
         >
-          Login
+          Sign in
         </Link>
       </div>
     </header>

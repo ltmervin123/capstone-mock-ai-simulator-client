@@ -1,32 +1,51 @@
 import React, { useState, useRef } from 'react';
 import { X, Upload } from 'lucide-react';
+import { useExpertInterview } from '@/queries/useInterview';
+import interviewStore from '@/stores/interview-store';
 
 interface ResumeUploadProps {
   isOpen: boolean;
-  onClose: () => void;
-  onProceed: (resumeFile: File | null, jobTitle: string) => void;
+  selectedOption: string;
   handleStart: () => void;
+  onClose: () => void;
 }
 
-function ResumeUpload({ isOpen, onClose, onProceed, handleStart }: ResumeUploadProps) {
+const ALLOWED_TYPES = [
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+];
+const FILE_SIZE_LIMIT = 1 * 1024 * 1024;
+
+function ResumeUpload({ isOpen, onClose, handleStart, selectedOption }: ResumeUploadProps) {
+  const { mutate: fetchQuestions, isPending, isError } = useExpertInterview();
+  const setInterviewOption = interviewStore((state) => state.setInterviewOption);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [jobTitle, setJobTitle] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
+  const [validationError, setValidationError] = useState('');
+  const [responseError, setResponseError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
 
+  const validateFile = (file: File) => {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setValidationError('Unsupported file type. Please upload a PDF or DOCX file.');
+      return false;
+    }
+    if (file.size > FILE_SIZE_LIMIT) {
+      setValidationError('File size exceeds 1 MB limit.');
+      return false;
+    }
+    setValidationError('');
+    return true;
+  };
+
   const handleFileSelect = (file: File) => {
-    // Accept PDF, DOC, DOCX files
-    const allowedTypes = [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    ];
-    if (allowedTypes.includes(file.type)) {
+    if (validateFile(file)) {
       setResumeFile(file);
     } else {
-      alert('Please upload a PDF or Word document');
+      setResumeFile(null);
     }
   };
 
@@ -61,103 +80,139 @@ function ResumeUpload({ isOpen, onClose, onProceed, handleStart }: ResumeUploadP
   };
 
   const handleProceed = () => {
-    onProceed(resumeFile, jobTitle);
-    handleStart();
+    const formData = new FormData();
+    if (resumeFile) {
+      formData.append('resume', resumeFile);
+    }
+    if (jobTitle) {
+      formData.append('jobTitle', jobTitle);
+    }
+
+    fetchQuestions(formData, {
+      onSuccess: (data) => {
+        setInterviewOption({
+          interviewType: 'Expert',
+          resumeFile,
+          jobTitle,
+          selectedInterviewee: selectedOption as 'Alice' | 'Steve',
+          questions: data,
+        });
+        handleStart();
+      },
+      onError: (error: any) => {
+        setResponseError(error?.response?.data?.message);
+      },
+    });
   };
 
   const handleClose = () => {
     setResumeFile(null);
     setJobTitle('');
+    setValidationError('');
     onClose();
   };
 
+  const isUploadEnabled = resumeFile && !validationError;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="w-full max-w-2xl rounded-lg border-2 bg-white p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="flex w-full max-w-md flex-col items-center rounded-2xl bg-white p-8 shadow-2xl">
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Upload Your Resume</h2>
+        <div className="mb-6 flex w-full items-center justify-between">
+          <h2 className="text-2xl font-bold text-gray-900">Upload Resume</h2>
           <button
             onClick={handleClose}
-            className="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+            className="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
+            aria-label="Close"
           >
             <X className="h-6 w-6" />
           </button>
         </div>
 
-        {/* File Upload Area */}
-        <div className="mb-6">
-          <div
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            className={`rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
-              isDragOver ? 'border-blue-400 bg-blue-50' : 'border-gray-300 bg-green-50'
-            }`}
+        {/* Drag-and-drop Upload Zone */}
+        <div
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          className={`mb-4 flex w-full flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-colors ${isDragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50'} `}
+          style={{ minHeight: 160 }}
+        >
+          <Upload className="mb-2 h-8 w-8 text-green-600" />
+          <p className="mb-1 font-medium text-gray-800">Drag &amp; drop your resume here</p>
+          <p className="mb-3 text-sm text-gray-500">or</p>
+          <button
+            onClick={handleChooseFile}
+            className="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
+            type="button"
           >
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                <Upload className="h-6 w-6 text-green-600" />
-              </div>
-
-              {resumeFile ? (
-                <div className="text-center">
-                  <p className="text-lg font-medium text-gray-900">{resumeFile.name}</p>
-                  <p className="text-sm text-gray-600">
-                    {(resumeFile.size / 1024 / 1024).toFixed(2)} MB
-                  </p>
-                </div>
-              ) : (
-                <div className="text-center">
-                  <p className="text-lg font-medium text-gray-700">Drag File to upload</p>
-                  <p className="text-gray-500">or</p>
-                </div>
-              )}
-
-              <button
-                onClick={handleChooseFile}
-                className="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Choose file
-              </button>
+            Choose file
+          </button>
+          {resumeFile && !validationError && (
+            <div className="mt-4 text-center">
+              <span className="block font-semibold text-green-700">{resumeFile.name}</span>
+              <span className="block text-xs text-gray-500">
+                {(resumeFile.size / 1024 / 1024).toFixed(2)} MB
+              </span>
             </div>
-          </div>
+          )}
         </div>
 
+        {/* Info Text */}
+        <div className="mb-2 w-full">
+          <p className="text-center text-xs text-gray-500">
+            💡 Tip: Use a text-based PDF or DOCX (under 1 MB). Avoid image-based or scanned resumes
+          </p>
+        </div>
+
+        {/* Error Message */}
+        {validationError && (
+          <div className="mb-2 w-full">
+            <p className="text-center text-xs text-red-600">{validationError}</p>
+          </div>
+        )}
+
+        {isError && (
+          <div className="mb-2 w-full">
+            <p className="text-center text-xs text-red-600">{responseError}</p>
+          </div>
+        )}
+
         {/* Job Title Input */}
-        <div className="mb-6">
-          <label className="mb-2 block text-lg font-semibold text-gray-900">
+        <div className="mb-6 w-full">
+          <label className="mb-1 block text-sm font-semibold text-gray-900">
             Desired Job Title
           </label>
           <input
             type="text"
             value={jobTitle}
             onChange={(e) => setJobTitle(e.target.value)}
-            placeholder='e.g., "Software Engineer", "Marketing Associate"'
-            className="w-full rounded-lg border border-gray-300 bg-green-50 p-3 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            disabled={isPending}
+            placeholder='e.g., "Software Engineer"'
+            className="w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-gray-900 placeholder-gray-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
           />
         </div>
 
-        {/* Proceed Button */}
-        <div className="flex justify-end">
-          <button
-            onClick={handleProceed}
-            disabled={!jobTitle.trim()}
-            className={`rounded px-6 py-2 text-sm font-medium text-white transition-colors ${
-              jobTitle.trim() ? 'bg-green-600 hover:bg-green-700' : 'cursor-not-allowed bg-gray-400'
-            }`}
-          >
-            Proceed
-          </button>
-        </div>
+        {/* Upload Button */}
+        <button
+          onClick={handleProceed}
+          disabled={!isUploadEnabled || !jobTitle.trim() || isPending}
+          className={`w-full rounded-lg px-6 py-3 text-sm font-semibold transition-colors ${
+            isUploadEnabled && jobTitle.trim()
+              ? 'bg-green-600 text-white hover:bg-green-700'
+              : 'cursor-not-allowed bg-gray-300 text-gray-500'
+          } `}
+        >
+          {isPending ? 'Uploading...' : 'Upload'}
+        </button>
 
         {/* Hidden File Input */}
         <input
           ref={fileInputRef}
           type="file"
-          accept=".pdf,.doc,.docx"
+          accept=".pdf,.docx"
           onChange={handleFileInputChange}
           className="hidden"
+          disabled={isPending}
         />
       </div>
     </div>

@@ -1,7 +1,9 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 type ControllerProps = {
   currentQuestionIndex: number;
-  setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
-  data: object[];
+  setCurrentQuestionIndex: (index: number) => void;
+  data: any[];
 };
 
 export default function Controller({
@@ -9,30 +11,52 @@ export default function Controller({
   setCurrentQuestionIndex,
   data,
 }: ControllerProps) {
+  const totalQuestions = data?.length || 0;
+  const canGoPrevious = currentQuestionIndex > 0;
+  const canGoNext = currentQuestionIndex < totalQuestions - 1;
+
   return (
-    <div className="mt-4 flex items-center justify-center space-x-4">
+    <div className="flex items-center justify-between gap-4">
+      {/* Previous Button */}
       <button
-        onClick={() => setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))}
-        disabled={currentQuestionIndex === 0}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
+        onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
+        disabled={!canGoPrevious}
+        className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white"
       >
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
+        <ChevronLeft className="h-4 w-4" />
+        <span className="hidden sm:inline">Previous</span>
       </button>
 
-      <span className="text-sm font-medium text-gray-700">
-        {currentQuestionIndex + 1}/{data.length}
-      </span>
+      {/* Question Indicator */}
+      <div className="flex items-center gap-2">
+        <div className="text-center">
+          <p className="text-xs text-gray-500">Question</p>
+          <p className="text-sm font-semibold text-gray-900">
+            {currentQuestionIndex + 1} of {totalQuestions}
+          </p>
+        </div>
+        <div className="hidden gap-1 sm:flex">
+          {data.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentQuestionIndex(index)}
+              className={`h-2 w-2 rounded-full transition-all ${
+                index === currentQuestionIndex ? 'w-8 bg-gray-900' : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Go to question ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
 
+      {/* Next Button */}
       <button
-        onClick={() => setCurrentQuestionIndex((prev) => Math.min(prev + 1, data.length - 1))}
-        disabled={currentQuestionIndex === data.length - 1}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
+        onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
+        disabled={!canGoNext}
+        className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white"
       >
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+        <span className="hidden sm:inline">Next</span>
+        <ChevronRight className="h-4 w-4" />
       </button>
     </div>
   );
