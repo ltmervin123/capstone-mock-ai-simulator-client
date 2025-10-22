@@ -1,5 +1,5 @@
 export type IntervieweeOption = 'Alice' | 'Steve';
-type interviewType = 'Basic' | 'Behavioral' | 'Expert';
+export type interviewType = 'Basic' | 'Behavioral' | 'Expert';
 
 type BasicInterviewOption = {
   interviewType: 'Basic';
@@ -63,7 +63,7 @@ export type FollowUpQuestionParams = {
 };
 
 export type GenerateInterviewFeedbackPayload = {
-  interviewType: 'Basic' | 'Behavioral' | 'Expert';
+  interviewType: interviewType;
   duration: string;
   numberOfQuestions: number;
   conversation: {
@@ -74,7 +74,7 @@ export type GenerateInterviewFeedbackPayload = {
 
 export type InterviewHistory = {
   _id: string;
-  interviewType: 'Basic' | 'Behavioral' | 'Expert';
+  interviewType: interviewType;
   createdAt: Date;
   duration: string;
   numberOfQuestions: number;
@@ -83,7 +83,7 @@ export type InterviewHistory = {
 
 export type InterviewClientDocument = {
   _id: string;
-  interviewType: 'Basic' | 'Behavioral' | 'Expert';
+  interviewType: interviewType;
   duration: string;
   numberOfQuestions: number;
   scores: {
@@ -106,4 +106,39 @@ export type InterviewClientDocument = {
 export type ExpertInterviewPayload = {
   resume: File;
   jobTitle: string;
+};
+
+export type DashboardStats = {
+  interviewsCount: number;
+  averageScores: number;
+  highestScores: {
+    interviewType: interviewType;
+    createdAt: string;
+    score: number;
+  };
+  progressOverTime: {
+    daily: {
+      labels: string[];
+      data: number[];
+    };
+    weekly: {
+      labels: string[];
+      data: number[];
+    };
+    monthly: {
+      labels: string[];
+      data: number[];
+    };
+  };
+  performanceBreakDown: {
+    grammar: number;
+    experience: number;
+    skills: number;
+    relevance: number;
+  };
+  interviewTypeScores: {
+    basic: number;
+    behavioral: number;
+    expert: number;
+  };
 };

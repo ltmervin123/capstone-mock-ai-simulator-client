@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import * as InterviewService from '@/services/interview-service';
 import {
+  DashboardStats,
   ExpertInterviewPayload,
   FollowUpQuestionParams,
   GenerateInterviewFeedbackPayload,
@@ -58,12 +59,12 @@ export const useExpertInterview = (options = {}) => {
   });
 };
 
-// export const useExpertInterview = (data: ExpertInterviewPayload) => {
-//   return useQuery<string[], Error>({
-//     queryKey: ['interview-detail', data],
-//     queryFn: () => InterviewService.getExpertInterviewQuestions(data),
-//     enabled: !!data,
-//     staleTime: 10 * 60 * 1000,
-//     retry: false,
-//   });
-// };
+export const useGetUserDashboardStats = (user: User) => {
+  return useQuery<DashboardStats, Error>({
+    queryKey: ['user-dashboard-stats', user],
+    queryFn: () => InterviewService.getDashboardStats(),
+    enabled: !!user,
+    staleTime: 3 * 60 * 1000,
+    refetchInterval: 3 * 60 * 1000,
+  });
+};
