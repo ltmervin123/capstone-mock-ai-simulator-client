@@ -79,6 +79,7 @@ export type InterviewHistory = {
   duration: string;
   numberOfQuestions: number;
   totalScore: number;
+  isViewed: boolean;
 };
 
 export type InterviewClientDocument = {
@@ -101,6 +102,7 @@ export type InterviewClientDocument = {
     answerFeedback: string;
   }[];
   createdAt?: Date;
+  isViewed: boolean;
 };
 
 export type ExpertInterviewPayload = {

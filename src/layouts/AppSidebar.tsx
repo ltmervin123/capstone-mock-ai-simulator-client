@@ -7,13 +7,28 @@ import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '../com
 import { useIsMobile } from '../hooks/shared/useMobile';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
+import { useGetUnViewedInterviewCount } from '@/queries/useNotification';
 import useSignout from '@/hooks/sign-out/useSignout';
 import Spinner from '@/components/ui/spinner';
+import authStore from '@/stores/auth-store';
+import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function AppSidebar() {
   const isMobile = useIsMobile();
   const location = useLocation();
   const { isLoading, handleSignout } = useSignout();
+  const user = authStore((state) => state.user);
+  const { data: unViewedInterviewCount = 0 } = useGetUnViewedInterviewCount(user!);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (unViewedInterviewCount > 0) {
+      queryClient.invalidateQueries({ queryKey: ['user-dashboard-stats'] });
+      queryClient.invalidateQueries({ queryKey: ['interview-history'] });
+    }
+  }, [unViewedInterviewCount]);
+
   const isLinkActive = (path: string) => location.pathname === path;
   return (
     <SidebarProvider>
@@ -84,6 +99,11 @@ export default function AppSidebar() {
                     >
                       Interview History
                     </span>
+                    {unViewedInterviewCount > 0 && (
+                      <span className="absolute left-52 flex h-6 w-6 animate-pulse items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                        <span>{unViewedInterviewCount}</span>
+                      </span>
+                    )}
                   </Link>
                 </Button>
               </li>

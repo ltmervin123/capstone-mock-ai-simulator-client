@@ -1,46 +1,66 @@
-type FeedbackData = {
+import { MessageSquare, CheckCircle2, AlertCircle } from 'lucide-react';
+
+type InterviewFeedbackProps = {
   question: string;
   answer: string;
-  areaOfImprovement: string;
   feedback: string;
+  areaOfImprovement: string;
 };
-
-type ColorKeys = 'Question' | 'Answer' | 'Area of improvement' | 'Feedback';
-
-type TextAreaProps = {
-  text: string;
-  label: ColorKeys;
-};
-
-function TextArea({ text, label }: TextAreaProps) {
-  const color = {
-    Question: 'bg-white',
-    Answer: 'bg-gray-50',
-    'Area of improvement': 'bg-green-50',
-    Feedback: 'bg-yellow-50',
-  };
-  return (
-    <div className="w-full">
-      <h3 className="mb-2 font-medium text-gray-800">{label}</h3>
-      <p className={`text-sm text-gray-700 ${color[label]} p-4`}>{text}</p>
-    </div>
-  );
-}
 
 export default function InterviewFeedback({
   question,
   answer,
-  areaOfImprovement,
   feedback,
-}: FeedbackData) {
+  areaOfImprovement
+}: InterviewFeedbackProps) {
   return (
-    <div className="h-2/3 w-full rounded bg-white p-4">
-      <h1 className="mb-4 font-bold">Feedback</h1>
-      <div className="space-y-4">
-        <TextArea text={question} label="Question" />
-        <TextArea text={answer} label="Answer" />
-        <TextArea text={areaOfImprovement} label="Area of improvement" />
-        <TextArea text={feedback} label="Feedback" />
+    <div className="rounded-xl border border-gray-200 bg-white p-6">
+      <h2 className="mb-6 text-lg font-semibold text-gray-900">Question Feedback</h2>
+
+      <div className="space-y-6">
+        {/* Question */}
+        <div>
+          <div className="mb-2 flex items-center gap-2">
+            <MessageSquare className="h-5 w-5 text-blue-600" />
+            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Question</h3>
+          </div>
+          <div className="rounded-lg bg-blue-50 p-4">
+            <p className="text-sm leading-relaxed text-gray-700">{question}</p>
+          </div>
+        </div>
+
+        {/* Your Answer */}
+        <div>
+          <div className="mb-2 flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-green-600" />
+            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Your Answer</h3>
+          </div>
+          <div className="rounded-lg bg-gray-50 p-4">
+            <p className="text-sm leading-relaxed text-gray-700">{answer}</p>
+          </div>
+        </div>
+
+        {/* Feedback */}
+        <div>
+          <div className="mb-2 flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-purple-600" />
+            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Feedback</h3>
+          </div>
+          <div className="rounded-lg bg-purple-50 p-4">
+            <p className="text-sm leading-relaxed text-gray-700">{feedback}</p>
+          </div>
+        </div>
+
+        {/* Areas of Improvement */}
+        <div>
+          <div className="mb-2 flex items-center gap-2">
+            <AlertCircle className="h-5 w-5 text-orange-600" />
+            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Areas to Improve</h3>
+          </div>
+          <div className="rounded-lg border-2 border-orange-200 bg-orange-50 p-4">
+            <p className="text-sm leading-relaxed text-gray-700">{areaOfImprovement}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
