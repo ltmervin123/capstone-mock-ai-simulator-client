@@ -1,4 +1,4 @@
-import { type SpeakParams as SpeakParamsType } from '@/hooks/answer/useSpeak';
+import { type SpeakParams as SpeakParamsType } from '@/hooks/student/answer/useSpeak';
 import { IntervieweeOption } from '@/types/interview/interview-option-type';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';

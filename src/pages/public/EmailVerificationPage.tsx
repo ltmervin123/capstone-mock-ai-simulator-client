@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '@/components/ui/spinner';
 import Header from '@/layouts/Header';
 import Modal from '@/layouts/Modal';
-import useVerifyStudentEmail from '@/hooks/email-verification/useVerifyStudentEmail';
+import useVerifyStudentEmail from '@/hooks/auth/email-verification/useVerifyStudentEmail';
 import { useEffect } from 'react';
 
 type ResponseData = {

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { validateSignInData, ValidationErrors } from '../../utils/validators/sign-in-validator';
 import { SigninPayload as SigninPayloadType } from '@/zod-schemas/sign-in-zod-schema';
-import { signin } from '@/services/auth-service';
 import { AxiosError } from 'axios';
 import { ResponseErrorType } from '@/types/shared/response-type';
 import authStore from '@/stores/auth-store';
 import { User } from '@/types/auth/auth-type';
+import { validateSignInData, ValidationErrors } from '@/utils/validators/sign-in-validator';
+import { signin } from '@/services/auth/auth-service';
 
 export default function useSignin() {
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
@@ -25,9 +25,9 @@ export default function useSignin() {
       setIsLoading(true);
       const response = await signin(data);
 
-      setUser(response?.data?.data as User);
+      setUser(response?.data?.user as User);
 
-      return { success: true };
+      return { success: true, user: response?.data?.user as User };
     } catch (error) {
       console.error('Error during sign-in:', (error as Error).message);
       setResponseError((error as AxiosError).response?.data as ResponseErrorType);

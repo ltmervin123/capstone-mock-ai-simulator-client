@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import * as NotificationService from '@/services/notification-service';
+import * as NotificationService from '@/services/student/notification-service';
 import { User } from '@/types/auth/auth-type';
 
 export const useGetUnViewedInterviewCount = (user: User) => {

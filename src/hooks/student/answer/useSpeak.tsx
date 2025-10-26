@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
-import { textToSpeech } from '../../services/interview-service';
-import useFetch from '../shared/useFetch';
 import { IntervieweeOption } from '@/types/interview/interview-option-type';
+import useFetch from '@/hooks/shared/useFetch';
+import { textToSpeech } from '@/services/student/interview-service';
 
 export type SpeakParams = {
   text: string;

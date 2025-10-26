@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import * as BehavioralQuestionService from '@/services/behavioral-question-service';
+import * as BehavioralQuestionService from '@/services/student/behavioral-question-service';
 import {
   BehavioralCategories,
   BehavioralQuestionData,

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { validateSignUpData, ValidationErrors } from '../../utils/validators/sign-up-validator';
-import { SignupFormData } from '../../zod-schemas/sign-up-zod-schema';
-import { signup } from '@/services/auth-service';
+import { validateSignUpData, ValidationErrors } from '../../../utils/validators/sign-up-validator';
+import { SignupFormData } from '../../../zod-schemas/sign-up-zod-schema';
 import { AxiosError } from 'axios';
 import { ResponseErrorType } from '@/types/shared/response-type';
+import { signup } from '@/services/auth/auth-service';
 export default function useSignup() {
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const [responseError, setResponseError] = useState<ResponseErrorType | null>(null);

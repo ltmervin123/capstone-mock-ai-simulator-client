@@ -1,6 +1,6 @@
-import axiosClient from '../utils/axios';
-import { type SignupFormData as SignupType } from '../zod-schemas/sign-up-zod-schema';
-import { type SigninPayload as SigninType } from '../zod-schemas/sign-in-zod-schema';
+import axiosClient from '../../utils/axios';
+import { type SignupFormData as SignupType } from '../../zod-schemas/sign-up-zod-schema';
+import { type SigninPayload as SigninType } from '../../zod-schemas/sign-in-zod-schema';
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const BASE_URL = `${API_URL}/api/v1/auth`;
 

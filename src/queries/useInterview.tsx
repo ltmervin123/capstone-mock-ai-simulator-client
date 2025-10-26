@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import * as InterviewService from '@/services/interview-service';
+import * as InterviewService from '@/services/student/interview-service';
 import {
   FollowUpQuestionParams,
   GenerateInterviewFeedbackPayload,

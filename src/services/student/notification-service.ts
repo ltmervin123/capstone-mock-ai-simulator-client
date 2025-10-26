@@ -1,4 +1,4 @@
-import axiosClient from '../utils/axios';
+import axiosClient from '../../utils/axios';
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const BASE_URL = `${API_URL}/api/v1/interview`;
 

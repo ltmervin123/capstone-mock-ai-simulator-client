@@ -4,10 +4,6 @@ import HistoryModal from './HistoryModal';
 import AIResponse from './AIResponse';
 import ControlPanel from './ControlPanel';
 import GettingStarted from './GettingStarted';
-import useRecord from '../../hooks/answer/useRecord';
-import useGreeting from '../../hooks/answer/useGreeting';
-import useQuestion from '@/hooks/answer/useQuestion';
-import useSpeak from '@/hooks/answer/useSpeak';
 import interviewStore from '@/stores/interview-store';
 import socketStore from '@/stores/socket-io-store';
 import Modal from '@/layouts/Modal';
@@ -16,6 +12,10 @@ import { useGreetingResponse } from '@/queries/useInterview';
 import authStore from '@/stores/auth-store';
 import { useNavigate } from 'react-router-dom';
 import { useMakeInterviewFeedback } from '@/queries/useInterview';
+import useGreeting from '@/hooks/student/answer/useGreeting';
+import useQuestion from '@/hooks/student/answer/useQuestion';
+import useRecord from '@/hooks/student/answer/useRecord';
+import useSpeak from '@/hooks/student/answer/useSpeak';
 
 const InterviewPage = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import * as InterviewHistoryService from '@/services/interview-history-service';
+import * as InterviewHistoryService from '@/services/student/interview-history-service';
 import { InterviewClientDocument, InterviewHistory } from '@/types/interview/interview-option-type';
 import { User } from '@/types/auth/auth-type';
 

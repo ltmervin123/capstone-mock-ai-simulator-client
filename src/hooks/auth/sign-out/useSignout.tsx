@@ -1,5 +1,5 @@
+import { signout } from '@/services/auth/auth-service';
 import { useState } from 'react';
-import { signout } from '../../services/auth-service';
 import { useNavigate } from 'react-router-dom';
 
 export default function useSignout() {

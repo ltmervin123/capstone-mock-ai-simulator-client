@@ -8,7 +8,7 @@ import { useIsMobile } from '../hooks/shared/useMobile';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
 import { useGetUnViewedInterviewCount } from '@/queries/useNotification';
-import useSignout from '@/hooks/sign-out/useSignout';
+import useSignout from '@/hooks/auth/sign-out/useSignout';
 import Spinner from '@/components/ui/spinner';
 import authStore from '@/stores/auth-store';
 import { useEffect } from 'react';

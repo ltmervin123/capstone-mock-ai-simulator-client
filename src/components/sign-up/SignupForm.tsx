@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../../layouts/Modal';
 import ProgramDropDown from './ProgramDropdown';
-import useSignup from '../../hooks/sign-up/useSignup';
+import useSignup from '../../hooks/auth/sign-up/useSignup';
 import InputField from '../ui/input-field';
 import PasswordField from '../ui/password-field';
 import Spinner from '../ui/spinner';

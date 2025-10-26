@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import * as DashboardService from '@/services/dashboard-service';
+import * as DashboardService from '@/services/student/dashboard-service';
 import { DashboardStats } from '@/types/interview/interview-option-type';
 import { User } from '@/types/auth/auth-type';
 
