@@ -1,7 +1,7 @@
 import BottomSection from './BottomSection';
 import InterviewHeader from '../interview/InterviewHeader';
 import InterviewCard from '../interview/InterviewCard';
-import InterviewerDropDown from '../ui/drop-down';
+import InterviewerDropDown from '../../ui/drop-down';
 import { useState } from 'react';
 import BehavioralCategory from './BehavioralCategoryModal';
 import ResumeUpload from './ResumeUploadModal';

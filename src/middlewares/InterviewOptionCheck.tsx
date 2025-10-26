@@ -4,7 +4,7 @@ export default function InterviewOptionCheck() {
   const interviewOption = interviewStore((state) => state.interviewOption);
 
   if (!interviewOption) {
-    return <Navigate to="/interview" replace />;
+    return <Navigate to="/user/interview" replace />;
   }
 
   return <Outlet />;

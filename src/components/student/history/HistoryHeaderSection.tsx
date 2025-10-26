@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import FilterDropdown from '../ui/drop-down';
+import FilterDropdown from '../../ui/drop-down';
 const OPTIONS = ['All', 'Basic', 'Behavioral', 'Expert', 'Highest', 'Lowest'];
 
 function HistoryHeaderSection() {

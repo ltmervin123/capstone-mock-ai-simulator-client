@@ -1,5 +1,5 @@
 import { interviewType } from '@/types/interview/interview-option-type';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { useNavigate } from 'react-router-dom';
 
 type DashboardCardsProps = {

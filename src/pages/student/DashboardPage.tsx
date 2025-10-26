@@ -1,6 +1,6 @@
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/UserAppSidebar';
-import Dashboard from '../../components/dashboard/Dashboard';
+import Dashboard from '../../components/student/dashboard/Dashboard';
 
 export default function DashboardPage() {
   return (

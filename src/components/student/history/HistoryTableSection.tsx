@@ -3,7 +3,7 @@ import HistoryCard from './HistoryCard';
 import { useState } from 'react';
 import InterviewDetail from './InterviewDetailModal';
 import authStore from '@/stores/auth-store';
-import { useGetInterviewHistory } from '@/queries/useInterviewHistory';
+import { useGetInterviewHistory } from '@/queries/student/useInterviewHistory';
 
 export default function HistoryTableSection() {
   const user = authStore((state) => state.user);

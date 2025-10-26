@@ -4,7 +4,7 @@ import DashboardLineChart from './DashboardLineChart';
 import DashboardStat from './DashboardStat';
 import DashBoardSkeleton from './DashboardCardSkeleton';
 import authStore from '@/stores/auth-store';
-import { useGetUserDashboardStats } from '@/queries/useDashboard';
+import { useGetUserDashboardStats } from '@/queries/student/useDashboard';
 
 export default function Dashboard() {
   const user = authStore((state) => state.user);

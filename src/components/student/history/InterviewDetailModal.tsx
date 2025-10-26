@@ -3,9 +3,9 @@ import InterviewScores from './InterviewScores';
 import InterviewSummary from './InterviewSummary';
 import { useEffect, useRef, useState } from 'react';
 import Controller from './Controller';
-import { useGetInterviewDetail } from '@/queries/useInterviewHistory';
-import { updateUnViewedInterviewCount } from '@/queries/useNotification';
-import Spinner from '../ui/spinner';
+import { useGetInterviewDetail } from '@/queries/student/useInterviewHistory';
+import { updateUnViewedInterviewCount } from '@/queries/student/useNotification';
+import Spinner from '../../ui/spinner';
 import InterviewDetailHeader from './InterviewDetailHeader';
 import { useQueryClient } from '@tanstack/react-query';
 

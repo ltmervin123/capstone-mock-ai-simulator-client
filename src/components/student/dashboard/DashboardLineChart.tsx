@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import DropDown from '../ui/drop-down';
-import LineChart from '../../layouts/LineChart';
+import DropDown from '../../ui/drop-down';
+import LineChart from '../../../layouts/LineChart';
 const OPTIONS = ['Daily', 'Weekly', 'Monthly'];
 
 export type ProgressOverTime = {

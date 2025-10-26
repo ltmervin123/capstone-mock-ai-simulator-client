@@ -1,5 +1,5 @@
 import Spinner from '@/components/ui/spinner';
-import useAuthCheck from '@/hooks/auth/auth-check/useAuthCheck';
+import useAuthCheck from '@/hooks/auth/useAuthCheck';
 import Modal from '@/layouts/Modal';
 import { Navigate, Outlet } from 'react-router-dom';
 export default function AuthCheck() {

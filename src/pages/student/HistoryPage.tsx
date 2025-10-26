@@ -1,6 +1,6 @@
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/UserAppSidebar';
-import History from '../../components/history/History';
+import History from '../../components/student/history/History';
 export default function HistoryPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">

@@ -1,13 +1,13 @@
+import { SuccessIcon, ErrorIcon } from '@/components/ui/icon';
+import InputField from '@/components/ui/input-field';
+import PasswordField from '@/components/ui/password-field';
+import Spinner from '@/components/ui/spinner';
+import PROGRAM_OPTIONS from '@/constants/program-option';
+import useSignup from '@/hooks/auth/useSignup';
+import Modal from '@/layouts/Modal';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Modal from '../../layouts/Modal';
 import ProgramDropDown from './ProgramDropdown';
-import useSignup from '../../hooks/auth/sign-up/useSignup';
-import InputField from '../ui/input-field';
-import PasswordField from '../ui/password-field';
-import Spinner from '../ui/spinner';
-import PROGRAM_OPTIONS from '../../constants/program-option';
-import { ErrorIcon, SuccessIcon } from '../ui/icon';
 
 export default function SignupForm() {
   const [isShowSuccessModal, setIsShowSuccessModal] = useState(false);

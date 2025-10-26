@@ -1,5 +1,5 @@
-import ProgressBar from '../../layouts/ProgressBar';
-import InterviewTypeScoreBar from '../../layouts/InterviewTypeScoreBar';
+import ProgressBar from '../../../layouts/ProgressBar';
+import InterviewTypeScoreBar from '../../../layouts/InterviewTypeScoreBar';
 
 export type PerformanceBreakdown = {
   grammar: number;

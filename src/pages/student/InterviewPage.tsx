@@ -1,6 +1,7 @@
+import Interview from '@/components/student/interview/Interview';
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/UserAppSidebar';
-import Interview from '../../components/interview/Interview';
+
 export default function InterviewPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">
