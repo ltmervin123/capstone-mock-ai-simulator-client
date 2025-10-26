@@ -1,5 +1,5 @@
 import AppHeader from '../layouts/AppHeader';
-import AppSidebar from '../layouts/AppSidebar';
+import AppSidebar from '../layouts/UserAppSidebar';
 import History from '../components/history/History';
 export default function HistoryPage() {
   return (

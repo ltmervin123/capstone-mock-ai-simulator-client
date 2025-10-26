@@ -1,5 +1,5 @@
 import AppHeader from '../layouts/AppHeader';
-import AppSidebar from '../layouts/AppSidebar';
+import AppSidebar from '../layouts/UserAppSidebar';
 import Dashboard from '../components/dashboard/Dashboard';
 
 export default function DashboardPage() {

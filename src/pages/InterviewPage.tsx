@@ -1,5 +1,5 @@
 import AppHeader from '../layouts/AppHeader';
-import AppSidebar from '../layouts/AppSidebar';
+import AppSidebar from '../layouts/UserAppSidebar';
 import Interview from '../components/interview/Interview';
 export default function InterviewPage() {
   return (
