@@ -1,17 +1,28 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import NotFoundPage from './pages/NotFoundPage';
-import DashboardPage from './pages/DashboardPage';
-import HistoryPage from './pages/HistoryPage';
-import InterviewPage from './pages/InterviewPage';
-import AnswerPage from './pages/AnswerPage';
-import EmailVerificationPage from './pages/EmailVerificationPage';
+
+// Public Pages
+import LandingPage from './pages/public/LandingPage';
+import LoginPage from './pages/public/LoginPage';
+import SignupPage from './pages/public/SignupPage';
+import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
+import NotFoundPage from './pages/public/NotFoundPage';
+import EmailVerificationPage from './pages/public/EmailVerificationPage';
+
+// Student Pages
+import StudentDashboardPage from './pages/student/DashboardPage';
+import StudentHistoryPage from './pages/student/HistoryPage';
+import StudentInterviewPage from './pages/student/InterviewPage';
+import StudentAnswerPage from './pages/student/AnswerPage';
+
+// Admin Pages
+import AdminDashboardPage from './pages/admin/DashboardPage';
+
+// Middlewares
 import AuthCheck from './middlewares/AuthCheck';
 import InterviewOptionCheck from './middlewares/InterviewOptionCheck';
+import StudentCheck from './middlewares/StudentCheck';
+import AdminCheck from './middlewares/AdminCheck';
 
 const App: React.FC = () => {
   return (
@@ -24,11 +35,17 @@ const App: React.FC = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         <Route element={<AuthCheck />}>
-          <Route path="/user/dashboard" element={<DashboardPage />} />
-          <Route path="/user/history" element={<HistoryPage />} />
-          <Route path="/user/interview" element={<InterviewPage />} />
-          <Route element={<InterviewOptionCheck />}>
-            <Route path="/interview/answer" element={<AnswerPage />} />
+          <Route element={<StudentCheck />}>
+            <Route path="/user/dashboard" element={<StudentDashboardPage />} />
+            <Route path="/user/history" element={<StudentHistoryPage />} />
+            <Route path="/user/interview" element={<StudentInterviewPage />} />
+            <Route element={<InterviewOptionCheck />}>
+              <Route path="/interview/answer" element={<StudentAnswerPage />} />
+            </Route>
+          </Route>
+
+          <Route element={<AdminCheck />}>
+            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
           </Route>
         </Route>
 

@@ -1,5 +1,5 @@
-import LandingHeader from '../components/landing/LandingHeader';
-import LandingBody from '../components/landing/LandingBody';
+import LandingHeader from '../../components/landing/LandingHeader';
+import LandingBody from '../../components/landing/LandingBody';
 
 // export default LandingPage;
 export default function LandingPage() {

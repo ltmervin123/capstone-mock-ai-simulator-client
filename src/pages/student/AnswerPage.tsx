@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import AppHeader from '../layouts/AppHeader';
+import AppHeader from '../../layouts/AppHeader';
 import Answer from '@/components/answer/Answer';
 import interviewStore from '@/stores/interview-store';
 

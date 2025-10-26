@@ -1,8 +1,7 @@
-import AppHeader from '../layouts/AppHeader';
-import AppSidebar from '../layouts/UserAppSidebar';
-import Dashboard from '../components/dashboard/Dashboard';
-
-export default function DashboardPage() {
+import AppHeader from '../../layouts/AppHeader';
+import AppSidebar from '../../layouts/UserAppSidebar';
+import Interview from '../../components/interview/Interview';
+export default function InterviewPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">
       <AppHeader />
@@ -13,7 +12,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex-1 overflow-auto p-4">
-          <Dashboard />
+          <Interview />
         </div>
       </div>
     </div>
