@@ -25,8 +25,8 @@ const App: React.FC = () => {
 
         <Route element={<AuthCheck />}>
           <Route path="/user/dashboard" element={<DashboardPage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/interview" element={<InterviewPage />} />
+          <Route path="/user/history" element={<HistoryPage />} />
+          <Route path="/user/interview" element={<InterviewPage />} />
           <Route element={<InterviewOptionCheck />}>
             <Route path="/interview/answer" element={<AnswerPage />} />
           </Route>

@@ -42,7 +42,7 @@ export default function DashboardCards({
         <div className="mt-4">
           <Button
             className="min-h-[50px] rounded-3xl bg-green-700 hover:bg-green-600"
-            onClick={() => navigate('/interview')}
+            onClick={() => navigate('/user/interview')}
           >
             Start your first interview
           </Button>
@@ -73,7 +73,7 @@ export default function DashboardCards({
         <h1 className="text-2xl font-semibold">Quick Start</h1>
         <Button
           className="mt-4 min-h-[50px] rounded-3xl bg-green-700 hover:bg-green-600"
-          onClick={() => navigate('/interview')}
+          onClick={() => navigate('/user/interview')}
         >
           New Interview
         </Button>

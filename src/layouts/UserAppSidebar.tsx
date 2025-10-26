@@ -76,7 +76,7 @@ export default function AppSidebar() {
                   variant="ghost"
                   className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/interview') ? 'bg-green-200' : ''}`}
                 >
-                  <Link to="/interview" className="flex items-center gap-2">
+                  <Link to="/user/interview" className="flex items-center gap-2">
                     <InterviewSvg isActive={isLinkActive('/interview')} />
                     <span
                       className={`text-lg ${isLinkActive('/interview') ? 'text-green-500' : 'text-gray-500'}`}
@@ -90,12 +90,12 @@ export default function AppSidebar() {
                 <Button
                   asChild
                   variant="ghost"
-                  className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/history') ? 'bg-green-200' : ''}`}
+                  className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/user/history') ? 'bg-green-200' : ''}`}
                 >
-                  <Link to="/history" className="flex items-center gap-2">
+                  <Link to="/user/history" className="flex items-center gap-2">
                     <HistorySvg isActive={isLinkActive('/history')} />
                     <span
-                      className={`text-lg ${isLinkActive('/history') ? 'text-green-500' : 'text-gray-500'}`}
+                      className={`text-lg ${isLinkActive('/user/history') ? 'text-green-500' : 'text-gray-500'}`}
                     >
                       Interview History
                     </span>
