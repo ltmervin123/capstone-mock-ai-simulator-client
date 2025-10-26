@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import InputField from '../ui/input-field';
 import { EmailIcon, PasswordIcon } from '../ui/icon';
 import PasswordField from '../ui/password-field';
-import useSignin from '@/hooks/sign-in/useSignin';
 import Spinner from '../ui/spinner';
 import Modal from '@/layouts/Modal';
+import useSignin from '@/hooks/auth/sign-in/useSignin';
+import { roles } from '@/constants/roles';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -39,7 +40,15 @@ export default function LoginForm() {
       return;
     }
 
-    navigate('/user/dashboard', { replace: true });
+    if (result.user?.role === roles.ADMIN) {
+      navigate('/admin/dashboard', { replace: true });
+      return;
+    }
+
+    if (result.user?.role === roles.STUDENT) {
+      navigate('/user/dashboard', { replace: true });
+      return;
+    }
   };
 
   return (
