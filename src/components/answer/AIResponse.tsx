@@ -33,7 +33,7 @@ export default function AIResponseComponent({
         // if (isInterviewEnd) {
         //   // Execute all UI logic after speaking and interview ends
         //   // processedResponse.current = '';
-        //   // navigate('/dashboard', { replace: true });
+        //   // navigate('/user/dashboard', { replace: true });
         //   setEndAt(new Date());
         // }
       }

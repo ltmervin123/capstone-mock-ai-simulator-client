@@ -44,7 +44,7 @@ export default function AppSidebar() {
               {isMobile && (
                 <li>
                   <Button asChild variant="ghost" className={`w-full justify-start`}>
-                    <Link to="/dashboard" className="flex items-center gap-2">
+                    <Link to="/user/dashboard" className="flex items-center gap-2">
                       <span
                         className={`font-inter text-3xl font-bold text-gray-500 md:text-5xl lg:text-5xl`}
                       >
@@ -58,12 +58,12 @@ export default function AppSidebar() {
                 <Button
                   asChild
                   variant="ghost"
-                  className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/dashboard') ? 'bg-green-200' : ''}`}
+                  className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/user/dashboard') ? 'bg-green-200' : ''}`}
                 >
-                  <Link to="/dashboard" className="flex items-center gap-2">
-                    <DashboardSvg isActive={isLinkActive('/dashboard')} />
+                  <Link to="/user/dashboard" className="flex items-center gap-2">
+                    <DashboardSvg isActive={isLinkActive('/user/dashboard')} />
                     <span
-                      className={`text-lg ${isLinkActive('/dashboard') ? 'text-green-500' : 'text-gray-500'}`}
+                      className={`text-lg ${isLinkActive('/user/dashboard') ? 'text-green-500' : 'text-gray-500'}`}
                     >
                       Dashboard
                     </span>

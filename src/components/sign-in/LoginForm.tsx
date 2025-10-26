@@ -39,7 +39,7 @@ export default function LoginForm() {
       return;
     }
 
-    navigate('/dashboard', { replace: true });
+    navigate('/user/dashboard', { replace: true });
   };
 
   return (

@@ -369,7 +369,7 @@ const InterviewPage = () => {
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <button
                 className="rounded-md bg-blue-600 px-6 py-2 font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
-                onClick={() => navigate('/dashboard', { replace: true })}
+                onClick={() => navigate('/user/dashboard', { replace: true })}
               >
                 Close
               </button>

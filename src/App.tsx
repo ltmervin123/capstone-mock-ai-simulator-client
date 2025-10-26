@@ -24,7 +24,7 @@ const App: React.FC = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         <Route element={<AuthCheck />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/user/dashboard" element={<DashboardPage />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/interview" element={<InterviewPage />} />
           <Route element={<InterviewOptionCheck />}>

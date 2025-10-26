@@ -10,7 +10,7 @@ export default function AppHeader() {
     <div className="relative z-50">
       <header className="z-50 w-full bg-green-700 font-inter">
         <div className="mx-auto flex h-24 items-center justify-between p-4 py-2">
-          <Link to="/dashboard" className="hover:cursor-pointer">
+          <Link to="/user/dashboard" className="hover:cursor-pointer">
             <div className="flex items-center">
               <span className="font-inter text-3xl font-bold text-white md:text-5xl lg:text-5xl">
                 PrepWise
