@@ -1,6 +1,7 @@
 import AppHeader from '../../layouts/AppHeader';
-import AppSidebar from '../../layouts/UserAppSidebar';
+import AppSidebar from '../../layouts/AppSidebar';
 import Dashboard from '../../components/student/dashboard/Dashboard';
+import Navigation from '@/components/student/navigation/Navigation';
 
 export default function DashboardPage() {
   return (
@@ -9,7 +10,7 @@ export default function DashboardPage() {
 
       <div className="flex flex-1 overflow-hidden">
         <div>
-          <AppSidebar />
+          <AppSidebar navItems={<Navigation />} />
         </div>
 
         <div className="flex-1 overflow-auto p-4">
