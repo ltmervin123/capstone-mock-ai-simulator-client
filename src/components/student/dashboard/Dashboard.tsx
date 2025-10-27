@@ -2,7 +2,7 @@ import DashboardHeader from './DashboardHeader';
 import DashboardCards from './DashboardCards';
 import DashboardLineChart from './DashboardLineChart';
 import DashboardStat from './DashboardStat';
-import DashBoardSkeleton from './DashboardCardSkeleton';
+import DashBoardSkeleton from './Dashboardkeleton';
 import authStore from '@/stores/auth-store';
 import { useGetUserDashboardStats } from '@/queries/student/useDashboard';
 
