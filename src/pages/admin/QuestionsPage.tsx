@@ -1,7 +1,7 @@
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
 import Navigation from '@/components/admin/navigation/Navigation';
-export default function DashboardPage() {
+export default function QuestionPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">
       <AppHeader />
@@ -12,7 +12,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex-1 overflow-auto p-4">
-          <h1>Admin Dashboard</h1>
+          <h1>Question Dashboard</h1>
         </div>
       </div>
     </div>

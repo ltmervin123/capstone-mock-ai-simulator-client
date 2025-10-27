@@ -1,6 +1,9 @@
 import React from 'react';
 
-export default function HistorySvg({ isActive }) {
+type HistorySvgProps = {
+  isActive: boolean;
+};
+export default function HistorySvg({ isActive }: HistorySvgProps) {
   return (
     <>
       {' '}

@@ -1,6 +1,8 @@
-import React from 'react';
+type InterviewSvgProps = {
+  isActive: boolean;
+};
 
-export default function InterviewSvg({ isActive }) {
+export default function InterviewSvg({ isActive }: InterviewSvgProps) {
   return (
     <>
       <svg
