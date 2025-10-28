@@ -17,7 +17,7 @@ import StudentAnswerPage from './pages/student/AnswerPage';
 
 // Admin Pages
 import AdminDashboardPage from './pages/admin/DashboardPage';
-import AdminUsersPage from './pages/admin/UserPage';
+import AdminUsersPage from './pages/admin/StudentPage';
 import AdminQuestionPage from './pages/admin/QuestionsPage';
 
 // Middlewares
@@ -48,7 +48,7 @@ const App: React.FC = () => {
 
           <Route element={<AdminCheck />}>
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-            <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/students" element={<AdminUsersPage />} />
             <Route path="/admin/questions" element={<AdminQuestionPage />} />
           </Route>
         </Route>

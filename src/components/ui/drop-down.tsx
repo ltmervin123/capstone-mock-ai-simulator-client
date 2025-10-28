@@ -37,7 +37,7 @@ export default function DropDown({ selectedOption, setSelectedOption, options }:
         onClick={toggleDropdown}
         className="flex w-24 items-center justify-between rounded-md border border-green-600 px-4 py-2 sm:h-9 sm:w-32"
       >
-        <span className="text-xs sm:text-base">{selectedOption}</span>
+        <span className="truncate text-xs sm:text-base">{selectedOption}</span>
         <svg
           className={`ml-2 h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"

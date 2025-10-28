@@ -44,14 +44,14 @@ export default function Navigation() {
         <Button
           asChild
           variant="ghost"
-          className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/admin/users') ? 'bg-green-200' : ''}`}
+          className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/admin/students') ? 'bg-green-200' : ''}`}
         >
-          <Link to="/admin/users" className="flex items-center gap-2">
-            <UsersSvg isActive={isLinkActive('/admin/users')} />
+          <Link to="/admin/students" className="flex items-center gap-2">
+            <UsersSvg isActive={isLinkActive('/admin/students')} />
             <span
-              className={`text-lg ${isLinkActive('/admin/users') ? 'text-green-500' : 'text-gray-500'}`}
+              className={`text-lg ${isLinkActive('/admin/students') ? 'text-green-500' : 'text-gray-500'}`}
             >
-              Users
+              Students
             </span>
           </Link>
         </Button>
