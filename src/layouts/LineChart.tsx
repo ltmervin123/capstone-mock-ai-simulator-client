@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { getOptions, getChartData } from '../utils/lineChart';
-import { ProgressOverTime } from '@/components/dashboard/DashboardLineChart';
+import { ProgressOverTime } from '@/components/student/dashboard/DashboardLineChart';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
