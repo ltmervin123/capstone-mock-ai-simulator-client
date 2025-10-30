@@ -20,7 +20,7 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
     <SidebarProvider>
       {isMobile && (
         <div className="fixed left-2 top-28 z-50 rounded-full bg-green-700 shadow-md">
-          <SidebarTrigger className="h-10 w-10" />
+          <SidebarTrigger className="h-10 w-10 rounded-full hover:bg-green-600" />
         </div>
       )}
       <Sidebar className="h-screen border-none pt-24" variant="sidebar" side="left">
