@@ -113,7 +113,6 @@ export default function QuestionCard({
         <ConfigModal
           category={category}
           onClose={() => setIsShowConfig(false)}
-          onSave={handleSaveConfig}
           initialValue={maxQuestions}
         />
       )}

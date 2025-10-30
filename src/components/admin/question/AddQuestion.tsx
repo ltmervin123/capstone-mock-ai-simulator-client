@@ -1,5 +1,5 @@
 import Modal from '@/layouts/Modal';
-import { X } from 'lucide-react';
+import { Plus, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
 
 type AddCategoryModalProps = {
@@ -90,19 +90,22 @@ export default function AddCategoryModal({ onClose }: AddCategoryModalProps) {
                       placeholder={`Question ${index + 1}`}
                       className="flex-1 rounded-lg border border-gray-300 px-3 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
                     />
+
                     <button
                       onClick={() => setQuestions(questions.filter((_, i) => i !== index))}
-                      className="w-full rounded-lg bg-red-50 px-3 py-2 text-red-600 hover:bg-red-100 sm:w-auto"
+                      className="flex items-center gap-2 rounded-lg bg-red-50 px-4 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-100"
                       disabled={questions.length === 1}
                     >
+                      <Trash2 size={16} />
                       Remove
                     </button>
                   </div>
                 ))}
                 <button
                   onClick={() => setQuestions([...questions, ''])}
-                  className="w-full rounded-lg bg-green-50 px-4 py-2 text-green-600 hover:bg-green-100 sm:w-auto"
+                  className="flex items-center gap-2 rounded-lg bg-green-50 px-4 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100"
                 >
+                  <Plus size={20} />
                   Add Question
                 </button>
               </div>
