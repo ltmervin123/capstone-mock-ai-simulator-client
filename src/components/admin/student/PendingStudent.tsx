@@ -49,7 +49,7 @@ export default function PendingStudent({ setIsOpen }: PendingStudentProps) {
         </div>
 
         {/* Content */}
-        <div className="max-h-[60vh] space-y-4 overflow-y-auto px-4 py-4 md:max-h-[75vh] md:px-8 md:py-6">
+        <div className="h-[60vh] space-y-4 overflow-y-auto px-4 py-4 md:max-h-[75vh] md:px-8 md:py-6">
           {/* Personal Information */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <InfoField icon={<User size={18} />} label="First Name" value={studentData.firstName} />

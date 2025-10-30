@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Search, Filter } from 'lucide-react';
 
 const OPTIONS = ['Name', 'Student ID', 'Program'];
-const TABLE_OPTIONS = ['Pending', 'Accepted'];
 
 type DropDownProps = {
   selectedOption: string;
@@ -60,9 +59,18 @@ const FilterDropdown = ({ options, selectedOption, setSelectedOption }: DropDown
   );
 };
 
-export default function TableController() {
+type TableControllerProps = {
+  tableOption: string;
+  tableOptions: string[];
+  setTableOption: (option: string) => void;
+};
+export default function TableController({
+  tableOption,
+  tableOptions,
+  setTableOption,
+}: TableControllerProps) {
   const [filterOption, setFilterOption] = useState(OPTIONS[0]);
-  const [tableOption, setTableOption] = useState(TABLE_OPTIONS[0]);
+
   const [query, setQuery] = useState('');
 
   return (
@@ -91,7 +99,7 @@ export default function TableController() {
 
         {/* Tab Buttons */}
         <div className="flex gap-1 rounded-lg bg-gray-100 p-1">
-          {TABLE_OPTIONS.map((option) => {
+          {tableOptions.map((option) => {
             const active = tableOption === option;
             return (
               <button
