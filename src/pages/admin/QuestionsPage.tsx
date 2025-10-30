@@ -1,3 +1,4 @@
+import Question from '@/components/admin/question/Question';
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
 import Navigation from '@/components/admin/navigation/Navigation';
@@ -12,7 +13,7 @@ export default function QuestionPage() {
         </div>
 
         <div className="flex-1 overflow-auto p-4">
-          <h1>Question Dashboard</h1>
+          <Question />
         </div>
       </div>
     </div>

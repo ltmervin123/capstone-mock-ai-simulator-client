@@ -64,7 +64,7 @@ type TableControllerProps = {
   tableOptions: string[];
   setTableOption: (option: string) => void;
 };
-export default function TableController({
+export default function Navigation({
   tableOption,
   tableOptions,
   setTableOption,
