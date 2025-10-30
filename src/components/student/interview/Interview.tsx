@@ -1,5 +1,5 @@
 import BottomSection from './BottomSection';
-import InterviewHeader from '../interview/InterviewHeader';
+import InterviewHeader from './Header';
 import InterviewCard from '../interview/InterviewCard';
 import InterviewerDropDown from '../../ui/drop-down';
 import { useState } from 'react';

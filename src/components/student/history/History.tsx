@@ -1,4 +1,4 @@
-import HistoryHeaderSection from './HistoryHeaderSection';
+import HistoryHeaderSection from './Header';
 import HistoryTableSection from './HistoryTableSection';
 
 export default function History() {
