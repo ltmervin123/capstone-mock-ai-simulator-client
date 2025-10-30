@@ -4,10 +4,9 @@ import { useState } from 'react';
 type ConfigModalProps = {
   category: string;
   onClose: () => void;
-  onSave: (maxQuestions: number) => void;
   initialValue: number;
 };
-export default function ConfigModal({ category, onClose, onSave, initialValue }: ConfigModalProps) {
+export default function ConfigModal({ category, onClose, initialValue }: ConfigModalProps) {
   const [maxQuestions, setMaxQuestions] = useState(initialValue);
 
   return (
@@ -43,10 +42,7 @@ export default function ConfigModal({ category, onClose, onSave, initialValue }:
             Cancel
           </button>
           <button
-            onClick={() => {
-              onSave(maxQuestions);
-              onClose();
-            }}
+            onClick={() => onClose()}
             className="flex-1 rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-4 py-2 font-semibold text-white transition-all hover:from-green-600 hover:to-green-700"
           >
             Save
