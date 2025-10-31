@@ -1,8 +1,8 @@
-import Question from '@/components/admin/questions/Question';
+import Student from '@/components/admin/students/Student';
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
 import Navigation from '@/components/admin/navigations/Navigation';
-export default function QuestionPage() {
+export default function ReportsPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">
       <AppHeader />
@@ -12,8 +12,8 @@ export default function QuestionPage() {
           <AppSidebar navItems={<Navigation />} />
         </div>
 
-        <div className="flex-1 overflow-auto p-4">
-          <Question />
+        <div className="flex-1 overflow-x-auto p-4">
+          <Student />
         </div>
       </div>
     </div>

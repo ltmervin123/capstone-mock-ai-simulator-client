@@ -1,8 +1,8 @@
-import Student from '@/components/admin/student/Student';
+import Student from '@/components/admin/students/Student';
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
-import Navigation from '@/components/admin/navigation/Navigation';
-export default function UsersPage() {
+import Navigation from '@/components/admin/navigations/Navigation';
+export default function StudentPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">
       <AppHeader />

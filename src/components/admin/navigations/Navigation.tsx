@@ -1,5 +1,6 @@
 import DashboardSvg from '@/assets/svg-components/DashboardSvg';
 import QuestionsSvg from '@/assets/svg-components/QuestionsSvg';
+import ReportSvg from '@/assets/svg-components/ReportSvg';
 import UsersSvg from '@/assets/svg-components/UsersSvg';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/shared/useMobile';
@@ -68,6 +69,22 @@ export default function Navigation() {
               className={`text-lg ${isLinkActive('/admin/questions') ? 'text-green-500' : 'text-gray-500'}`}
             >
               Questions
+            </span>
+          </Link>
+        </Button>
+      </li>
+      <li>
+        <Button
+          asChild
+          variant="ghost"
+          className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/admin/report') ? 'bg-green-200' : ''}`}
+        >
+          <Link to="/admin/report" className="flex items-center gap-2">
+            <ReportSvg isActive={isLinkActive('/admin/report')} />
+            <span
+              className={`text-lg ${isLinkActive('/admin/report') ? 'text-green-500' : 'text-gray-500'}`}
+            >
+              Reports
             </span>
           </Link>
         </Button>
