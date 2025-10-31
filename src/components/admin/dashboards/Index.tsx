@@ -2,7 +2,7 @@ import Cards from './Cards';
 import Header from './Header';
 import RecentActivity from './RecentActivity';
 import StudentBarChart from './StudentBarChart';
-export default function Dashboard() {
+export default function Index() {
   return (
     <div className="row-3 grid gap-6">
       <Header />

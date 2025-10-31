@@ -17,7 +17,7 @@ import useQuestion from '@/hooks/student/answer/useQuestion';
 import useRecord from '@/hooks/student/answer/useRecord';
 import useSpeak from '@/hooks/student/answer/useSpeak';
 
-const InterviewPage = () => {
+const Index = () => {
   const navigate = useNavigate();
   const user = authStore((state) => state.user);
   const connected = socketStore((state) => state.connected);
@@ -387,4 +387,4 @@ const InterviewPage = () => {
   );
 };
 
-export default InterviewPage;
+export default Index;

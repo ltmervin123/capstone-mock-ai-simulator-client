@@ -1,7 +1,7 @@
 import HistoryHeaderSection from './Header';
 import HistoryTableSection from './HistoryTableSection';
 
-export default function History() {
+export default function Index() {
   return (
     <div className="flex h-screen flex-col gap-4">
       <HistoryHeaderSection />

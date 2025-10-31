@@ -1,4 +1,4 @@
-import Student from '@/components/admin/students/Student';
+import Index from '@/components/admin/students/Index';
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
 import Navigation from '@/components/admin/navigations/Navigation';
@@ -13,7 +13,7 @@ export default function StudentPage() {
         </div>
 
         <div className="flex-1 overflow-x-auto p-4">
-          <Student />
+          <Index />
         </div>
       </div>
     </div>

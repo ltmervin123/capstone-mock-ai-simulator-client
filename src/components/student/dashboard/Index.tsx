@@ -6,7 +6,7 @@ import DashBoardSkeleton from './Dashboardkeleton';
 import authStore from '@/stores/auth-store';
 import { useGetUserDashboardStats } from '@/queries/student/useDashboard';
 
-export default function Dashboard() {
+export default function Index() {
   const user = authStore((state) => state.user);
   const { data: dashboardStats, isLoading } = useGetUserDashboardStats(user!);
 

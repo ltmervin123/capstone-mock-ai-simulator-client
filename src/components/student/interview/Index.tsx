@@ -1,6 +1,6 @@
 import BottomSection from './BottomSection';
 import InterviewHeader from './Header';
-import InterviewCard from '../interview/InterviewCard';
+import InterviewCard from './InterviewCard';
 import InterviewerDropDown from '../../ui/drop-down';
 import { useState } from 'react';
 import BehavioralCategory from './BehavioralCategoryModal';
@@ -32,7 +32,7 @@ const INTERVIEW_CARDS = [
 
 const INTERVIEWEE_OPTIONS = ['Alice', 'Steve'];
 
-export default function Interview() {
+export default function Index() {
   const [selectedOption, setSelectedOption] = useState(INTERVIEWEE_OPTIONS[0]);
   const [showBehavioralModal, setShowBehavioralModal] = useState(false);
   const [showResumeUpload, setShowResumeUpload] = useState(false);
