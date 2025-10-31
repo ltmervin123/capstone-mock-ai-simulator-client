@@ -2,7 +2,7 @@ import { SuccessIcon, ErrorIcon } from '@/components/ui/icon';
 import InputField from '@/components/ui/input-field';
 import PasswordField from '@/components/ui/password-field';
 import Spinner from '@/components/ui/spinner';
-import PROGRAM_OPTIONS from '@/constants/program-option';
+import { PROGRAM_OPTIONS } from '@/constants/program-option';
 import useSignup from '@/hooks/auth/useSignup';
 import Modal from '@/layouts/Modal';
 import { useState } from 'react';
