@@ -2,7 +2,7 @@ import { useState } from 'react';
 import interviewStore from '@/stores/interview-store';
 import { useBasicInterviewFollowUpQuestions } from '@/queries/student/useInterview';
 import { useGetBehavioralQuestion } from '@/queries/student/useBehavioralQuestion';
-import { InterviewConversation } from '@/types/interview/interview-option-type';
+import { InterviewConversation } from '@/types/student/interview-option-type';
 
 const BASIC_INTERVIEW_FIRST_QUESTIONS = 'Can you tell me about yourself?';
 

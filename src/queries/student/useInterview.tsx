@@ -6,7 +6,7 @@ import {
   InterviewClientDocument,
   InterviewHistory,
   type GreetingParams,
-} from '@/types/interview/interview-option-type';
+} from '@/types/student/interview-option-type';
 import { User } from '@/types/auth/auth-type';
 export const useGreetingResponse = (options = {}) => {
   return useMutation({

@@ -3,7 +3,7 @@ import * as BehavioralQuestionService from '@/services/student/behavioral-questi
 import {
   BehavioralCategories,
   BehavioralQuestionData,
-} from '@/types/behavioral-question/behavioral-question-type';
+} from '@/types/student/behavioral-question-type';
 
 export const useGetBehavioralCategory = () => {
   return useQuery<BehavioralCategories[], Error>({

@@ -1,4 +1,4 @@
-import { DashboardStats } from '@/types/interview/interview-option-type';
+import { DashboardStats } from '@/types/student/interview-option-type';
 import axiosClient from '../../utils/axios';
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const BASE_URL = `${API_URL}/api/v1/interview`;

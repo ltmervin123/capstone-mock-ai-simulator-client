@@ -1,7 +1,7 @@
 import {
   BehavioralCategories,
   BehavioralQuestionData,
-} from '@/types/behavioral-question/behavioral-question-type';
+} from '@/types/student/behavioral-question-type';
 import axiosClient from '../../utils/axios';
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const BASE_URL = `${API_URL}/api/v1/behavioral-questions`;
