@@ -1,45 +1,20 @@
 import { useState } from 'react';
-import PendingStudent from './PendingStudent';
-
-const mockStudents = [
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', status: 'Pending' },
-  { name: 'Ariane F. Bantilan', id: '20212345678', program: 'BSIT', status: 'Pending' },
-  { name: 'Belina W. Mongado', id: '20212345555', program: 'BSCRIM', status: 'Pending' },
-  { name: 'Rubilyn T. Membrano', id: '20227884512', program: 'BSBA', status: 'Pending' },
-  { name: 'Rubilyn I. Membrano', id: '20220001487', program: 'BSIT', status: 'Pending' },
-  { name: 'Benjie D. Sangco', id: '202525789101', program: 'BSIT', status: 'Pending' },
-  { name: 'Jonel Q. Wagas', id: '20222535841', program: 'BSIT', status: 'Pending' },
-  { name: 'Vincent G. Pahayat', id: '20220000001', program: 'BSIT', status: 'Pending' },
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', status: 'Pending' },
-  { name: 'Barbie O. Sayson', id: '20225551110', program: 'BSCRIM', status: 'Pending' },
-  { name: 'Jaymar A. Tuba', id: '202255584765', program: 'BSIT', status: 'Pending' },
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', status: 'Pending' },
-  { name: 'Ariane F. Bantilan', id: '20212345678', program: 'BSIT', status: 'Pending' },
-  { name: 'Belina W. Mongado', id: '20212345555', program: 'BSCRIM', status: 'Pending' },
-  { name: 'Rubilyn T. Membrano', id: '20227884512', program: 'BSBA', status: 'Pending' },
-  { name: 'Rubilyn I. Membrano', id: '20220001487', program: 'BSIT', status: 'Pending' },
-  { name: 'Benjie D. Sangco', id: '202525789101', program: 'BSIT', status: 'Pending' },
-  { name: 'Jonel Q. Wagas', id: '20222535841', program: 'BSIT', status: 'Pending' },
-  { name: 'Vincent G. Pahayat', id: '20220000001', program: 'BSIT', status: 'Pending' },
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', status: 'Pending' },
-  { name: 'Barbie O. Sayson', id: '20225551110', program: 'BSCRIM', status: 'Pending' },
-  { name: 'Jaymar A. Tuba', id: '202255584765', program: 'BSIT', status: 'Pending' },
-];
+import PendingStudentModal from './PendingStudentModal';
+import { getProgramAcronym } from '@/utils/handlePrograms';
+import { handleNames } from '@/utils/handleNames';
+import { useGetPendingStudents } from '@/queries/admin/useStudent';
+import authStore from '@/stores/auth-store';
+import { PendingStudent } from '@/types/admin/student-type';
 
 const TABLE_HEADINGS = ['Name', 'Student ID', 'Program', 'Status', 'Actions'];
 
-type Student = {
-  name: string;
-  id: string;
-  program: string;
-  status: string;
-};
-
 export default function Pending() {
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const user = authStore((state) => state.user);
+  const { data: pendingStudents = [], isLoading } = useGetPendingStudents(user!);
+  const [selectedStudent, setSelectedStudent] = useState<PendingStudent | null>(null);
   const [isViewPendingStudentModalOpen, setIsViewPendingStudentModalOpen] = useState(false);
 
-  const handleViewDetails = (student: Student) => {
+  const handleViewDetails = (student: PendingStudent) => {
     setSelectedStudent(student);
     setIsViewPendingStudentModalOpen(true);
   };
@@ -62,20 +37,34 @@ export default function Pending() {
           </div>
 
           {/* Table Body */}
-          <div className="min-w-full overflow-y-auto bg-white" style={{ maxHeight: '400px' }}>
-            {mockStudents.map((student, index) => (
+          <div className="min-h-[70vh] min-w-full overflow-y-auto bg-white">
+            {isLoading && (
+              <p className="p-4 text-center text-gray-500">Fetching pending students...</p>
+            )}
+            {!isLoading && pendingStudents.length === 0 && (
+              <p className="p-4 text-center text-gray-500">No pending students found.</p>
+            )}
+            {pendingStudents.map((student, index) => (
               <div
-                key={`${student.id}-${index}`}
+                key={student._id}
                 className={`grid grid-cols-6 gap-4 border-b border-gray-200 p-4 text-sm text-gray-700 transition-colors hover:bg-gray-50 ${
                   index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                 }`}
               >
-                <span className="col-span-2 flex items-center font-medium">{student.name}</span>
-                <span className="col-span-1 flex items-center">{student.id}</span>
-                <span className="col-span-1 flex items-center">{student.program}</span>
+                <span className="col-span-2 flex items-center font-medium">
+                  {handleNames({
+                    firstName: student.firstName,
+                    middleName: student.middleName,
+                    lastName: student.lastName,
+                  })}
+                </span>
+                <span className="col-span-1 flex items-center">{student.studentId}</span>
+                <span className="col-span-1 flex items-center">
+                  {getProgramAcronym(student.program)}
+                </span>
                 <span className="col-span-1 flex items-center">
                   <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800">
-                    {student.status}
+                    Pending
                   </span>
                 </span>
                 <span className="col-span-1 flex items-center">
@@ -94,21 +83,34 @@ export default function Pending() {
 
       {/* Mobile Card View */}
       <div className="h-[400px] space-y-4 overflow-y-auto md:hidden">
-        {mockStudents.map((student, index) => (
-          <div key={index} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        {isLoading && <p className="text-center text-gray-500">Fetching pending students...</p>}
+        {!isLoading && pendingStudents.length === 0 && (
+          <p className="text-center text-gray-500">No pending students found.</p>
+        )}
+        {pendingStudents.map((student) => (
+          <div
+            key={student._id}
+            className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+          >
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium text-gray-900">{student.name}</h3>
+                <h3 className="text-lg font-medium text-gray-900">
+                  {handleNames({
+                    firstName: student.firstName,
+                    middleName: student.middleName,
+                    lastName: student.lastName,
+                  })}
+                </h3>
                 <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800">
-                  {student.status}
+                  Pending
                 </span>
               </div>
               <div className="text-sm text-gray-700">
                 <p>
-                  <strong>Student ID:</strong> {student.id}
+                  <strong>Student ID:</strong> {student.studentId}
                 </p>
                 <p>
-                  <strong>Program:</strong> {student.program}
+                  <strong>Program:</strong> {getProgramAcronym(student.program)}
                 </p>
               </div>
               <div className="mt-4">
@@ -124,8 +126,11 @@ export default function Pending() {
         ))}
       </div>
 
-      {isViewPendingStudentModalOpen && (
-        <PendingStudent setIsOpen={setIsViewPendingStudentModalOpen} />
+      {isViewPendingStudentModalOpen && selectedStudent && (
+        <PendingStudentModal
+          setIsOpen={setIsViewPendingStudentModalOpen}
+          student={selectedStudent}
+        />
       )}
     </>
   );

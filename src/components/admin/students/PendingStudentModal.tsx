@@ -1,16 +1,7 @@
 import Modal from '@/layouts/Modal';
+import { PendingStudent } from '@/types/admin/student-type';
+import { handleDateFormat } from '@/utils/handleDates';
 import { X, Check, XCircle, Mail, User, Hash, GraduationCap, Calendar } from 'lucide-react';
-
-const studentData = {
-  firstName: 'Alvincent',
-  middleName: 'Fostanes',
-  lastName: 'Sangco',
-  studentId: '20221234565',
-  program: 'Bachelor of Information Technology',
-  email: 'alvincent.sangco@normi.edu.ph',
-  requestDate: 'January, 5 2025  9:00 AM',
-  status: 'Pending',
-};
 
 type InfoFieldProps = {
   icon: React.ReactNode;
@@ -31,9 +22,10 @@ const InfoField = ({ icon, label, value }: InfoFieldProps) => {
 
 type PendingStudentProps = {
   setIsOpen: (isOpen: boolean) => void;
+  student: PendingStudent;
 };
 
-export default function PendingStudent({ setIsOpen }: PendingStudentProps) {
+export default function PendingStudentModal({ setIsOpen, student }: PendingStudentProps) {
   return (
     <Modal>
       <div className="relative h-auto w-[90vw] max-w-2xl rounded-lg bg-white">
@@ -52,32 +44,24 @@ export default function PendingStudent({ setIsOpen }: PendingStudentProps) {
         <div className="h-[60vh] space-y-4 overflow-y-auto px-4 py-4 md:max-h-[75vh] md:px-8 md:py-6">
           {/* Personal Information */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <InfoField icon={<User size={18} />} label="First Name" value={studentData.firstName} />
-            <InfoField
-              icon={<User size={18} />}
-              label="Middle Name"
-              value={studentData.middleName}
-            />
-            <InfoField icon={<User size={18} />} label="Last Name" value={studentData.lastName} />
+            <InfoField icon={<User size={18} />} label="First Name" value={student.firstName} />
+            <InfoField icon={<User size={18} />} label="Middle Name" value={student.middleName} />
+            <InfoField icon={<User size={18} />} label="Last Name" value={student.lastName} />
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <InfoField icon={<Hash size={18} />} label="Student ID" value={studentData.studentId} />
+            <InfoField icon={<Hash size={18} />} label="Student ID" value={student.studentId} />
 
             <InfoField
               icon={<Calendar size={18} />}
               label="Request Date"
-              value={studentData.requestDate}
+              value={handleDateFormat(student.updatedAt)}
             />
           </div>
 
-          <InfoField icon={<Mail size={18} />} label="Email" value={studentData.email} />
+          <InfoField icon={<Mail size={18} />} label="Email" value={student.email} />
 
-          <InfoField
-            icon={<GraduationCap size={18} />}
-            label="Program"
-            value={studentData.program}
-          />
+          <InfoField icon={<GraduationCap size={18} />} label="Program" value={student.program} />
         </div>
 
         {/* Action Buttons */}

@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import AcceptedStudent from './AcceptedStudent';
+import AcceptedStudentModal from './AcceptedStudentModal';
+import { getProgramAcronym } from '@/utils/handlePrograms';
+import { handleNames } from '@/utils/handleNames';
+import { useGetAcceptedStudents } from '@/queries/admin/useStudent';
+import authStore from '@/stores/auth-store';
+import { AcceptedStudent } from '@/types/admin/student-type';
 
 const mockStudents = [
   { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', isOnline: true },
@@ -35,8 +40,8 @@ type Student = {
   isOnline: boolean;
 };
 
-const isOnlineStatus = (isOnline: boolean) => {
-  if (isOnline) {
+const isOnlineStatus = (isAuthenticated: boolean) => {
+  if (isAuthenticated) {
     return (
       <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
         Online
@@ -51,11 +56,13 @@ const isOnlineStatus = (isOnline: boolean) => {
   );
 };
 
-export default function Pending() {
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+export default function Accepted() {
+  const user = authStore((state) => state.user);
+  const { data: acceptedStudents = [], isLoading } = useGetAcceptedStudents(user!);
+  const [selectedStudent, setSelectedStudent] = useState<AcceptedStudent | null>(null);
   const [isViewPendingStudentModalOpen, setIsViewPendingStudentModalOpen] = useState(false);
 
-  const handleViewDetails = (student: Student) => {
+  const handleViewDetails = (student: AcceptedStudent) => {
     setSelectedStudent(student);
     setIsViewPendingStudentModalOpen(true);
   };
@@ -78,19 +85,33 @@ export default function Pending() {
           </div>
 
           {/* Table Body */}
-          <div className="min-w-full overflow-y-auto bg-white" style={{ maxHeight: '400px' }}>
-            {mockStudents.map((student, index) => (
+          <div className="min-h-[70vh] min-w-full overflow-y-auto bg-white">
+            {isLoading && (
+              <p className="p-4 text-center text-gray-500">Fetching accepted students...</p>
+            )}
+            {!isLoading && acceptedStudents.length === 0 && (
+              <p className="p-4 text-center text-gray-500">No accepted students found.</p>
+            )}
+            {acceptedStudents.map((student, index) => (
               <div
-                key={`${student.id}-${index}`}
+                key={student._id}
                 className={`grid grid-cols-6 gap-4 border-b border-gray-200 p-4 text-sm text-gray-700 transition-colors hover:bg-gray-50 ${
                   index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                 }`}
               >
-                <span className="col-span-2 flex items-center font-medium">{student.name}</span>
-                <span className="col-span-1 flex items-center">{student.id}</span>
-                <span className="col-span-1 flex items-center">{student.program}</span>
+                <span className="col-span-2 flex items-center font-medium">
+                  {handleNames({
+                    firstName: student.firstName,
+                    middleName: student.middleName,
+                    lastName: student.lastName,
+                  })}
+                </span>
+                <span className="col-span-1 flex items-center">{student.studentId}</span>
                 <span className="col-span-1 flex items-center">
-                  {isOnlineStatus(student.isOnline)}
+                  {getProgramAcronym(student.program)}
+                </span>
+                <span className="col-span-1 flex items-center">
+                  {isOnlineStatus(student.isAuthenticated)}
                 </span>
                 <span className="col-span-1 flex items-center">
                   <button
@@ -108,16 +129,31 @@ export default function Pending() {
 
       {/* Mobile Card View */}
       <div className="h-[400px] space-y-4 overflow-y-auto md:hidden">
-        {mockStudents.map((student, index) => (
-          <div key={index} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        {isLoading && (
+          <p className="p-4 text-center text-gray-500">Fetching accepted students...</p>
+        )}
+        {!isLoading && acceptedStudents.length === 0 && (
+          <p className="p-4 text-center text-gray-500">No accepted students found.</p>
+        )}
+        {acceptedStudents.map((student) => (
+          <div
+            key={student._id}
+            className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+          >
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium text-gray-900">{student.name}</h3>
-                {isOnlineStatus(student.isOnline)}
+                <h3 className="text-lg font-medium text-gray-900">
+                  {handleNames({
+                    firstName: student.firstName,
+                    middleName: student.middleName,
+                    lastName: student.lastName,
+                  })}
+                </h3>
+                {isOnlineStatus(student.isAuthenticated)}
               </div>
               <div className="text-sm text-gray-700">
                 <p>
-                  <strong>Student ID:</strong> {student.id}
+                  <strong>Student ID:</strong> {student.studentId}
                 </p>
                 <p>
                   <strong>Program:</strong> {student.program}
@@ -136,8 +172,11 @@ export default function Pending() {
         ))}
       </div>
 
-      {isViewPendingStudentModalOpen && (
-        <AcceptedStudent setIsOpen={setIsViewPendingStudentModalOpen} />
+      {isViewPendingStudentModalOpen && selectedStudent && (
+        <AcceptedStudentModal
+          setIsOpen={setIsViewPendingStudentModalOpen}
+          student={selectedStudent}
+        />
       )}
     </>
   );

@@ -1,7 +1,7 @@
 import { User } from '@/types/auth/auth-type';
 import { useQuery } from '@tanstack/react-query';
-import { DashboardStatsType } from '@/types/admin/dashboard-stat';
-import * as DashboardService from '@/services/admin/dashboard-stat';
+import { DashboardStatsType } from '@/types/admin/dashboard-stat-type';
+import * as DashboardService from '@/services/admin/dashboard-stat-service';
 export const useGetDashboardStat = (user: User) => {
   return useQuery<DashboardStatsType, Error>({
     queryKey: ['dashboard-stats', user],

@@ -1,4 +1,4 @@
-import { DashboardStatsType } from '@/types/admin/dashboard-stat';
+import { DashboardStatsType } from '@/types/admin/dashboard-stat-type';
 import axiosClient from '../../utils/axios';
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const BASE_URL = `${API_URL}/api/v1/admin`;

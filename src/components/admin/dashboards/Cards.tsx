@@ -1,4 +1,4 @@
-import { DashboardStatsType } from '@/types/admin/dashboard-stat';
+import { DashboardStatsType } from '@/types/admin/dashboard-stat-type';
 
 type CardProps = {
   dashboardStats: DashboardStatsType;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Search, Filter } from 'lucide-react';
 
-const OPTIONS = ['Name', 'Student ID', 'Program'];
+const OPTIONS = ['Name', 'Student ID'];
 
 type DropDownProps = {
   selectedOption: string;
@@ -70,7 +70,6 @@ export default function Navigation({
   setTableOption,
 }: TableControllerProps) {
   const [filterOption, setFilterOption] = useState(OPTIONS[0]);
-
   const [query, setQuery] = useState('');
 
   return (
