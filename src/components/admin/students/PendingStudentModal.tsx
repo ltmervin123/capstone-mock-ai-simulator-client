@@ -2,6 +2,8 @@ import Modal from '@/layouts/Modal';
 import { PendingStudent } from '@/types/admin/student-type';
 import { handleDateFormat } from '@/utils/handleDates';
 import { X, Check, XCircle, Mail, User, Hash, GraduationCap, Calendar } from 'lucide-react';
+import { useResolveStudentApplication } from '@/queries/admin/useStudent';
+import { useState } from 'react';
 
 type InfoFieldProps = {
   icon: React.ReactNode;
@@ -26,6 +28,20 @@ type PendingStudentProps = {
 };
 
 export default function PendingStudentModal({ setIsOpen, student }: PendingStudentProps) {
+  const [action, setAction] = useState<'ACCEPT' | 'REJECT' | null>(null);
+  const {
+    mutate: resolveStudentApplication,
+    isPending,
+    isError,
+  } = useResolveStudentApplication({
+    onSuccess: () => {
+      setIsOpen(false);
+    },
+    onError: () => {
+      setAction(null);
+    },
+  });
+
   return (
     <Modal>
       <div className="relative h-auto w-[90vw] max-w-2xl rounded-lg bg-white">
@@ -66,15 +82,34 @@ export default function PendingStudentModal({ setIsOpen, student }: PendingStude
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3 rounded-b-lg border-t border-gray-200 bg-gray-50 px-4 py-4 md:flex-row md:justify-end md:gap-4 md:px-6 md:py-4">
-          <button className="flex items-center justify-center gap-2 rounded-lg border-2 border-red-500 bg-white px-4 py-2 font-semibold text-red-600 shadow-sm transition-all hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto">
+          <button
+            className="flex items-center justify-center gap-2 rounded-lg border-2 border-red-500 bg-white px-4 py-2 font-semibold text-red-600 shadow-sm transition-all hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
+            disabled={isPending}
+            onClick={() => {
+              resolveStudentApplication({ id: student._id, action: 'REJECT' });
+              setAction('REJECT');
+            }}
+          >
             <XCircle size={20} />
-            Reject
+            {action === 'REJECT' ? 'Rejecting...' : 'Reject'}
           </button>
-          <button className="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-4 py-2 font-semibold text-white shadow-lg transition-all hover:from-green-600 hover:to-green-700 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto">
+          <button
+            className="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-4 py-2 font-semibold text-white shadow-lg transition-all hover:from-green-600 hover:to-green-700 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
+            disabled={isPending}
+            onClick={() => {
+              resolveStudentApplication({ id: student._id, action: 'ACCEPT' });
+              setAction('ACCEPT');
+            }}
+          >
             <Check size={20} />
-            Accept
+            {action === 'ACCEPT' ? 'Accepting...' : 'Accept'}
           </button>
         </div>
+        {isError && (
+          <div className="p-4 text-right text-sm text-red-600">
+            An error occurred while processing the request. Please try again.
+          </div>
+        )}
       </div>
     </Modal>
   );

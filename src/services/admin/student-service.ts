@@ -13,3 +13,11 @@ export async function getAcceptedStudents(): Promise<AcceptedStudent[]> {
   const response = await axiosClient.get(URL);
   return response.data.acceptedStudents;
 }
+
+export async function resolveStudentApplication(
+  id: string,
+  action: 'ACCEPT' | 'REJECT'
+): Promise<void> {
+  const URL = `${BASE_URL}/resolve-student-application`;
+  await axiosClient.put(URL, { id, action });
+}
