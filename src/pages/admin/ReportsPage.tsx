@@ -1,7 +1,8 @@
+import Index from '@/components/admin/reports/Index';
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
 import Navigation from '@/components/admin/navigations/Navigation';
-import Index from '@/components/admin/reports';
+
 export default function ReportsPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">
