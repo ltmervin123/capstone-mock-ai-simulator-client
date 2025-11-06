@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import AppHeader from '../../layouts/AppHeader';
-import Answer from '@/components/student/answer/Answer';
+import Answer from '@/components/student/answer/Index';
 import interviewStore from '@/stores/interview-store';
 
 export default function AnswerPage() {

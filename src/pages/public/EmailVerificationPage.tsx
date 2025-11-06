@@ -61,7 +61,7 @@ export default function EmailVerificationPage() {
       )}
       {isSuccess && (
         <Modal>
-          <div className="w-[550px] animate-[scaleIn_0.3s_ease-in-out] rounded-lg bg-white p-8">
+          {/* <div className="w-[550px] animate-[scaleIn_0.3s_ease-in-out] rounded-lg bg-white p-8">
             <div className="flex flex-col items-center space-y-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-green-600">
                 {SuccessIcon}
@@ -72,13 +72,42 @@ export default function EmailVerificationPage() {
                 <span className="font-bold text-green-700">
                   {(data?.data as ResponseData)?.email}
                 </span>{' '}
-                has been successfully verified.
+                has been successfully verified. Your account is under review by admin and you will
+                be notified once the review is complete.
               </p>
               <button
                 onClick={() => navigate('/login', { replace: true })}
                 className="mt-4 rounded-md bg-green-600 px-8 py-2 font-medium text-white hover:bg-green-700"
               >
                 Sign in
+              </button>
+            </div>
+          </div> */}
+
+          <div className="w-[550px] animate-[scaleIn_0.3s_ease-in-out] rounded-lg bg-white p-8">
+            <div className="flex flex-col items-center space-y-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-green-600">
+                {SuccessIcon}
+              </div>
+              <div className="space-y-2 text-center">
+                <h2 className="text-xl font-bold text-gray-900">Email Verified!</h2>
+                <p className="text-gray-700">
+                  Your email{' '}
+                  <span className="font-semibold text-green-700">
+                    {(data?.data as ResponseData)?.email}
+                  </span>{' '}
+                  has been successfully verified.
+                </p>
+                <p className="text-sm text-gray-600">
+                  Your account is now under admin review. We'll send you a notification once the
+                  review is complete.
+                </p>
+              </div>
+              <button
+                onClick={() => navigate('/', { replace: true })}
+                className="mt-4 rounded-md bg-green-600 px-8 py-2 font-medium text-white transition-colors hover:bg-green-700"
+              >
+                Got it!
               </button>
             </div>
           </div>

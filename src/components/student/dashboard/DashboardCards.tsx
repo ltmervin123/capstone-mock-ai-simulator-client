@@ -1,4 +1,4 @@
-import { interviewType } from '@/types/interview/interview-option-type';
+import { interviewType } from '@/types/student/interview-option-type';
 import { Button } from '../../ui/button';
 import { useNavigate } from 'react-router-dom';
 

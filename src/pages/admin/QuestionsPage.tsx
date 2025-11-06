@@ -1,7 +1,7 @@
-import Question from '@/components/admin/question/Question';
+import Index from '@/components/admin/questions/Index';
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
-import Navigation from '@/components/admin/navigation/Navigation';
+import Navigation from '@/components/admin/navigations/Navigation';
 export default function QuestionPage() {
   return (
     <div className="flex h-screen flex-col bg-green-50 font-inter">
@@ -13,7 +13,7 @@ export default function QuestionPage() {
         </div>
 
         <div className="flex-1 overflow-auto p-4">
-          <Question />
+          <Index />
         </div>
       </div>
     </div>

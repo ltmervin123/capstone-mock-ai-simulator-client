@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { IntervieweeOption } from '@/types/interview/interview-option-type';
+import { IntervieweeOption } from '@/types/student/interview-option-type';
 import useFetch from '@/hooks/shared/useFetch';
 import { textToSpeech } from '@/services/student/interview-service';
 

@@ -2,11 +2,11 @@ import {
   GenerateInterviewFeedbackPayload,
   type FollowUpQuestionParams,
   type GreetingParams,
-} from '@/types/interview/interview-option-type';
+} from '@/types/student/interview-option-type';
 import axiosClient from '../../utils/axios';
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const BASE_URL = `${API_URL}/api/v1/interview`;
-import { type SpeakParams } from '@/hooks/answer/useSpeak';
+import { type SpeakParams } from '@/hooks/student/answer/useSpeak';
 
 export async function textToSpeech(data: SpeakParams) {
   const URL = `${BASE_URL}/text-to-speech`;
