@@ -1,6 +1,6 @@
 import AppHeader from '../../layouts/AppHeader';
 import AppSidebar from '../../layouts/AppSidebar';
-import History from '../../components/student/history/History';
+import Index from '../../components/student/history/Index';
 import Navigation from '@/components/student/navigation/Navigation';
 export default function HistoryPage() {
   return (
@@ -13,7 +13,7 @@ export default function HistoryPage() {
         </div>
 
         <main className="flex-1 p-4">
-          <History />
+          <Index />
         </main>
       </div>
     </div>

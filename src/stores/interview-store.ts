@@ -2,7 +2,7 @@ import {
   InterviewConversation,
   InterviewOption,
   InterviewState,
-} from '@/types/interview/interview-option-type';
+} from '@/types/student/interview-option-type';
 import { create } from 'zustand';
 
 const interviewStore = create<InterviewState>((set) => ({

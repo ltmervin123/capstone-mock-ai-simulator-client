@@ -19,6 +19,7 @@ import StudentAnswerPage from './pages/student/AnswerPage';
 import AdminDashboardPage from './pages/admin/DashboardPage';
 import AdminUsersPage from './pages/admin/StudentPage';
 import AdminQuestionPage from './pages/admin/QuestionsPage';
+import AdminReportPage from './pages/admin/ReportsPage';
 
 // Middlewares
 import AuthCheck from './middlewares/AuthCheck';
@@ -50,6 +51,7 @@ const App: React.FC = () => {
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route path="/admin/students" element={<AdminUsersPage />} />
             <Route path="/admin/questions" element={<AdminQuestionPage />} />
+            <Route path="/admin/report" element={<AdminReportPage />} />
           </Route>
         </Route>
 
