@@ -1,4 +1,5 @@
 import Modal from '@/layouts/Modal';
+import { Trash2, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 type EditQuestionModalProps = {
@@ -85,16 +86,18 @@ export default function EditQuestionModal({ onClose }: EditQuestionModalProps) {
                     />
                     <button
                       onClick={() => setQuestions(questions.filter((_, i) => i !== index))}
-                      className="w-full rounded-lg bg-red-50 px-3 py-2 text-red-600 hover:bg-red-100 sm:w-auto"
+                     className="flex items-center gap-2 rounded-lg bg-red-50 px-4 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-100"
                     >
+                      <Trash2 size={16} />
                       Remove
                     </button>
                   </div>
                 ))}
                 <button
                   onClick={() => setQuestions([...questions, ''])}
-                  className="w-full rounded-lg bg-green-50 px-4 py-2 text-green-600 hover:bg-green-100 sm:w-auto"
+                  className="flex items-center gap-2 rounded-lg bg-green-50 px-4 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100"
                 >
+                  <Plus size={20} />
                   Add Question
                 </button>
               </div>
