@@ -59,10 +59,10 @@ export default function Navigation() {
         <Button
           asChild
           variant="ghost"
-          className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/interview') ? 'bg-green-200' : ''}`}
+          className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/user/interview') ? 'bg-green-200' : ''}`}
         >
           <Link to="/user/interview" className="flex items-center gap-2">
-            <InterviewSvg isActive={isLinkActive('/interview')} />
+            <InterviewSvg isActive={isLinkActive('/user/interview')} />
             <span
               className={`text-lg ${isLinkActive('/interview') ? 'text-green-500' : 'text-gray-500'}`}
             >
