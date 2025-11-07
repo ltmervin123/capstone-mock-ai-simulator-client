@@ -64,7 +64,7 @@ export default function Navigation() {
           <Link to="/user/interview" className="flex items-center gap-2">
             <InterviewSvg isActive={isLinkActive('/user/interview')} />
             <span
-              className={`text-lg ${isLinkActive('/interview') ? 'text-green-500' : 'text-gray-500'}`}
+              className={`text-lg ${isLinkActive('/user/interview') ? 'text-green-500' : 'text-gray-500'}`}
             >
               New Interview
             </span>
