@@ -7,6 +7,7 @@ export type ValidationErrors = {
   description?: string;
   category?: string;
   questions?: Record<number, string>;
+  numberOfQuestionToGenerate?: string;
 };
 
 export function validateBehavioralQuestionData(data: BehavioralQuestionFormData) {

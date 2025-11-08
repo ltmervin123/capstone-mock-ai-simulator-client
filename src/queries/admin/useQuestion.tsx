@@ -49,3 +49,10 @@ export const updateBehavioralQuestionNumberToBeAnswered = (options = {}, categor
     ...options,
   });
 };
+
+export const AddBehavioralQuestion = (options = {}) => {
+  return useMutation({
+    mutationFn: (data: BehavioralQuestionFormData) => QuestionService.addCategory(data),
+    ...options,
+  });
+};

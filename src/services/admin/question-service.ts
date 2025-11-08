@@ -36,3 +36,8 @@ export async function updateBehavioralQuestionNumberToBeAnswered(
   const URL = `${BASE_URL}/behavioral-category/number-of-question/${categoryId}/${numberOfQuestions}`;
   await axiosClient.put(URL);
 }
+
+export async function addCategory(payload: BehavioralQuestionFormData): Promise<void> {
+  const URL = `${BASE_URL}/behavioral-category`;
+  await axiosClient.post(URL, payload);
+}

@@ -7,7 +7,7 @@ import {
   ValidationErrors,
 } from '@/utils/validators/handle-questions-validator';
 import { Trash2, Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 type EditQuestionModalProps = {
@@ -42,6 +42,11 @@ export default function EditQuestionModal({ onClose, categoryId }: EditQuestionM
   const [questions, setQuestions] = useState(questionData?.questions);
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
+  const hasChanges =
+    category !== questionData?.category ||
+    description !== questionData?.description ||
+    JSON.stringify(questions) !== JSON.stringify(questionData?.questions);
+
   useEffect(() => {
     if (questionData) {
       setCategory(questionData?.category);
@@ -69,6 +74,18 @@ export default function EditQuestionModal({ onClose, categoryId }: EditQuestionM
       description: description!,
       questions: questions!,
     });
+  };
+
+  const handleQuestionChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValidationErrors = { ...validationErrors };
+    if (newValidationErrors.questions) {setQuestions
+      const { [index]: _, ...rest } = newValidationErrors.questions;
+      newValidationErrors.questions = rest;
+    }
+    setValidationErrors(newValidationErrors);
+    const newQuestions = [...questions!];
+    newQuestions[index] = e.target.value;
+    setQuestions(newQuestions);
   };
 
   if (isPending) {
@@ -117,7 +134,10 @@ export default function EditQuestionModal({ onClose, categoryId }: EditQuestionM
                 <input
                   type="text"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => {
+                    setValidationErrors({ ...validationErrors, category: undefined });
+                    setCategory(e.target.value);
+                  }}
                   className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
                 />
                 {validationErrors.category && (
@@ -129,7 +149,10 @@ export default function EditQuestionModal({ onClose, categoryId }: EditQuestionM
                 <label className="block text-sm font-medium text-gray-700">Description</label>
                 <textarea
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    setValidationErrors({ ...validationErrors, description: undefined });
+                    setDescription(e.target.value);
+                  }}
                   rows={3}
                   className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
                 />
@@ -148,11 +171,7 @@ export default function EditQuestionModal({ onClose, categoryId }: EditQuestionM
                           <input
                             type="text"
                             value={q}
-                            onChange={(e) => {
-                              const newQuestions = [...questions];
-                              newQuestions[index] = e.target.value;
-                              setQuestions(newQuestions);
-                            }}
+                            onChange={(e) => handleQuestionChange(index, e)}
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
                           />
                         </div>
@@ -198,7 +217,7 @@ export default function EditQuestionModal({ onClose, categoryId }: EditQuestionM
           <button
             onClick={handleSave}
             className="flex-1 rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-4 py-2 font-semibold text-white transition-all hover:from-green-600 hover:to-green-700 disabled:opacity-50"
-            disabled={isUpdating}
+            disabled={isUpdating || !hasChanges}
           >
             {isUpdating ? 'Saving changes...' : 'Save Changes'}
           </button>
