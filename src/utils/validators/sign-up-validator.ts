@@ -1,4 +1,4 @@
-import { signupSchema, SignupFormData } from '../../zod-schemas/sign-up-zod-schema';
+import { signupSchema, SignupFormData } from '../../zod-schemas/public/sign-up-zod-schema';
 
 export type ValidationErrors = {
   firstName?: string;

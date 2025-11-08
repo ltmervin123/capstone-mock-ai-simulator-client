@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { validateSignUpData, ValidationErrors } from '../../utils/validators/sign-up-validator';
-import { SignupFormData } from '../../zod-schemas/sign-up-zod-schema';
+import { SignupFormData } from '../../zod-schemas/public/sign-up-zod-schema';
 import { AxiosError } from 'axios';
 import { ResponseErrorType } from '@/types/shared/response-type';
 import { signup } from '@/services/auth/auth-service';

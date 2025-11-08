@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SigninPayload as SigninPayloadType } from '@/zod-schemas/sign-in-zod-schema';
+import { SigninPayload as SigninPayloadType } from '@/zod-schemas/public/sign-in-zod-schema';
 import { AxiosError } from 'axios';
 import { ResponseErrorType } from '@/types/shared/response-type';
 import authStore from '@/stores/auth-store';
