@@ -1,7 +1,7 @@
 import Spinner from '@/components/ui/spinner';
 import Modal from '@/layouts/Modal';
 import { useGetBehavioralCategory, useUpdateBehavioralCategory } from '@/queries/admin/useQuestion';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import {
   validateBehavioralQuestionData,
   ValidationErrors,
@@ -78,7 +78,8 @@ export default function EditQuestionModal({ onClose, categoryId }: EditQuestionM
 
   const handleQuestionChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const newValidationErrors = { ...validationErrors };
-    if (newValidationErrors.questions) {setQuestions
+    if (newValidationErrors.questions) {
+      setQuestions;
       const { [index]: _, ...rest } = newValidationErrors.questions;
       newValidationErrors.questions = rest;
     }

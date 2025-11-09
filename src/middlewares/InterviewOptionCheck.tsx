@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 export default function InterviewOptionCheck() {
   const interviewOption = interviewStore((state) => state.interviewOption);
 

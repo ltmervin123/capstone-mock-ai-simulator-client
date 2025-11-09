@@ -1,6 +1,6 @@
 import { Video } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 
 type PreviewSectionProps = {
   isRecording: boolean;

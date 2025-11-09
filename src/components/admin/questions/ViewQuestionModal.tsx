@@ -1,7 +1,7 @@
 import Modal from '@/layouts/Modal';
 import { X } from 'lucide-react';
 import { useGetBehavioralCategory } from '@/queries/admin/useQuestion';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import Spinner from '@/components/ui/spinner';
 type ViewQuestionModalProps = {
   onClose: () => void;

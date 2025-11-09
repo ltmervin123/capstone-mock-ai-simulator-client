@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SigninPayload as SigninPayloadType } from '@/zod-schemas/public/sign-in-zod-schema';
 import { AxiosError } from 'axios';
 import { ResponseErrorType } from '@/types/shared/response-type';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { User } from '@/types/auth/auth-type';
 import { validateSignInData, ValidationErrors } from '@/utils/validators/sign-in-validator';
 import { signin } from '@/services/auth/auth-service';

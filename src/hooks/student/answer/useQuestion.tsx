@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 import { useBasicInterviewFollowUpQuestions } from '@/queries/student/useInterview';
 import { useGetBehavioralQuestion } from '@/queries/student/useBehavioralQuestion';
 import { InterviewConversation } from '@/types/student/interview-option-type';

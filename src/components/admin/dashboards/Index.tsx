@@ -2,7 +2,7 @@ import Cards from './Cards';
 import Header from './Header';
 import RecentActivity from './RecentActivity';
 import StudentBarChart from './StudentBarChart';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { useGetDashboardStat } from '@/queries/admin/useDashboardStat';
 export default function Index() {
   const user = authStore((state) => state.user);

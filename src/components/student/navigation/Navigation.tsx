@@ -4,7 +4,7 @@ import InterviewSvg from '@/assets/svg-components/InterviewSvg';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/shared/useMobile';
 import { useGetUnViewedInterviewCount } from '@/queries/student/useNotification';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { BookOpen, Settings } from 'lucide-react';
 import ConfigModal from './ConfigModal';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { useGetQuestionConfigs, useUpdateQuestionConfig } from '@/queries/admin/useQuestion';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQueryClient } from '@tanstack/react-query';

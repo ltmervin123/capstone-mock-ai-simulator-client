@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import AddCategoryModal from './AddQuestion';
 import QuestionCard from './QuestionCard';
 import { useGetBehavioralCategories } from '@/queries/admin/useQuestion';

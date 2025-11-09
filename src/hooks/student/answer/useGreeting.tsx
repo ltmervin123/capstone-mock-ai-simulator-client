@@ -1,6 +1,6 @@
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 import { useState } from 'react';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 
 const greetings = [
   "Hello [candidate], I'm [interviewer], your interviewer today. How has your day been so far?",
