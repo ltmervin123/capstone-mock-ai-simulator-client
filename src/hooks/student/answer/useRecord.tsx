@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import socketStore from '@/stores/socket-io-store';
-import interviewStore from '@/stores/interview-store';
+import socketStore from '@/stores/public/socket-io-store';
+import interviewStore from '@/stores/student/interview-store';
 export default function useRecord() {
   const socket = socketStore((state) => state.socket);
   const emitEvent = socketStore((state) => state.emitEvent);

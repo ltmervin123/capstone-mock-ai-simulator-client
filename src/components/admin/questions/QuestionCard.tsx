@@ -4,6 +4,8 @@ import ConfigModal from './ConfigModal';
 import DeleteQuestionModal from './DeleteQuestionModal';
 import EditQuestionModal from './EditQuestionModal';
 import ViewQuestionModal from './ViewQuestionModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { useUpdateBehavioralQuestionNumberToBeAnswered } from '@/queries/admin/useQuestion';
 
 type QuestionCardProps = {
   _id: string;
@@ -20,17 +22,20 @@ export default function QuestionCard({
   questionCount,
   numberOfQuestionToGenerate,
 }: QuestionCardProps) {
+  const queryClient = useQueryClient();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isShowConfig, setIsShowConfig] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isViewing, setIsViewing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [maxQuestions, setMaxQuestions] = useState(numberOfQuestionToGenerate);
 
-  const handleSaveConfig = (newMax: number) => {
-    setMaxQuestions(newMax);
-    console.log('Updated number of questions to generate to:', newMax);
-  };
+  const { mutate: updateMaxQuestions, isPending: isUpdating } =
+    useUpdateBehavioralQuestionNumberToBeAnswered({
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['behavioral-categories'] });
+        setIsShowConfig(false);
+      },
+    });
 
   return (
     <>
@@ -44,7 +49,7 @@ export default function QuestionCard({
                   {questionCount} Questions
                 </span>
                 <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                  Max: {maxQuestions} per interview
+                  Max: {numberOfQuestionToGenerate} per interview
                 </span>
               </div>
             </div>
@@ -113,12 +118,22 @@ export default function QuestionCard({
         <ConfigModal
           category={category}
           onClose={() => setIsShowConfig(false)}
-          initialValue={maxQuestions}
+          initialValue={numberOfQuestionToGenerate}
+          onSave={(value) =>
+            updateMaxQuestions({ numberOfQuestionToGenerate: value, categoryId: _id })
+          }
+          isLoading={isUpdating}
         />
       )}
-      {isEditing && <EditQuestionModal onClose={() => setIsEditing(false)} />}
-      {isViewing && <ViewQuestionModal onClose={() => setIsViewing(false)} />}
-      {isDeleting && <DeleteQuestionModal onClose={() => setIsDeleting(false)} />}
+      {isEditing && <EditQuestionModal onClose={() => setIsEditing(false)} categoryId={_id} />}
+      {isViewing && <ViewQuestionModal onClose={() => setIsViewing(false)} categoryId={_id} />}
+      {isDeleting && (
+        <DeleteQuestionModal
+          onClose={() => setIsDeleting(false)}
+          categoryId={_id}
+          category={category}
+        />
+      )}
     </>
   );
 }

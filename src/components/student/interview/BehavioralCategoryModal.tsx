@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import { useGetBehavioralCategory } from '@/queries/student/useBehavioralQuestion';
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 
 export interface BehavioralCategoryProps {
   isOpen: boolean;

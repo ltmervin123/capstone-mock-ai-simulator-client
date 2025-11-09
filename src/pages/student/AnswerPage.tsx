@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import AppHeader from '../../layouts/AppHeader';
 import Answer from '@/components/student/answer/Index';
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 
 export default function AnswerPage() {
   const clearInterviewStore = interviewStore((state) => state.clearInterviewStore);

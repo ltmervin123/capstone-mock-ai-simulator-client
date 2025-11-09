@@ -4,7 +4,7 @@ import InterviewSvg from '@/assets/svg-components/InterviewSvg';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/shared/useMobile';
 import { useGetUnViewedInterviewCount } from '@/queries/student/useNotification';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -59,12 +59,12 @@ export default function Navigation() {
         <Button
           asChild
           variant="ghost"
-          className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/interview') ? 'bg-green-200' : ''}`}
+          className={`w-full justify-start hover:bg-green-200 ${isLinkActive('/user/interview') ? 'bg-green-200' : ''}`}
         >
           <Link to="/user/interview" className="flex items-center gap-2">
-            <InterviewSvg isActive={isLinkActive('/interview')} />
+            <InterviewSvg isActive={isLinkActive('/user/interview')} />
             <span
-              className={`text-lg ${isLinkActive('/interview') ? 'text-green-500' : 'text-gray-500'}`}
+              className={`text-lg ${isLinkActive('/user/interview') ? 'text-green-500' : 'text-gray-500'}`}
             >
               New Interview
             </span>

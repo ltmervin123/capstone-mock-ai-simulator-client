@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { X, Upload } from 'lucide-react';
 import { useExpertInterview } from '@/queries/student/useInterview';
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 
 interface ResumeUploadProps {
   isOpen: boolean;

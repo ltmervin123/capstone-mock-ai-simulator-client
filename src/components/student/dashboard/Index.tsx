@@ -3,7 +3,7 @@ import DashboardCards from './DashboardCards';
 import DashboardLineChart from './DashboardLineChart';
 import DashboardStat from './DashboardStat';
 import DashBoardSkeleton from './Dashboardkeleton';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { useGetUserDashboardStats } from '@/queries/student/useDashboard';
 
 export default function Index() {

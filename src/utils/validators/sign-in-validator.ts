@@ -1,7 +1,7 @@
 import {
   type SigninPayload as SigninPayloadType,
   signinSchema,
-} from '@/zod-schemas/sign-in-zod-schema';
+} from '@/zod-schemas/public/sign-in-zod-schema';
 
 export type ValidationErrors = {
   email?: string;

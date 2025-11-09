@@ -2,7 +2,7 @@ import { InterviewType } from '@/types/shared/interview-type';
 import HistoryCard from './HistoryCard';
 import { useState } from 'react';
 import InterviewDetail from './InterviewDetailModal';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { useGetInterviewHistory } from '@/queries/student/useInterviewHistory';
 
 export default function HistoryTableSection() {

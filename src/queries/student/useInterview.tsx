@@ -3,11 +3,9 @@ import * as InterviewService from '@/services/student/interview-service';
 import {
   FollowUpQuestionParams,
   GenerateInterviewFeedbackPayload,
-  InterviewClientDocument,
-  InterviewHistory,
   type GreetingParams,
 } from '@/types/student/interview-option-type';
-import { User } from '@/types/auth/auth-type';
+
 export const useGreetingResponse = (options = {}) => {
   return useMutation({
     mutationFn: (data: GreetingParams) => InterviewService.greetingResponse(data),

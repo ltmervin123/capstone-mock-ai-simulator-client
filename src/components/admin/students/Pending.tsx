@@ -3,7 +3,7 @@ import PendingStudentModal from './PendingStudentModal';
 import { getProgramAcronym } from '@/utils/handlePrograms';
 import { handleNames } from '@/utils/handleNames';
 import { useGetPendingStudents } from '@/queries/admin/useStudent';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { PendingStudent } from '@/types/admin/student-type';
 
 const TABLE_HEADINGS = ['Name', 'Student ID', 'Program', 'Status', 'Actions'];
