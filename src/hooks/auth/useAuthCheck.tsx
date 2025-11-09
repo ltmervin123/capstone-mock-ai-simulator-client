@@ -1,5 +1,5 @@
 import { verifySession } from '@/services/auth/auth-service';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 

@@ -7,7 +7,7 @@ import BehavioralCategory from './BehavioralCategoryModal';
 import ResumeUpload from './ResumeUploadModal';
 import { InterviewType } from '@/types/shared/interview-type';
 import { useNavigate } from 'react-router-dom';
-import interviewStore from '@/stores/interview-store';
+import interviewStore from '@/stores/student/interview-store';
 
 const INTERVIEW_CARDS = [
   {

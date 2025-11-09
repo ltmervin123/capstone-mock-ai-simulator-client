@@ -3,7 +3,7 @@ import AcceptedStudentModal from './AcceptedStudentModal';
 import { getProgramAcronym } from '@/utils/handlePrograms';
 import { handleNames } from '@/utils/handleNames';
 import { useGetAcceptedStudents } from '@/queries/admin/useStudent';
-import authStore from '@/stores/auth-store';
+import authStore from '@/stores/public/auth-store';
 import { AcceptedStudent } from '@/types/admin/student-type';
 
 const mockStudents = [

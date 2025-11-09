@@ -15,3 +15,12 @@ export const PROGRAM_ACRONYMS = {
   'Bachelor of Science in Education': 'BSED',
   'Bachelor of Elementary Education': 'BEED',
 };
+
+export const PROGRAM_FULL_NAMES = {
+  BSBA: 'Bachelor of Science in Business Administration',
+  BSIT: 'Bachelor of Science in Information Technology',
+  BSCrim: 'Bachelor of Science in Criminology',
+  BSHM: 'Bachelor of Science in Hospitality Management',
+  BSED: 'Bachelor of Science in Education',
+  BEED: 'Bachelor of Elementary Education',
+};
