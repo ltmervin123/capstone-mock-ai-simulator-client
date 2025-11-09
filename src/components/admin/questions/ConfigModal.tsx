@@ -1,32 +1,20 @@
 import Modal from '@/layouts/Modal';
 import { useState } from 'react';
-import { updateBehavioralQuestionNumberToBeAnswered } from '@/queries/admin/useQuestion';
-import { useQueryClient } from '@tanstack/react-query';
 type ConfigModalProps = {
   category: string;
   onClose: () => void;
   initialValue: number;
-  categoryId: string;
+  onSave: (value: number) => void;
+  isLoading: boolean;
 };
 export default function ConfigModal({
   category,
   onClose,
   initialValue,
-  categoryId,
+  isLoading,
+  onSave,
 }: ConfigModalProps) {
-  const queryClient = useQueryClient();
-  const { mutate: updateMaxQuestions, isPending: isUpdating } =
-    updateBehavioralQuestionNumberToBeAnswered(
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['behavioral-categories'] });
-          onClose();
-        },
-      },
-      categoryId
-    );
-  const [maxQuestions, setMaxQuestions] = useState(initialValue);
-
+  const [numberOfQuestions, setNumberOfQuestions] = useState(initialValue);
   return (
     <Modal>
       <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
@@ -42,8 +30,8 @@ export default function ConfigModal({
           <input
             type="number"
             min="5"
-            value={maxQuestions}
-            onChange={(e) => setMaxQuestions(parseInt(e.target.value) || 5)}
+            value={numberOfQuestions}
+            onChange={(e) => setNumberOfQuestions(parseInt(e.target.value) || 5)}
             className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
           />
           <p className="mt-2 text-xs text-gray-500">
@@ -55,16 +43,16 @@ export default function ConfigModal({
           <button
             onClick={onClose}
             className="flex-1 rounded-lg border-2 border-gray-300 bg-white px-4 py-2 font-semibold text-gray-700 transition-all hover:bg-gray-50 disabled:opacity-50"
-            disabled={isUpdating}
+            disabled={isLoading}
           >
             Cancel
           </button>
           <button
-            onClick={() => updateMaxQuestions(maxQuestions)}
+            onClick={() => onSave(numberOfQuestions)}
             className="flex-1 rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-4 py-2 font-semibold text-white transition-all hover:from-green-600 hover:to-green-700 disabled:opacity-50"
-            disabled={isUpdating}
+            disabled={isLoading}
           >
-            {isUpdating ? 'Saving...' : 'Save'}
+            {isLoading ? 'Saving...' : 'Save'}
           </button>
         </div>
       </div>

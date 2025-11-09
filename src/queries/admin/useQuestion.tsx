@@ -1,7 +1,11 @@
 import { User } from '@/types/auth/auth-type';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import * as QuestionService from '@/services/admin/question-service';
-import { BehavioralCategory, BehavioralQuestionData } from '@/types/admin/question-type';
+import {
+  BehavioralCategory,
+  BehavioralQuestionData,
+  QuestionConfig,
+} from '@/types/admin/question-type';
 import { BehavioralQuestionFormData } from '@/zod-schemas/admin/question-zod-schema';
 
 export const useGetBehavioralCategories = (user: User) => {
@@ -39,9 +43,15 @@ export const useDeleteBehavioralCategory = (options = {}, categoryId: string) =>
   });
 };
 
-export const updateBehavioralQuestionNumberToBeAnswered = (options = {}, categoryId: string) => {
+export const useUpdateBehavioralQuestionNumberToBeAnswered = (options = {}) => {
   return useMutation({
-    mutationFn: (numberOfQuestionToGenerate: number) =>
+    mutationFn: ({
+      categoryId,
+      numberOfQuestionToGenerate,
+    }: {
+      numberOfQuestionToGenerate: number;
+      categoryId: string;
+    }) =>
       QuestionService.updateBehavioralQuestionNumberToBeAnswered(
         categoryId,
         numberOfQuestionToGenerate
@@ -53,6 +63,29 @@ export const updateBehavioralQuestionNumberToBeAnswered = (options = {}, categor
 export const AddBehavioralQuestion = (options = {}) => {
   return useMutation({
     mutationFn: (data: BehavioralQuestionFormData) => QuestionService.addCategory(data),
+    ...options,
+  });
+};
+
+export const useGetQuestionConfigs = (user: User) => {
+  return useQuery<QuestionConfig[], Error>({
+    queryKey: ['question-config', user],
+    queryFn: () => QuestionService.getQuestionConfigs(),
+    enabled: !!user,
+    staleTime: 10 * 60 * 1000,
+    refetchInterval: 10 * 60 * 1000,
+  });
+};
+
+export const useUpdateQuestionConfig = (options = {}) => {
+  return useMutation({
+    mutationFn: ({
+      id,
+      numberOfQuestionToGenerate,
+    }: {
+      numberOfQuestionToGenerate: number;
+      id: string;
+    }) => QuestionService.updateQuestionConfig(id, numberOfQuestionToGenerate),
     ...options,
   });
 };

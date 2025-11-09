@@ -12,3 +12,9 @@ export type BehavioralQuestionData = {
   description: string;
   questions: string[];
 };
+
+export type QuestionConfig = {
+  _id: string;
+  type: 'BASIC' | 'BEHAVIORAL' | 'EXPERT';
+  numberOfQuestionToGenerate: number;
+};

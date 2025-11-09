@@ -1,4 +1,8 @@
-import { BehavioralCategory, BehavioralQuestionData } from '@/types/admin/question-type';
+import {
+  BehavioralCategory,
+  BehavioralQuestionData,
+  QuestionConfig,
+} from '@/types/admin/question-type';
 import axiosClient from '../../utils/axios';
 import { BehavioralQuestionFormData } from '@/zod-schemas/admin/question-zod-schema';
 const API_URL = import.meta.env.VITE_APP_API_URL;
@@ -40,4 +44,16 @@ export async function updateBehavioralQuestionNumberToBeAnswered(
 export async function addCategory(payload: BehavioralQuestionFormData): Promise<void> {
   const URL = `${BASE_URL}/behavioral-category`;
   await axiosClient.post(URL, payload);
+  1;
+}
+
+export async function getQuestionConfigs(): Promise<QuestionConfig[]> {
+  const URL = `${BASE_URL}/question-config`;
+  const response = await axiosClient.get(URL);
+  return response.data.questionConfigs;
+}
+
+export async function updateQuestionConfig(id: string, numberOfQuestions: number): Promise<void> {
+  const URL = `${BASE_URL}/question-config/${id}/${numberOfQuestions}`;
+  await axiosClient.put(URL);
 }

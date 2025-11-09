@@ -4,6 +4,8 @@ import ConfigModal from './ConfigModal';
 import DeleteQuestionModal from './DeleteQuestionModal';
 import EditQuestionModal from './EditQuestionModal';
 import ViewQuestionModal from './ViewQuestionModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { useUpdateBehavioralQuestionNumberToBeAnswered } from '@/queries/admin/useQuestion';
 
 type QuestionCardProps = {
   _id: string;
@@ -20,11 +22,20 @@ export default function QuestionCard({
   questionCount,
   numberOfQuestionToGenerate,
 }: QuestionCardProps) {
+  const queryClient = useQueryClient();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isShowConfig, setIsShowConfig] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isViewing, setIsViewing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const { mutate: updateMaxQuestions, isPending: isUpdating } =
+    useUpdateBehavioralQuestionNumberToBeAnswered({
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['behavioral-categories'] });
+        setIsShowConfig(false);
+      },
+    });
 
   return (
     <>
@@ -108,7 +119,10 @@ export default function QuestionCard({
           category={category}
           onClose={() => setIsShowConfig(false)}
           initialValue={numberOfQuestionToGenerate}
-          categoryId={_id}
+          onSave={(value) =>
+            updateMaxQuestions({ numberOfQuestionToGenerate: value, categoryId: _id })
+          }
+          isLoading={isUpdating}
         />
       )}
       {isEditing && <EditQuestionModal onClose={() => setIsEditing(false)} categoryId={_id} />}
