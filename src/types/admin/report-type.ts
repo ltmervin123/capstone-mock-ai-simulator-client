@@ -1,3 +1,5 @@
+import { InterviewClientDocument } from '../student/interview-option-type';
+
 export type InterviewFilterParams = {
   program?:
     | 'Bachelor of Science in Business Administration'
@@ -46,4 +48,15 @@ export type FilterOptionState = {
     dateFrom?: string;
     dateTo?: string;
   }) => void;
+};
+
+export type InterviewAdminReportDocument = Pick<
+  InterviewClientDocument,
+  'interviewType' | 'duration' | 'numberOfQuestions' | 'scores' | 'feedbacks' | 'createdAt'
+> & {
+  student: {
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
 };

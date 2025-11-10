@@ -1,4 +1,5 @@
-import { TrendingUp, TrendingDown, Minus, MessageCircle } from 'lucide-react';
+import { getFillerCountColor, getProgressColor, getScoreColor, getTrendIcon } from '@/utils/handle-color-metrics';
+import {  MessageCircle } from 'lucide-react';
 type InterviewScoresProps = {
   scores: {
     grammar: number;
@@ -22,29 +23,6 @@ export default function InterviewScores({ scores }: InterviewScoresProps) {
 
   const overallScore = scores.totalScore;
 
-  const getScoreColor = (percentage: number) => {
-    if (percentage >= 75) return 'text-green-600';
-    if (percentage >= 50) return 'text-yellow-600';
-    return 'text-red-600';
-  };
-
-  const getProgressColor = (percentage: number) => {
-    if (percentage >= 75) return 'bg-green-500';
-    if (percentage >= 50) return 'bg-yellow-500';
-    return 'bg-red-500';
-  };
-
-  const getTrendIcon = (percentage: number) => {
-    if (percentage >= 75) return TrendingUp;
-    if (percentage >= 50) return Minus;
-    return TrendingDown;
-  };
-
-  const getFillerCountColor = (count: number) => {
-    if (count <= 5) return 'text-green-600 bg-green-100';
-    if (count <= 12) return 'text-yellow-600 bg-yellow-100';
-    return 'text-red-600 bg-red-100';
-  };
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6">

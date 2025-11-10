@@ -2,7 +2,7 @@ import Modal from '@/layouts/Modal';
 import { Calendar, GraduationCap, Hash, Mail, User, X } from 'lucide-react';
 import InfoField from './InfoField';
 import { AcceptedStudent } from '@/types/admin/student-type';
-import { handleDateFormat } from '@/utils/handleDates';
+import { handleDateFormat } from '@/utils/handle-dates';
 
 type AcceptedStudentProps = {
   setIsOpen: (isOpen: boolean) => void;
@@ -42,11 +42,7 @@ export default function AcceptedStudentModal({ setIsOpen, student }: AcceptedStu
 
           <InfoField icon={<Mail size={18} />} label="Email" value={student.email} />
 
-          <InfoField
-            icon={<GraduationCap size={18} />}
-            label="Program"
-            value={student.program}
-          />
+          <InfoField icon={<GraduationCap size={18} />} label="Program" value={student.program} />
         </div>
       </div>
     </Modal>

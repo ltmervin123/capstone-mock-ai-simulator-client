@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Eye, Printer, FileSpreadsheet } from 'lucide-react';
 import ResultSummaryModal from './ResultSummaryModal';
 import { InterviewFilterParams, InterviewPreview } from '@/types/admin/report-type';
-import { handleDateFormat } from '@/utils/handleDates';
-import { getProgramAcronym } from '@/utils/handlePrograms';
+import { handleDateFormat } from '@/utils/handle-dates';
+import { getProgramAcronym } from '@/utils/handle-programs';
 import authStore from '@/stores/public/auth-store';
 import { useGetInterviews } from '@/queries/admin/useReport';
 import filterOptionStore from '@/stores/admin/report-filter-option-store';
@@ -85,7 +85,12 @@ export default function ResultsTable() {
           </table>
         </div>
       </div>
-      {selectedResult && <ResultSummaryModal onClose={() => setSelectedResult(null)} />}
+      {selectedResult?._id && (
+        <ResultSummaryModal
+          onClose={() => setSelectedResult(null)}
+          interviewId={selectedResult._id}
+        />
+      )}
     </div>
   );
 }

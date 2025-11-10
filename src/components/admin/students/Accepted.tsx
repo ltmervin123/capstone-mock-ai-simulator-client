@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AcceptedStudentModal from './AcceptedStudentModal';
-import { getProgramAcronym } from '@/utils/handlePrograms';
-import { handleNames } from '@/utils/handleNames';
+import { getProgramAcronym } from '@/utils/handle-programs';
+import { handleNames } from '@/utils/handle-names';
 import { useGetAcceptedStudents } from '@/queries/admin/useStudent';
 import authStore from '@/stores/public/auth-store';
 import { AcceptedStudent } from '@/types/admin/student-type';
