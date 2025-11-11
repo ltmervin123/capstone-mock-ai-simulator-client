@@ -1,4 +1,5 @@
 import { DashboardStatsType } from '@/types/admin/dashboard-stat-type';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type CardProps = {
   dashboardStats: DashboardStatsType;
@@ -10,21 +11,22 @@ export default function Cards({ dashboardStats, isLoading }: CardProps) {
     return (
       <section className="rounded-md bg-emerald-50" aria-label="dashboard summary">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <article className="flex min-h-[110px] animate-pulse flex-col justify-center rounded-lg bg-white p-6 shadow-sm">
-            <div className="mb-4 h-6 w-1/2 rounded bg-gray-200"></div>
-            <div className="mb-4 h-8 w-1/3 rounded bg-gray-200"></div>
-            <div className="h-4 w-1/4 rounded bg-gray-200"></div>
+          <article className="flex min-h-[110px] flex-col justify-center rounded-lg bg-white p-6 shadow-sm">
+            <h3 className="text-sm font-semibold text-gray-800">Total Registered Students</h3>
+            <Skeleton className="mb-4 mt-2 h-8 w-1/3" />
+            <Skeleton className="h-4 w-1/4" />
           </article>
 
-          <article className="flex min-h-[110px] animate-pulse flex-col justify-center rounded-lg bg-white p-6 shadow-sm">
-            <div className="mb-4 h-6 w-1/2 rounded bg-gray-200"></div>
-            <div className="mb-4 h-8 w-1/3 rounded bg-gray-200"></div>
-            <div className="h-4 w-1/4 rounded bg-gray-200"></div>
+          <article className="flex min-h-[110px] flex-col justify-center rounded-lg bg-white p-6 shadow-sm">
+            <h3 className="text-sm font-semibold text-gray-800">Pending Verification</h3>
+            <Skeleton className="mb-4 mt-2 h-8 w-1/3" />
+            <Skeleton className="h-4 w-1/4" />
           </article>
 
-          <article className="flex min-h-[110px] animate-pulse flex-col justify-center rounded-lg bg-white p-6 shadow-sm">
-            <div className="mb-4 h-6 w-1/2 rounded bg-gray-200"></div>
-            <div className="mb-4 h-8 w-1/3 rounded bg-gray-200"></div>
+          <article className="flex min-h-[110px] flex-col justify-center rounded-lg bg-white p-6 shadow-sm">
+            <h3 className="text-sm font-semibold text-gray-800">Online Students</h3>
+            <Skeleton className="mt-2 h-8 w-1/3" />
+            <div className="mt-6 text-sm text-gray-500">&nbsp;</div>
           </article>
         </div>
       </section>
@@ -65,7 +67,7 @@ export default function Cards({ dashboardStats, isLoading }: CardProps) {
           <div className="mt-2 text-3xl font-extrabold leading-none text-black">
             {dashboardStats.authenticatedStudents}
           </div>
-          <div className="mt-3 text-sm text-gray-500">&nbsp;</div>
+          <div className="mt-6 text-sm text-gray-500">&nbsp;</div>
         </article>
       </div>
     </section>

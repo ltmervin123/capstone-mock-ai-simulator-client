@@ -1,6 +1,6 @@
 import Cards from './Cards';
 import Header from './Header';
-import RecentActivity from './RecentActivity';
+import TopStudents from './TopStudents';
 import StudentBarChart from './StudentBarChart';
 import authStore from '@/stores/public/auth-store';
 import { useGetDashboardStat } from '@/queries/admin/useDashboardStat';
@@ -22,7 +22,7 @@ export default function Index() {
       <Header />
       <Cards dashboardStats={dashboardStats} isLoading={isLoading} />
       <div className="grid gap-6 lg:grid-cols-2 lg:grid-rows-1">
-        <RecentActivity />
+        <TopStudents isLoading={isLoading} />
         <StudentBarChart
           studentsCountsByProgram={dashboardStats.studentsCountsByProgram}
           isLoading={isLoading}
