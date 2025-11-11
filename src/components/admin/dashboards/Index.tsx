@@ -14,6 +14,7 @@ export default function Index() {
       dailyNewPendingStudents: 0,
       studentsCountsByProgram: {},
       authenticatedStudents: 0,
+      topInterviewPerformers: [],
     },
     isLoading,
   } = useGetDashboardStat(user!);
@@ -22,7 +23,10 @@ export default function Index() {
       <Header />
       <Cards dashboardStats={dashboardStats} isLoading={isLoading} />
       <div className="grid gap-6 lg:grid-cols-2 lg:grid-rows-1">
-        <TopStudents isLoading={isLoading} />
+        <TopStudents
+          isLoading={isLoading}
+          topInterviewPerformers={dashboardStats.topInterviewPerformers}
+        />
         <StudentBarChart
           studentsCountsByProgram={dashboardStats.studentsCountsByProgram}
           isLoading={isLoading}
