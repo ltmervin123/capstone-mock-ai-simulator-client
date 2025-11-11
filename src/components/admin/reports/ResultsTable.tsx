@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye, Printer, FileSpreadsheet } from 'lucide-react';
+import { Eye, FileSpreadsheet } from 'lucide-react';
 import ResultSummaryModal from './ResultSummaryModal';
 import { InterviewFilterParams, InterviewPreview } from '@/types/admin/report-type';
 import { handleDateFormat } from '@/utils/handle-dates';
@@ -7,6 +7,7 @@ import { getProgramAcronym } from '@/utils/handle-programs';
 import authStore from '@/stores/public/auth-store';
 import { useGetInterviews } from '@/queries/admin/useReport';
 import filterOptionStore from '@/stores/admin/report-filter-option-store';
+import useExcel from '@/hooks/shared/useExcel';
 
 export default function ResultsTable() {
   const filterOptions = filterOptionStore((state) => state.filterOptions);
@@ -17,21 +18,15 @@ export default function ResultsTable() {
     isError,
   } = useGetInterviews(user!, filterOptions as InterviewFilterParams);
   const [selectedResult, setSelectedResult] = useState<InterviewPreview | null>(null);
-
-  const handleExport = (type: 'pdf' | 'excel') => {};
+  const { isExporting, handleExport } = useExcel();
 
   return (
     <div className="rounded bg-white">
       <div className="mb-2 flex justify-end gap-2">
         <button
-          className="flex items-center gap-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-700"
-          onClick={() => handleExport('pdf')}
-        >
-          <Printer size={16} /> Print / Export PDF
-        </button>
-        <button
-          className="flex items-center gap-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700"
-          onClick={() => handleExport('excel')}
+          className="flex items-center gap-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+          onClick={() => handleExport(interviews)}
+          disabled={interviews.length === 0 || isExporting}
         >
           <FileSpreadsheet size={16} /> Export Excel
         </button>
