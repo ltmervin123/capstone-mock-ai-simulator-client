@@ -6,6 +6,7 @@ import { getScoreColor } from '@/utils/handle-color-metrics';
 import { handleDateString } from '@/utils/handle-dates';
 import { handleNames } from '@/utils/handle-names';
 import Spinner from '@/components/ui/spinner';
+import { useRef, useState } from 'react';
 
 type Props = {
   onClose: () => void;
@@ -14,9 +15,53 @@ type Props = {
 
 export default function ResultSummaryModal({ onClose, interviewId }: Props) {
   const user = authStore((state) => state.user);
+  const printRef = useRef<HTMLDivElement>(null);
+  const [isExporting, setIsExporting] = useState(false);
   const { data: interview, isLoading, isError } = useGetInterview(user!, interviewId);
 
-  const handlePrint = () => {};
+  const handlePrint = async () => {
+    if (!printRef.current || !interview) {
+      return;
+    }
+
+    const target = printRef.current.cloneNode(true) as HTMLDivElement;
+
+    target.querySelectorAll('p').forEach((el) => {
+      if (el instanceof HTMLElement) {
+        el.style.position = 'relative';
+        el.style.top = '-8px';
+      }
+    });
+
+    try {
+      setIsExporting(true);
+      const html2pdf = (await import('html2pdf.js')).default;
+      if (!html2pdf) {
+        return;
+      }
+
+      const studentName = handleNames(interview.student)
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/gi, '')
+        .toLowerCase();
+      const formattedDate = new Date(interview.createdAt ?? Date.now()).toISOString().split('T')[0];
+
+      const options = {
+        margin: 0.0,
+        filename: `prepwise-interview-${studentName}-${formattedDate}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: '.question-card' },
+      } as const;
+
+      await html2pdf().set(options).from(target).save();
+    } catch (error) {
+      alert('Failed to generate PDF. Please try again.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -66,10 +111,15 @@ export default function ResultSummaryModal({ onClose, interviewId }: Props) {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="rounded border border-gray-300 bg-white p-2 transition hover:bg-gray-100"
+              className="rounded border border-gray-300 bg-white p-2 transition hover:bg-gray-100 disabled:opacity-50"
               title="Print/Download PDF"
+              disabled={isExporting}
             >
-              <Printer className="h-5 w-5 text-gray-700" />
+              {isExporting ? (
+                <Spinner width="h-5" height="w-5" />
+              ) : (
+                <Printer className="h-5 w-5 text-gray-700" />
+              )}
             </button>
             <button
               onClick={onClose}
@@ -82,7 +132,7 @@ export default function ResultSummaryModal({ onClose, interviewId }: Props) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-8 py-8">
+        <div className="flex-1 overflow-y-auto px-8 py-8" ref={printRef}>
           {/* Student Info */}
           <div className="mb-8">
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
@@ -142,7 +192,7 @@ export default function ResultSummaryModal({ onClose, interviewId }: Props) {
                   {interview!.scores.fillerCount}
                 </p>
               </div>
-              <div className="rounded border border-gray-400 bg-white p-3 text-center">
+              <div className="rounded border border-gray-200 bg-white p-3 text-center">
                 <p className="text-xs font-bold text-gray-700">TOTAL</p>
                 <p className={`text-xl font-bold ${getScoreColor(interview!.scores.totalScore)} `}>
                   {interview!.scores.totalScore}
@@ -160,15 +210,10 @@ export default function ResultSummaryModal({ onClose, interviewId }: Props) {
               {interview!.feedbacks.map((feedback, index) => (
                 <div
                   key={feedback.question + index}
-                  className="rounded border border-gray-200 bg-white"
+                  className="question-card rounded border border-gray-200 bg-white"
                 >
                   <div className="border-b border-gray-100 bg-gray-50 px-4 py-2">
-                    <p className="text-sm font-semibold text-gray-800">
-                      <span className="mr-2 inline-block h-6 w-6 rounded-full bg-gray-200 text-center leading-6 text-gray-700">
-                        {index + 1}
-                      </span>
-                      {feedback.question}
-                    </p>
+                    <p className="text-sm font-semibold text-gray-800">{`${index + 1}. ${feedback.question}`}</p>
                   </div>
                   <div className="space-y-2 p-4">
                     <div>
@@ -179,7 +224,7 @@ export default function ResultSummaryModal({ onClose, interviewId }: Props) {
                       <p className="mb-0.5 text-xs font-medium text-gray-500">
                         Area for Improvement:
                       </p>
-                      <p className="p text-sm text-gray-700">{feedback.areaOfImprovement}</p>
+                      <p className="text-sm text-gray-700">{feedback.areaOfImprovement}</p>
                     </div>
                     <div className="border-l-4 border-gray-300 pl-3">
                       <p className="mb-0.5 text-xs font-medium text-gray-500">Recommendation:</p>
