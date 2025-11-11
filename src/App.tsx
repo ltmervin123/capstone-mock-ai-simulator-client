@@ -26,6 +26,7 @@ import AuthCheck from './middlewares/AuthCheck';
 import InterviewOptionCheck from './middlewares/InterviewOptionCheck';
 import StudentCheck from './middlewares/StudentCheck';
 import AdminCheck from './middlewares/AdminCheck';
+import PersistUser from './middlewares/PersistUser';
 
 const App: React.FC = () => {
   return (
@@ -33,9 +34,12 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+        <Route element={<PersistUser />}>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
 
         <Route element={<AuthCheck />}>
           <Route element={<StudentCheck />}>
