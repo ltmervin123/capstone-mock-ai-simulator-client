@@ -1,44 +1,12 @@
 import { useState } from 'react';
 import AcceptedStudentModal from './AcceptedStudentModal';
-import { getProgramAcronym } from '@/utils/handlePrograms';
-import { handleNames } from '@/utils/handleNames';
+import { getProgramAcronym } from '@/utils/handle-programs';
+import { handleNames } from '@/utils/handle-names';
 import { useGetAcceptedStudents } from '@/queries/admin/useStudent';
 import authStore from '@/stores/public/auth-store';
 import { AcceptedStudent } from '@/types/admin/student-type';
 
-const mockStudents = [
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', isOnline: true },
-  { name: 'Ariane F. Bantilan', id: '20212345678', program: 'BSIT', isOnline: false },
-  { name: 'Belina W. Mongado', id: '20212345555', program: 'BSCRIM', isOnline: false },
-  { name: 'Rubilyn T. Membrano', id: '20227884512', program: 'BSBA', isOnline: false },
-  { name: 'Rubilyn I. Membrano', id: '20220001487', program: 'BSIT', isOnline: true },
-  { name: 'Benjie D. Sangco', id: '202525789101', program: 'BSIT', isOnline: false },
-  { name: 'Jonel Q. Wagas', id: '20222535841', program: 'BSIT', isOnline: false },
-  { name: 'Vincent G. Pahayat', id: '20220000001', program: 'BSIT', isOnline: false },
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', isOnline: false },
-  { name: 'Barbie O. Sayson', id: '20225551110', program: 'BSCRIM', isOnline: false },
-  { name: 'Jaymar A. Tuba', id: '202255584765', program: 'BSIT', isOnline: true },
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', isOnline: true },
-  { name: 'Ariane F. Bantilan', id: '20212345678', program: 'BSIT', isOnline: true },
-  { name: 'Belina W. Mongado', id: '20212345555', program: 'BSCRIM', isOnline: true },
-  { name: 'Rubilyn T. Membrano', id: '20227884512', program: 'BSBA', isOnline: false },
-  { name: 'Rubilyn I. Membrano', id: '20220001487', program: 'BSIT', isOnline: false },
-  { name: 'Benjie D. Sangco', id: '202525789101', program: 'BSIT', isOnline: false },
-  { name: 'Jonel Q. Wagas', id: '20222535841', program: 'BSIT', isOnline: true },
-  { name: 'Vincent G. Pahayat', id: '20220000001', program: 'BSIT', isOnline: true },
-  { name: 'Alvincent R. Sangco', id: '202525789101', program: 'BSIT', isOnline: false },
-  { name: 'Barbie O. Sayson', id: '20225551110', program: 'BSCRIM', isOnline: false },
-  { name: 'Jaymar A. Tuba', id: '202255584765', program: 'BSIT', isOnline: false },
-];
-
 const TABLE_HEADINGS = ['Name', 'Student ID', 'Program', 'Status', 'Actions'];
-
-type Student = {
-  name: string;
-  id: string;
-  program: string;
-  isOnline: boolean;
-};
 
 const isOnlineStatus = (isAuthenticated: boolean) => {
   if (isAuthenticated) {
@@ -56,9 +24,13 @@ const isOnlineStatus = (isAuthenticated: boolean) => {
   );
 };
 
-export default function Accepted() {
+type PendingProps = {
+  filterOptions: Record<string, string | undefined>;
+};
+
+export default function Accepted({ filterOptions }: PendingProps) {
   const user = authStore((state) => state.user);
-  const { data: acceptedStudents = [], isLoading } = useGetAcceptedStudents(user!);
+  const { data: acceptedStudents = [], isLoading } = useGetAcceptedStudents(user!, filterOptions);
   const [selectedStudent, setSelectedStudent] = useState<AcceptedStudent | null>(null);
   const [isViewPendingStudentModalOpen, setIsViewPendingStudentModalOpen] = useState(false);
 

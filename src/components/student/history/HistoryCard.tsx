@@ -1,5 +1,5 @@
 import { InterviewType } from '@/types/shared/interview-type';
-import { handleDateFormat } from '@/utils/handleDates';
+import { handleDateFormat } from '@/utils/handle-dates';
 
 const CLASS_COLOR = {
   Basic: {

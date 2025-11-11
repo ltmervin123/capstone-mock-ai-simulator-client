@@ -10,6 +10,7 @@ import {
   ChartOptions,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { Skeleton } from '@/components/ui/skeleton';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 type StudentBarChartProps = {
@@ -70,18 +71,18 @@ export default function StudentBarChart({
     return (
       <div className="rounded-lg bg-white p-4 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <span className="h-6 w-1/2 animate-pulse rounded-lg bg-gray-200"></span>
+          <h3 className="text-lg font-semibold text-gray-800">Registered by Program</h3>
         </div>
         <div className="flex h-44 items-end gap-3">
           {[...Array(5)].map((_, idx) => (
             <div key={idx} className="flex flex-col items-center">
-              <div
-                className="w-8 animate-pulse rounded-lg bg-gray-200"
+              <Skeleton
+                className="w-8 rounded-lg"
                 style={{
                   height: `${40 + Math.random() * 40}px`,
                 }}
               />
-              <span className="mt-2 h-4 w-12 animate-pulse rounded bg-gray-100" />
+              <Skeleton className="mt-2 h-4 w-12" />
             </div>
           ))}
         </div>
@@ -90,11 +91,11 @@ export default function StudentBarChart({
   }
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow-sm">
+    <div className="flex h-full flex-col rounded-lg bg-white p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800">Registered by Program</h3>
       </div>
-      <div className="h-44">
+      <div className="flex-1">
         {course.length === 0 ? (
           <div className="flex h-full items-center justify-center text-gray-500">
             No data available

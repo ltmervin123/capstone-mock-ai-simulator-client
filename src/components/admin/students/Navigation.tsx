@@ -1,7 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Search, Filter } from 'lucide-react';
-
-const OPTIONS = ['Name', 'Student ID'];
 
 type DropDownProps = {
   selectedOption: string;
@@ -62,15 +60,31 @@ const FilterDropdown = ({ options, selectedOption, setSelectedOption }: DropDown
 type TableControllerProps = {
   tableOption: string;
   tableOptions: string[];
+  query: string;
+  FILTER_OPTIONS: string[];
+  setQuery: (query: string) => void;
+  filterOption: string;
+  setFilterOption: (option: string) => void;
   setTableOption: (option: string) => void;
 };
 export default function Navigation({
   tableOption,
   tableOptions,
+  query,
+  FILTER_OPTIONS,
+  filterOption,
+  setQuery,
+  setFilterOption,
   setTableOption,
 }: TableControllerProps) {
-  const [filterOption, setFilterOption] = useState(OPTIONS[0]);
-  const [query, setQuery] = useState('');
+  const [localQuery, setLocalQuery] = useState(query);
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      setQuery(localQuery);
+    }, 1000);
+    return () => clearTimeout(delayDebounce);
+  }, [localQuery]);
 
   return (
     <div className="bg-white p-3">
@@ -84,14 +98,14 @@ export default function Navigation({
             className="w-full rounded-lg border-2 border-gray-200 bg-gray-50 py-2.5 pl-12 pr-4 text-gray-700 transition-all placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-500"
             type="text"
             placeholder="Search students..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            value={localQuery}
+            onChange={(e) => setLocalQuery(e.target.value)}
           />
         </div>
 
         {/* Filter Dropdown */}
         <FilterDropdown
-          options={OPTIONS}
+          options={FILTER_OPTIONS}
           selectedOption={filterOption}
           setSelectedOption={setFilterOption}
         />

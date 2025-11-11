@@ -15,3 +15,7 @@ export function handleNames({ firstName, middleName, lastName }: NameHandler) {
 
   return `${firstName} ${middleInitial} ${lastName}`;
 }
+
+export function handleNameInitials({ firstName, lastName }: NameHandler) {
+  return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
+}

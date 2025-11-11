@@ -1,4 +1,4 @@
-import { handleDateFormat } from '@/utils/handleDates';
+import { handleDateFormat } from '@/utils/handle-dates';
 import { Calendar, Clock, FileText, ChevronRight } from 'lucide-react';
 
 type InterviewHistoryProps = {

@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import PendingStudentModal from './PendingStudentModal';
-import { getProgramAcronym } from '@/utils/handlePrograms';
-import { handleNames } from '@/utils/handleNames';
+import { getProgramAcronym } from '@/utils/handle-programs';
+import { handleNames } from '@/utils/handle-names';
 import { useGetPendingStudents } from '@/queries/admin/useStudent';
 import authStore from '@/stores/public/auth-store';
 import { PendingStudent } from '@/types/admin/student-type';
 
 const TABLE_HEADINGS = ['Name', 'Student ID', 'Program', 'Status', 'Actions'];
-
-export default function Pending() {
+type PendingProps = {
+  filterOptions: Record<string, string | undefined>;
+};
+export default function Pending({ filterOptions }: PendingProps) {
   const user = authStore((state) => state.user);
-  const { data: pendingStudents = [], isLoading } = useGetPendingStudents(user!);
+  const { data: pendingStudents = [], isLoading } = useGetPendingStudents(user!, filterOptions);
   const [selectedStudent, setSelectedStudent] = useState<PendingStudent | null>(null);
   const [isViewPendingStudentModalOpen, setIsViewPendingStudentModalOpen] = useState(false);
 

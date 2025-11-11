@@ -1,6 +1,6 @@
 import Modal from '@/layouts/Modal';
 import { PendingStudent } from '@/types/admin/student-type';
-import { handleDateFormat } from '@/utils/handleDates';
+import { handleDateFormat } from '@/utils/handle-dates';
 import { X, Check, XCircle, Mail, User, Hash, GraduationCap, Calendar } from 'lucide-react';
 import { useResolveStudentApplication } from '@/queries/admin/useStudent';
 import { useState } from 'react';

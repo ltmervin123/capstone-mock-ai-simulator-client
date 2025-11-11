@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CustomDropdown from './FilterDropdown';
 import { PROGRAM_ACRONYMS } from '@/constants/program-option';
 import filterOptionStore from '@/stores/admin/report-filter-option-store';
-import { getFullProgramName, getProgramAcronym } from '@/utils/handlePrograms';
+import { getFullProgramName, getProgramAcronym } from '@/utils/handle-programs';
 
 const programs = ['All', ...Object.values(PROGRAM_ACRONYMS)];
 const interviewTypes = ['All', 'Basic', 'Behavioral', 'Expert'];
