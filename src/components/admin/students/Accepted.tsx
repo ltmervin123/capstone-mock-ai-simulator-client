@@ -24,9 +24,13 @@ const isOnlineStatus = (isAuthenticated: boolean) => {
   );
 };
 
-export default function Accepted() {
+type PendingProps = {
+  filterOptions: Record<string, string | undefined>;
+};
+
+export default function Accepted({ filterOptions }: PendingProps) {
   const user = authStore((state) => state.user);
-  const { data: acceptedStudents = [], isLoading } = useGetAcceptedStudents(user!);
+  const { data: acceptedStudents = [], isLoading } = useGetAcceptedStudents(user!, filterOptions);
   const [selectedStudent, setSelectedStudent] = useState<AcceptedStudent | null>(null);
   const [isViewPendingStudentModalOpen, setIsViewPendingStudentModalOpen] = useState(false);
 
