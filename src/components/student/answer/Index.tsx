@@ -374,7 +374,7 @@ const Index = () => {
               </button>
               <button
                 className="rounded-md border border-blue-600 bg-white px-6 py-2 font-medium text-blue-600 shadow-sm transition-colors hover:bg-blue-50"
-                onClick={() => navigate('/interview', { replace: true })}
+                onClick={() => navigate('/user/interview', { replace: true })}
               >
                 Start New Interview
               </button>

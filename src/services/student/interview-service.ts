@@ -1,5 +1,6 @@
 import {
   GenerateInterviewFeedbackPayload,
+  QuestionConfig,
   type FollowUpQuestionParams,
   type GreetingParams,
 } from '@/types/student/interview-option-type';
@@ -36,4 +37,10 @@ export async function getExpertInterviewQuestions(data: FormData): Promise<strin
   const URL = `${BASE_URL}/upload-resume`;
   const response = await axiosClient.post(URL, data);
   return response.data.questions;
+}
+
+export async function getQuestionConfig(): Promise<QuestionConfig[]> {
+  const URL = `${BASE_URL}/question-config`;
+  const response = await axiosClient.get(URL);
+  return response.data.questionConfig;
 }

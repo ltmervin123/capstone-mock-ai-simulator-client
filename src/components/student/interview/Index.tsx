@@ -8,6 +8,8 @@ import ResumeUpload from './ResumeUploadModal';
 import { InterviewType } from '@/types/shared/interview-type';
 import { useNavigate } from 'react-router-dom';
 import interviewStore from '@/stores/student/interview-store';
+import authStore from '@/stores/public/auth-store';
+import { useGetQuestionConfigs } from '@/queries/student/useInterview';
 
 const INTERVIEW_CARDS = [
   {
@@ -33,6 +35,8 @@ const INTERVIEW_CARDS = [
 const INTERVIEWEE_OPTIONS = ['Alice', 'Steve'];
 
 export default function Index() {
+  const user = authStore((state) => state.user);
+  const { data: questionConfigs } = useGetQuestionConfigs(user!);
   const [selectedOption, setSelectedOption] = useState(INTERVIEWEE_OPTIONS[0]);
   const [showBehavioralModal, setShowBehavioralModal] = useState(false);
   const [showResumeUpload, setShowResumeUpload] = useState(false);
