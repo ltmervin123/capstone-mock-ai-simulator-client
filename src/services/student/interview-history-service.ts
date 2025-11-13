@@ -1,11 +1,17 @@
-import { InterviewClientDocument, InterviewHistory } from '@/types/student/interview-option-type';
+import {
+  InterviewClientDocument,
+  InterviewHistory,
+  InterviewHistoryFilterOption,
+} from '@/types/student/interview-option-type';
 import axiosClient from '../../utils/axios';
 const API_URL = import.meta.env.VITE_APP_API_URL;
 const BASE_URL = `${API_URL}/api/v1/interview`;
 
-export async function getInterviewHistory(): Promise<InterviewHistory[]> {
+export async function getInterviewHistory(
+  filterOptions: InterviewHistoryFilterOption
+): Promise<InterviewHistory[]> {
   const URL = `${BASE_URL}/history`;
-  const response = await axiosClient.get(URL);
+  const response = await axiosClient.get(URL, { params: { filterOptions } });
   return response.data.interviewHistory;
 }
 
