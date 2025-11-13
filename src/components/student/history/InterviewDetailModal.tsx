@@ -8,6 +8,7 @@ import { updateUnViewedInterviewCount } from '@/queries/student/useNotification'
 import Spinner from '../../ui/spinner';
 import InterviewDetailHeader from './InterviewDetailHeader';
 import { useQueryClient } from '@tanstack/react-query';
+import authStore from '@/stores/public/auth-store';
 
 type InterviewDetailProps = {
   historyId: string;
@@ -16,6 +17,7 @@ type InterviewDetailProps = {
 };
 
 export default function InterviewDetail({ onClose, historyId, isViewed }: InterviewDetailProps) {
+  const user = authStore((state) => state.user);
   const { data: interviewDetail, isFetching, isError, error } = useGetInterviewDetail(historyId!);
   const { mutate: updateUnViewedCount } = updateUnViewedInterviewCount({
     onSuccess: () => {
@@ -24,8 +26,10 @@ export default function InterviewDetail({ onClose, historyId, isViewed }: Interv
     },
   });
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isPrinting, setIsPrinting] = useState(false);
   const queryClient = useQueryClient();
   const isUpdated = useRef(false);
+  const printRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!isViewed && !isUpdated.current) {
@@ -42,8 +46,120 @@ export default function InterviewDetail({ onClose, historyId, isViewed }: Interv
     }
   }, [historyId]);
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = async () => {
+    if (!interviewDetail) return;
+
+    try {
+      setIsPrinting(true);
+      const html2pdf = (await import('html2pdf.js')).default;
+      if (!html2pdf) {
+        return;
+      }
+
+      const studentName = `${user?.firstName}-${user?.lastName}`;
+      const formattedDate = new Date(interviewDetail.createdAt ?? Date.now())
+        .toISOString()
+        .split('T')[0];
+
+      // Create a container for all content
+      const printContainer = document.createElement('div');
+      // Add summary section
+      const summaryDiv = document.createElement('div');
+
+      summaryDiv.innerHTML = `
+        <div style="margin-bottom: 24px;">
+          <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 8px;">Interview Summary</h1>
+          <p style="color: #666; margin-bottom: 16px;">Review your performance and feedback</p>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px;">
+            <div><strong>Type:</strong> ${interviewDetail.interviewType}</div>
+            <div><strong>Date:</strong> ${new Date(interviewDetail.createdAt!).toLocaleDateString()}</div>
+            <div><strong>Duration:</strong> ${interviewDetail.duration}</div>
+            <div><strong>Questions:</strong> ${interviewDetail.numberOfQuestions}</div>
+          </div>
+        </div>
+      `;
+      printContainer.appendChild(summaryDiv);
+
+      // Add scores section
+      const scoresDiv = document.createElement('div');
+      scoresDiv.innerHTML = `
+        <div style="margin-bottom: 24px; page-break-inside: avoid;">
+          <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 16px;">Performance Scores</h2>
+          <div style="margin-bottom: 12px;"><strong>Grammar:</strong> ${interviewDetail.scores.grammar}/100</div>
+          <div style="margin-bottom: 12px;"><strong>Skills:</strong> ${interviewDetail.scores.skills}/100</div>
+          <div style="margin-bottom: 12px;"><strong>Experience:</strong> ${interviewDetail.scores.experience}/100</div>
+          <div style="margin-bottom: 12px;"><strong>Relevance:</strong> ${interviewDetail.scores.relevance}/100</div>
+          <div style="margin-bottom: 12px;"><strong>Filler count:</strong> ${interviewDetail.scores.fillerCount}</div>
+          <div style="font-size: 18px; font-weight: bold; margin-top: 16px;">Overall: ${interviewDetail.scores.totalScore}/100</div>
+        </div>
+      `;
+      printContainer.appendChild(scoresDiv);
+
+      interviewDetail.feedbacks.forEach((feedback, index) => {
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.className = 'question-card';
+        feedbackDiv.style.pageBreakInside = 'avoid';
+        feedbackDiv.style.marginBottom = '24px';
+
+        feedbackDiv.innerHTML = `
+    <div style="">
+      <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Question ${index + 1} of ${interviewDetail.feedbacks.length}</h3>
+
+      <div style="margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; margin-bottom: 8px;">
+          <span style="color: #3b82f6; font-weight: 600;">QUESTION</span>
+        </div>
+        <div style="text-align: left;">
+          ${feedback.question}
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; margin-bottom: 8px;">
+          <span style="color: #10b981; font-weight: 600;">YOUR ANSWER</span>
+        </div>
+        <div style="text-align: left;">
+          ${feedback.answer}
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; margin-bottom: 8px;">
+          <span style="color: #8b5cf6; font-weight: 600;">FEEDBACK</span>
+        </div>
+        <div style="text-align: left;">
+          ${feedback.answerFeedback}
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; align-items: center; margin-bottom: 8px;">
+          <span style="color: #f59e0b; font-weight: 600;">AREAS TO IMPROVE</span>
+        </div>
+        <div style="text-align: left;">
+          ${feedback.areaOfImprovement}
+        </div>
+      </div>
+    </div>
+  `;
+        printContainer.appendChild(feedbackDiv);
+      });
+
+      const options = {
+        margin: 0.5,
+        filename: `Interview-Result-${studentName}-${formattedDate}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: '.question-card' },
+      } as const;
+
+      await html2pdf().set(options).from(printContainer).save();
+    } catch (error) {
+      alert('Failed to generate PDF. Please try again.');
+    } finally {
+      setIsPrinting(false);
+    }
   };
 
   useEffect(() => {
@@ -112,11 +228,11 @@ export default function InterviewDetail({ onClose, historyId, isViewed }: Interv
       >
         {/* Header - Fixed */}
         <div className="border-b border-gray-200 px-6 py-5 sm:px-8">
-          <InterviewDetailHeader onClose={onClose} onPrint={handlePrint} />
+          <InterviewDetailHeader onClose={onClose} onPrint={handlePrint} isPrinting={isPrinting} />
         </div>
 
         {/* Scrollable content */}
-        <div className="max-h-[calc(90vh-140px)] overflow-y-auto px-6 py-6 sm:px-8">
+        <div className="max-h-[calc(90vh-140px)] overflow-y-auto px-6 py-6 sm:px-8" ref={printRef}>
           <div className="space-y-6">
             <InterviewSummary
               type={interviewDetail?.interviewType!}

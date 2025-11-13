@@ -1,11 +1,17 @@
+import Spinner from '@/components/ui/spinner';
 import { Printer, X } from 'lucide-react';
 
 type InterviewDetailHeaderProps = {
   onClose: () => void;
   onPrint: () => void;
+  isPrinting: boolean;
 };
 
-export default function InterviewDetailHeader({ onClose, onPrint }: InterviewDetailHeaderProps) {
+export default function InterviewDetailHeader({
+  onClose,
+  onPrint,
+  isPrinting,
+}: InterviewDetailHeaderProps) {
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -18,8 +24,14 @@ export default function InterviewDetailHeader({ onClose, onPrint }: InterviewDet
           className="group flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
           title="Print Interview Summary"
         >
-          <Printer className="h-4 w-4 transition-transform group-hover:scale-110" />
-          <span className="hidden sm:inline">Print</span>
+          {isPrinting ? (
+            <Spinner width="h-5" height="w-5" />
+          ) : (
+            <>
+              <Printer className="h-4 w-4 transition-transform group-hover:scale-110" />
+              <span className="hidden sm:inline">Print</span>
+            </>
+          )}
         </button>
         <button
           onClick={onClose}
