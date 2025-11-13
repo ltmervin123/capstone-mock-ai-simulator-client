@@ -149,3 +149,5 @@ export type QuestionConfig = {
   type: 'BASIC' | 'BEHAVIORAL' | 'EXPERT';
   numberOfQuestionToGenerate: number;
 };
+
+export type InterviewHistoryFilterOption = 'EXPERT' | 'BEHAVIORAL' | 'BASIC' | 'HIGHEST' | 'LOWEST' | undefined;

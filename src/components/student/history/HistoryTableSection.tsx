@@ -4,10 +4,20 @@ import { useState } from 'react';
 import InterviewDetail from './InterviewDetailModal';
 import authStore from '@/stores/public/auth-store';
 import { useGetInterviewHistory } from '@/queries/student/useInterviewHistory';
+import { InterviewHistoryFilterOption } from '@/types/student/interview-option-type';
 
-export default function HistoryTableSection() {
+type HistoryTableSectionProps = {
+  filterBy?: InterviewHistoryFilterOption;
+};
+
+export default function HistoryTableSection({ filterBy }: HistoryTableSectionProps) {
   const user = authStore((state) => state.user);
-  const { data: interviewHistory = [], isPending, isError, error } = useGetInterviewHistory(user!);
+  const {
+    data: interviewHistory = [],
+    isPending,
+    isError,
+    error,
+  } = useGetInterviewHistory(user!, filterBy);
   const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
   const [isViewingDetail, setIsViewingDetail] = useState(false);
   const [isViewed, setIsViewed] = useState(false);
