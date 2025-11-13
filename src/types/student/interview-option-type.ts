@@ -144,3 +144,8 @@ export type DashboardStats = {
     expert: number;
   };
 };
+
+export type QuestionConfig = {
+  type: 'BASIC' | 'BEHAVIORAL' | 'EXPERT';
+  numberOfQuestionToGenerate: number;
+};

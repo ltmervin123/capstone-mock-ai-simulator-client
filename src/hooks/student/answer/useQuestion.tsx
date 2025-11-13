@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import interviewStore from '@/stores/student/interview-store';
-import { useBasicInterviewFollowUpQuestions } from '@/queries/student/useInterview';
+import {
+  useBasicInterviewFollowUpQuestions,
+  useGetQuestionConfigs,
+} from '@/queries/student/useInterview';
 import { useGetBehavioralQuestion } from '@/queries/student/useBehavioralQuestion';
-import { InterviewConversation } from '@/types/student/interview-option-type';
-
+import { InterviewConversation, QuestionConfig } from '@/types/student/interview-option-type';
+import authStore from '@/stores/public/auth-store';
 const BASIC_INTERVIEW_FIRST_QUESTIONS = 'Can you tell me about yourself?';
 
 export type QuestionHistoryType = {
@@ -13,7 +16,15 @@ export type QuestionHistoryType = {
   timestamp: string;
 };
 
+const QUESTION_TYPES_KEY = {
+  BASIC: 'BASIC',
+  BEHAVIORAL: 'BEHAVIORAL',
+  EXPERT: 'EXPERT',
+};
+
 export default function useQuestion() {
+  const user = authStore((state) => state.user);
+  const { data: questionConfigs } = useGetQuestionConfigs(user!);
   const interviewOption = interviewStore((state) => state.interviewOption);
   const setEndAt = interviewStore((state) => state.setEndAt);
   const setAiResponse = interviewStore((state) => state.setAiResponse);
@@ -31,8 +42,18 @@ export default function useQuestion() {
   const { data: questionData } = useGetBehavioralQuestion(questionId);
 
   const handleBasicInterviewQuestions = () => {
+    const config = questionConfigs?.find(
+      (config) => config.type === QUESTION_TYPES_KEY.BASIC
+    ) as QuestionConfig;
+    const { numberOfQuestionToGenerate } = config;
+
+    // Create array of empty strings with dynamic length base on BASIC interview config and attach the BASIC_INTERVIEW_FIRST_QUESTIONS at the beginning
+    const questions = Array.from({ length: numberOfQuestionToGenerate }, (_, i) =>
+      i === 0 ? BASIC_INTERVIEW_FIRST_QUESTIONS : ''
+    );
+
     if (questionIndex === 0) {
-      setQuestions([BASIC_INTERVIEW_FIRST_QUESTIONS, '', '', '', '']);
+      setQuestions(questions);
       setAiResponse(BASIC_INTERVIEW_FIRST_QUESTIONS);
       setCurrentQuestion(BASIC_INTERVIEW_FIRST_QUESTIONS);
     }
