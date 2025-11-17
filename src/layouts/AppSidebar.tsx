@@ -1,20 +1,24 @@
 import { Link } from 'react-router-dom';
+import Modal from './Modal';
 import LogoutSvg from '../assets/svg-components/LogoutSvg';
+import SettingSvg from '../assets/svg-components/SettingSvg';
 import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '../components/ui/sidebar';
 import { useIsMobile } from '../hooks/shared/useMobile';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
 import useSignout from '@/hooks/auth/useSignout';
 import Spinner from '@/components/ui/spinner';
-import { JSX } from 'react';
+import SettingsModal from '@/components/ui/settings-modal';
+import authStore from '@/stores/public/auth-store';
+import { JSX, useState } from 'react';
 
-type AppSidebarProps = {
-  navItems: JSX.Element;
-};
+type AppSidebarProps = { navItems: JSX.Element };
 
 export default function AppSidebar({ navItems }: AppSidebarProps) {
   const isMobile = useIsMobile();
   const { isLoading, handleSignout } = useSignout();
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const user = authStore((state) => state.user);
 
   return (
     <SidebarProvider>
@@ -34,6 +38,17 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
               <Button
                 variant="ghost"
                 className="w-full justify-start gap-2 hover:bg-green-200 disabled:cursor-not-allowed"
+                onClick={() => setIsSettingOpen(true)}
+                disabled={isLoading}
+              >
+                <div className="flex items-center gap-2">
+                  <SettingSvg />
+                  <span className="text-lg text-gray-500">Settings</span>
+                </div>
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-2 hover:bg-green-200 disabled:cursor-not-allowed"
                 onClick={handleSignout}
                 disabled={isLoading}
               >
@@ -46,6 +61,11 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
           </div>
         </SidebarContent>
       </Sidebar>
+      {isSettingOpen && (
+        <Modal>
+          <SettingsModal onClose={() => setIsSettingOpen(false)} currentEmail={user?.email!} />
+        </Modal>
+      )}
     </SidebarProvider>
   );
 }
