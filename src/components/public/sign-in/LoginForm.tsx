@@ -93,14 +93,24 @@ export default function LoginForm() {
             error={validationErrors?.email}
           />
 
-          <PasswordField
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            icon={PasswordIcon}
-            className="space-y-2"
-            error={validationErrors?.password}
-          />
+          <div className="space-y-2">
+            <PasswordField
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              icon={PasswordIcon}
+              className="space-y-2"
+              error={validationErrors?.password}
+            />
+            <div className="text-right">
+              <Link
+                to="/forgot-password"
+                className="text-sm font-medium text-green-700 hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+          </div>
 
           {responseError && (
             <p className="animate-[scaleIn_0.3s_ease-in-out] rounded-md border border-red-500 bg-red-100 px-2 py-2 text-sm text-red-500">
