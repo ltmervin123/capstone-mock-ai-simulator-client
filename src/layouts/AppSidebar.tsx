@@ -11,6 +11,7 @@ import Spinner from '@/components/ui/spinner';
 import SettingsModal from '@/components/ui/settings-modal';
 import authStore from '@/stores/public/auth-store';
 import { JSX, useState } from 'react';
+import { roles } from '../constants/roles';
 
 type AppSidebarProps = { navItems: JSX.Element };
 
@@ -35,17 +36,20 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
           <div className="mt-auto">
             <Separator />
             <div className="p-4">
-              <Button
-                variant="ghost"
-                className="w-full justify-start gap-2 hover:bg-green-200 disabled:cursor-not-allowed"
-                onClick={() => setIsSettingOpen(true)}
-                disabled={isLoading}
-              >
-                <div className="flex items-center gap-2">
-                  <SettingSvg />
-                  <span className="text-lg text-gray-500">Settings</span>
-                </div>
-              </Button>
+              {user?.role === roles.ADMIN && (
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-2 hover:bg-green-200 disabled:cursor-not-allowed"
+                  onClick={() => setIsSettingOpen(true)}
+                  disabled={isLoading}
+                >
+                  <div className="flex items-center gap-2">
+                    <SettingSvg />
+                    <span className="text-lg text-gray-500">Settings</span>
+                  </div>
+                </Button>
+              )}
+
               <Button
                 variant="ghost"
                 className="w-full justify-start gap-2 hover:bg-green-200 disabled:cursor-not-allowed"

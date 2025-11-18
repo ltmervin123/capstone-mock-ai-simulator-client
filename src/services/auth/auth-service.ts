@@ -29,3 +29,8 @@ export async function signout() {
   const URL = `${BASE_URL}/signout`;
   return axiosClient.post(URL);
 }
+
+export async function updateAdminEmail(newEmail: string, confirmationEmail: string) {
+  const URL = `${BASE_URL}/update-admin-email`;
+  await axiosClient.post(URL, { newEmail, confirmationEmail });
+}
