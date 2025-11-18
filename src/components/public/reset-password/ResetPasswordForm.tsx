@@ -1,6 +1,8 @@
 import PasswordField from '@/components/ui/password-field';
+import Modal from '@/layouts/Modal';
+import { useUpdatePassword, VerifyResetPasswordTokenResponse } from '@/queries/auth/useAuth';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import z from 'zod';
 
 // Reset password validation schema
@@ -23,13 +25,19 @@ const resetPasswordSchema = z
 
 type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
-export default function ResetPasswordForm() {
+type ResetPasswordFormProps = {
+  data: VerifyResetPasswordTokenResponse;
+  token: string;
+};
+
+export default function ResetPasswordForm({ data, token }: ResetPasswordFormProps) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<ResetPasswordFormData>({
     password: '',
     confirmPassword: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: updatePassword, isPending, isSuccess } = useUpdatePassword();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,7 +45,6 @@ export default function ResetPasswordForm() {
       ...prev,
       [name]: value,
     }));
-    // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -50,24 +57,23 @@ export default function ResetPasswordForm() {
     e.preventDefault();
     setErrors({});
 
-    try {
-      resetPasswordSchema.parse(formData);
-      setIsLoading(true);
-      // TODO: Call reset password API
-      // await resetPassword(formData);
-      console.log('Form submitted:', formData);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErrors: Record<string, string> = {};
-        error.issues.forEach((issue) => {
-          const path = issue.path[0] as string;
-          fieldErrors[path] = issue.message;
-        });
-        setErrors(fieldErrors);
-      }
-    } finally {
-      setIsLoading(false);
+    const result = resetPasswordSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.issues.forEach((issue) => {
+        const path = issue.path[0] as string;
+        fieldErrors[path] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
     }
+
+    updatePassword({
+      newPassword: formData.password,
+      confirmationPassword: formData.confirmPassword,
+      id: data._id,
+      token,
+    });
   };
 
   return (
@@ -106,7 +112,7 @@ export default function ResetPasswordForm() {
                 className={`w-full rounded-md border border-green-700 px-4 py-2 font-inter transition-all duration-300 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:opacity-50 ${errors.confirmPassword ? 'border-red-500 ring-2 ring-red-300 focus:border-red-500 focus:ring-red-300' : ''}`}
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                disabled={isLoading}
+                disabled={isPending}
               />
             </div>
             {errors.confirmPassword && (
@@ -117,10 +123,10 @@ export default function ResetPasswordForm() {
           <div>
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isPending}
               className="group relative flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 disabled:opacity-50"
             >
-              {isLoading ? 'Resetting...' : 'Reset Password'}
+              {isPending ? 'Resetting...' : 'Reset Password'}
             </button>
           </div>
 
@@ -134,6 +140,50 @@ export default function ResetPasswordForm() {
           </div>
         </form>
       </div>
+
+      {isSuccess && (
+        <Modal>
+          <div className="w-full max-w-sm animate-[slideUp_0.3s_ease-out] rounded-lg bg-white p-8 shadow-xl">
+            {/* Success Icon */}
+            <div className="mb-6 flex justify-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                <svg
+                  className="h-8 w-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="space-y-4 text-center">
+              <h2 className="text-2xl font-bold text-gray-900">Password Reset Successfully</h2>
+              <p className="text-sm text-gray-600">
+                Your password has been successfully reset. You can now log in with your new
+                password.
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="mt-8 space-y-3">
+              <button
+                onClick={() => navigate('/login')}
+                className="w-full rounded-md bg-green-600 px-4 py-2.5 font-semibold text-white transition-colors hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+              >
+                Back to Login
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
