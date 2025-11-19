@@ -8,6 +8,7 @@ import SignupPage from './pages/public/SignupPage';
 import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 import EmailVerificationPage from './pages/public/EmailVerificationPage';
+import ResetPasswordPage from './pages/public/ResetPasswordPage';
 
 // Student Pages
 import StudentDashboardPage from './pages/student/DashboardPage';
@@ -36,6 +37,7 @@ const App: React.FC = () => {
         <Route path="/verify-email" element={<EmailVerificationPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         <Route element={<PersistUser />}>
           <Route path="/login" element={<LoginPage />} />
