@@ -6,6 +6,7 @@ export type Student = {
   email: string;
   program: string;
   studentId: string;
+  nameExtension?: string;
 };
 
 export type AcceptedStudent = Student & {

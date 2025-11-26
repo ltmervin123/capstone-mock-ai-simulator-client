@@ -4,6 +4,7 @@ export type User = {
   firstName: string;
   lastName: string;
   middleName: string;
+  nameExtension: string | null;
   program: string;
   role: string;
 };

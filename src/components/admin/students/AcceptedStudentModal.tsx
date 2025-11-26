@@ -24,10 +24,17 @@ export default function AcceptedStudentModal({ setIsOpen, student }: AcceptedStu
         </div>
 
         <div className="h-[60vh] space-y-4 overflow-y-auto px-4 py-4 md:max-h-[75vh] md:px-8 md:py-6">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4">
             <InfoField icon={<User size={18} />} label="First Name" value={student.firstName} />
             <InfoField icon={<User size={18} />} label="Middle Name" value={student.middleName} />
             <InfoField icon={<User size={18} />} label="Last Name" value={student.lastName} />
+            {student.nameExtension && (
+              <InfoField
+                icon={<User size={18} />}
+                label="Name Extension"
+                value={student.nameExtension}
+              />
+            )}
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

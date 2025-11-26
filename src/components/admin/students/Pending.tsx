@@ -58,6 +58,7 @@ export default function Pending({ filterOptions }: PendingProps) {
                     firstName: student.firstName,
                     middleName: student.middleName,
                     lastName: student.lastName,
+                    nameExtension: student.nameExtension,
                   })}
                 </span>
                 <span className="col-span-1 flex items-center">{student.studentId}</span>
@@ -101,6 +102,7 @@ export default function Pending({ filterOptions }: PendingProps) {
                     firstName: student.firstName,
                     middleName: student.middleName,
                     lastName: student.lastName,
+                    nameExtension: student.nameExtension,
                   })}
                 </h3>
                 <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800">

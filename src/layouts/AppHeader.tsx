@@ -1,10 +1,20 @@
 import { Link } from 'react-router-dom';
 import authStore from '@/stores/public/auth-store';
+import { handleNameInitials, handleNames } from '@/utils/handle-names';
+import { roles } from '@/constants/roles';
 
 export default function AppHeader() {
   const user = authStore((state) => state.user);
-  const name = `${user?.firstName} ${user?.lastName}`;
-  const initials = `${user?.firstName.charAt(0).toUpperCase()}${user?.lastName.charAt(0).toUpperCase()}`;
+  const name = handleNames({
+    firstName: user?.firstName,
+    middleName: user?.middleName,
+    lastName: user?.lastName,
+    nameExtension: user?.nameExtension ?? undefined,
+  });
+  const initials = handleNameInitials({
+    firstName: user?.firstName!,
+    lastName: user?.lastName!,
+  });
 
   return (
     <div className="relative z-50">
@@ -19,10 +29,12 @@ export default function AppHeader() {
           </Link>
           <div className="flex items-center gap-4">
             <span className="hidden text-sm font-medium text-white sm:block sm:text-base">
-              {name}
+              {user?.role === roles.STUDENT ? name : 'Admin'}
             </span>
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
-              <span className="text-base font-bold sm:text-lg">{initials}</span>
+              <span className="text-base font-bold sm:text-lg">
+                {user?.role === roles.STUDENT ? initials : 'A'}
+              </span>
             </div>
           </div>
         </div>

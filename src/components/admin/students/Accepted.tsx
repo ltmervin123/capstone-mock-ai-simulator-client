@@ -76,6 +76,7 @@ export default function Accepted({ filterOptions }: PendingProps) {
                     firstName: student.firstName,
                     middleName: student.middleName,
                     lastName: student.lastName,
+                    nameExtension: student.nameExtension,
                   })}
                 </span>
                 <span className="col-span-1 flex items-center">{student.studentId}</span>
@@ -119,6 +120,7 @@ export default function Accepted({ filterOptions }: PendingProps) {
                     firstName: student.firstName,
                     middleName: student.middleName,
                     lastName: student.lastName,
+                    nameExtension: student.nameExtension,
                   })}
                 </h3>
                 {isOnlineStatus(student.isAuthenticated)}

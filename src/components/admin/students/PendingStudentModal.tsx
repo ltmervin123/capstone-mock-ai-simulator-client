@@ -4,6 +4,7 @@ import { handleDateFormat } from '@/utils/handle-dates';
 import { X, Check, XCircle, Mail, User, Hash, GraduationCap, Calendar } from 'lucide-react';
 import { useResolveStudentApplication } from '@/queries/admin/useStudent';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 type InfoFieldProps = {
   icon: React.ReactNode;
@@ -28,6 +29,7 @@ type PendingStudentProps = {
 };
 
 export default function PendingStudentModal({ setIsOpen, student }: PendingStudentProps) {
+  const queryClient = useQueryClient();
   const [action, setAction] = useState<'ACCEPT' | 'REJECT' | null>(null);
   const {
     mutate: resolveStudentApplication,
@@ -35,6 +37,7 @@ export default function PendingStudentModal({ setIsOpen, student }: PendingStude
     isError,
   } = useResolveStudentApplication({
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['dashboard-stats'] });
       setIsOpen(false);
     },
     onError: () => {
@@ -59,13 +62,20 @@ export default function PendingStudentModal({ setIsOpen, student }: PendingStude
         {/* Content */}
         <div className="h-[60vh] space-y-4 overflow-y-auto px-4 py-4 md:max-h-[75vh] md:px-8 md:py-6">
           {/* Personal Information */}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className={`grid grid-cols-1 gap-4`}>
             <InfoField icon={<User size={18} />} label="First Name" value={student.firstName} />
             <InfoField icon={<User size={18} />} label="Middle Name" value={student.middleName} />
             <InfoField icon={<User size={18} />} label="Last Name" value={student.lastName} />
+            {student.nameExtension && (
+              <InfoField
+                icon={<User size={18} />}
+                label="Name Extension"
+                value={student.nameExtension}
+              />
+            )}
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4">
             <InfoField icon={<Hash size={18} />} label="Student ID" value={student.studentId} />
 
             <InfoField
