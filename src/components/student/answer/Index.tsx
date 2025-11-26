@@ -4,6 +4,7 @@ import HistoryModal from './HistoryModal';
 import AIResponse from './AIResponse';
 import ControlPanel from './ControlPanel';
 import GettingStarted from './GettingStarted';
+import QuestionProgress from './QuestionProgress';
 import interviewStore from '@/stores/student/interview-store';
 import socketStore from '@/stores/public/socket-io-store';
 import Modal from '@/layouts/Modal';
@@ -15,6 +16,7 @@ import useGreeting from '@/hooks/student/answer/useGreeting';
 import useQuestion from '@/hooks/student/answer/useQuestion';
 import useRecord from '@/hooks/student/answer/useRecord';
 import useSpeak from '@/hooks/student/answer/useSpeak';
+import useSanitizeTranscription from '@/hooks/student/answer/useSanitizeTranscription';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -34,6 +36,7 @@ const Index = () => {
   const [hasNoAnswer, setHasNoAnswer] = useState(false);
   const { AIIntroductionMessage, isGreeting, setIsGreeting } = useGreeting();
   const [isShowSuccessModal, setIsShowSuccessModal] = useState(false);
+  const [isIntroGreetingFinished, setIsIntroGreetingFinished] = useState(false);
   const {
     isInterviewActive,
     isCameraOn,
@@ -55,6 +58,7 @@ const Index = () => {
   } = useRecord();
   const {
     questions,
+    questionIndex,
     currentQuestion,
     questionHistory,
     isGeneratingQuestion,
@@ -75,8 +79,9 @@ const Index = () => {
       console.error('Error making interview feedback:', error.message);
     },
   });
+  const { isSanitizing, sanitizeTranscription } = useSanitizeTranscription();
 
-  const nextQuestion = () => {
+  const nextQuestion = async () => {
     if (finalAnswer.trim() === '') {
       setHasNoAnswer(true);
       return;
@@ -97,18 +102,30 @@ const Index = () => {
           onError: (error) => {
             console.error('Error fetching greeting response:', (error as Error).message);
           },
+          onSettled: () => {
+            setFinalAnswer('');
+            setRealTimeTranscription('');
+            setIsGreeting(false);
+          },
         }
       );
-      setFinalAnswer('');
-      setRealTimeTranscription('');
-      setIsGreeting(false);
+      // setFinalAnswer('');
+      // setRealTimeTranscription('');
+      // setIsGreeting(false);
       return;
     }
 
+    const sanitizedAnswer = await sanitizeTranscription(finalAnswer);
+
     const updatedConversation = [
       ...interviewConversation,
-      { AI: currentQuestion, CANDIDATE: finalAnswer },
+      { AI: currentQuestion, CANDIDATE: sanitizedAnswer },
     ];
+
+    // const updatedConversation = [
+    //   ...interviewConversation,
+    //   { AI: currentQuestion, CANDIDATE: finalAnswer },
+    // ];
 
     setInterviewConversation(updatedConversation);
 
@@ -116,7 +133,7 @@ const Index = () => {
       const newHistoryItem = {
         id: Date.now(),
         question: currentQuestion,
-        userResponse: finalAnswer,
+        userResponse: sanitizedAnswer,
         timestamp: new Date().toLocaleTimeString(),
       };
 
@@ -153,6 +170,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6">
       <div className="mx-auto max-w-7xl">
+        {/* Questions Progress section */}
+        {isInterviewActive && questions.length > 0 && (
+          <QuestionProgress questions={questions} questionIndex={questionIndex} />
+        )}
+
         {/* Video Grid */}
         <PreviewSection
           isRecording={isRecording}
@@ -174,7 +196,9 @@ const Index = () => {
             selectedVoice={interviewOption?.selectedInterviewee!}
             isInitializing={isInitializing}
             hasPermissionError={hasPermissionError}
-            isInterviewEnd={isInterviewEnd}
+            isGreeting={isGreeting}
+            isIntroGreetingFinished={isIntroGreetingFinished}
+            setIsIntroGreetingFinished={setIsIntroGreetingFinished}
           />
         )}
 
@@ -199,6 +223,8 @@ const Index = () => {
           isInitializing={isInitializing}
           hasPermissionError={hasPermissionError}
           isGreeting={isGreeting}
+          isSanitizing={isSanitizing}
+          isIntroGreetingFinished={isIntroGreetingFinished}
         />
 
         {!isInterviewActive && <GettingStarted />}

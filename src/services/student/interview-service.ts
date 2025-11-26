@@ -44,3 +44,9 @@ export async function getQuestionConfig(): Promise<QuestionConfig[]> {
   const response = await axiosClient.get(URL);
   return response.data.questionConfig;
 }
+
+export async function sanitizedTranscription(transcription: string): Promise<string> {
+  const URL = `${BASE_URL}/sanitized-transcription`;
+  const response = await axiosClient.post(URL, { transcription });
+  return response.data.sanitizedText;
+}

@@ -11,6 +11,8 @@ type ControlPanelProps = {
   isInitializing: boolean;
   hasPermissionError: boolean;
   isGreeting: boolean;
+  isSanitizing: boolean;
+  isIntroGreetingFinished: boolean;
   startInterview: () => void;
   endInterview: () => void;
   toggleCamera: () => void;
@@ -39,6 +41,8 @@ export default function ControlPanel({
   isGeneratingQuestion,
   isInitializing,
   hasPermissionError,
+  isSanitizing,
+  isIntroGreetingFinished,
 }: ControlPanelProps) {
   const isNotGreeting = !isGreeting && questions.length === 0;
 
@@ -103,7 +107,8 @@ export default function ControlPanel({
                 isAISpeaking ||
                 isSendingGreetingResponse ||
                 isGeneratingQuestion ||
-                isNotGreeting
+                isNotGreeting ||
+                isSanitizing
               }
             >
               {isRecording ? (
@@ -123,7 +128,12 @@ export default function ControlPanel({
               }}
               className="rounded-full bg-green-500 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:bg-green-600 hover:shadow-xl disabled:opacity-50"
               disabled={
-                isGeneratingQuestion || isSendingGreetingResponse || isAISpeaking || isGreeting
+                isGeneratingQuestion ||
+                isSendingGreetingResponse ||
+                isAISpeaking ||
+                isGreeting ||
+                isSanitizing ||
+                !isIntroGreetingFinished
               }
               title={questions.length === 0 ? 'Generate Questions' : 'View Interview History'}
             >
