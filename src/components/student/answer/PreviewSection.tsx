@@ -74,38 +74,38 @@ function CandidateVideo({
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
           <div className="text-center">
-            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-700 md:h-32 md:w-32">
-              <Video className="h-20 w-20 text-slate-400 md:h-12 md:w-12" />
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 sm:mb-4 sm:h-20 sm:w-20 md:h-32 md:w-32">
+              <Video className="h-6 w-6 text-slate-400 sm:h-10 sm:w-10 md:h-12 md:w-12" />
             </div>
-            <p className="text-sm text-slate-400 md:text-base">
+            <p className="text-xs text-slate-400 sm:text-sm md:text-base">
               {isInterviewActive ? 'Camera Off' : 'Camera Ready'}
             </p>
           </div>
         </div>
       )}
-      <div className="absolute bottom-4 left-4 rounded-lg bg-blue-900/80 px-3 py-1.5 backdrop-blur-sm">
-        <span className="text-sm font-medium text-white">You</span>
+      <div className="absolute bottom-2 left-2 rounded-lg bg-blue-900/80 px-2 py-1 backdrop-blur-sm sm:bottom-4 sm:left-4 sm:px-3 sm:py-1.5">
+        <span className="text-xs font-medium text-white sm:text-sm">You</span>
       </div>
       {isInterviewActive && (
-        <div className="absolute right-4 top-4">
-          <div className="h-3 w-3 animate-pulse rounded-full bg-red-500"></div>
+        <div className="absolute right-2 top-2 sm:right-4 sm:top-4">
+          <div className="h-2 w-2 animate-pulse rounded-full bg-red-500 sm:h-3 sm:w-3"></div>
         </div>
       )}
 
       {/* Recording Timer Indicator */}
       {isRecording && (
-        <div className="absolute right-4 top-4 flex items-center gap-1.5 rounded-md bg-red-500/40 px-2 py-1 backdrop-blur-sm">
-          <div className="h-2 w-2 animate-pulse rounded-full bg-white"></div>
-          <span className="text-[10px] font-bold text-white opacity-80">
+        <div className="absolute right-2 top-2 flex items-center gap-1 rounded-md bg-red-500/40 px-1.5 py-0.5 backdrop-blur-sm sm:right-4 sm:top-4 sm:gap-1.5 sm:px-2 sm:py-1">
+          <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white sm:h-2 sm:w-2"></div>
+          <span className="text-[8px] font-bold text-white opacity-80 sm:text-[10px]">
             {formatTime(elapsedTime)}
-            <span className="ml-1">/ 03:00</span>
+            <span className="ml-0.5 sm:ml-1">/ 03:00</span>
           </span>
         </div>
       )}
       {/* Real-time Transcription Display */}
       {realTimeTranscription && (
-        <div className="absolute bottom-12 left-1/2 w-11/12 -translate-x-1/2 rounded-md bg-black/60 px-4 py-2 text-center backdrop-blur-sm">
-          <p className="text-sm italic text-white">{realTimeTranscription}</p>
+        <div className="absolute bottom-10 left-1/2 w-11/12 -translate-x-1/2 rounded-md bg-black/60 px-2 py-1 text-center backdrop-blur-sm sm:bottom-12 sm:px-4 sm:py-2">
+          <p className="text-xs italic text-white sm:text-sm">{realTimeTranscription}</p>
         </div>
       )}
     </div>
@@ -121,18 +121,18 @@ function AIInterviewer({ isAISpeaking }: { isAISpeaking: boolean }) {
     >
       <div className="flex h-full w-full items-center justify-center">
         <div className="text-center">
-          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-700 md:h-32 md:w-32">
-            <span className="text-4xl text-slate-400 md:text-6xl">
+          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 sm:mb-4 sm:h-20 sm:w-20 md:h-32 md:w-32">
+            <span className="text-2xl text-slate-400 sm:text-4xl md:text-6xl">
               {interviewOption?.selectedInterviewee.charAt(0)}
             </span>
           </div>
-          <p className="text-sm text-slate-400 md:text-base">
+          <p className="text-xs text-slate-400 sm:text-sm md:text-base">
             {interviewOption?.selectedInterviewee}
           </p>
         </div>
       </div>
-      <div className="absolute bottom-4 left-4 rounded-lg bg-blue-900/80 px-3 py-1.5 backdrop-blur-sm">
-        <span className="text-sm font-medium text-white">AI Interviewer</span>
+      <div className="absolute bottom-2 left-2 rounded-lg bg-blue-900/80 px-2 py-1 backdrop-blur-sm sm:bottom-4 sm:left-4 sm:px-3 sm:py-1.5">
+        <span className="text-xs font-medium text-white sm:text-sm">AI Interviewer</span>
       </div>
     </div>
   );

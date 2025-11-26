@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function LandingHeader() {
   return (
     <header className="fixed w-full bg-green-700 font-inter">
-      <div className="mx-auto flex h-24 max-w-[1440px] items-center justify-between px-3 py-2 sm:px-4 md:px-6 lg:px-8">
+      <div className="mx-auto flex h-24 items-center justify-between px-3 py-2 sm:px-4 md:px-6 lg:px-8">
         <Link to="/" className="flex items-center hover:cursor-pointer">
           <div className="flex items-center">
             <div className=".block flex flex-col sm:flex-row sm:items-baseline">

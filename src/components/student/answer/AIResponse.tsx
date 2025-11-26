@@ -1,15 +1,15 @@
 import { type SpeakParams as SpeakParamsType } from '@/hooks/student/answer/useSpeak';
 import { IntervieweeOption } from '@/types/student/interview-option-type';
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import interviewStore from '@/stores/student/interview-store';
 
 type AIResponseProps = {
   aiResponse: string;
   selectedVoice: IntervieweeOption;
   isInitializing: boolean;
   hasPermissionError: boolean;
-  isInterviewEnd: boolean;
+  isGreeting: boolean;
+  isIntroGreetingFinished: boolean;
+  setIsIntroGreetingFinished: React.Dispatch<React.SetStateAction<boolean>>;
   handleSpeak: (data: SpeakParamsType) => Promise<void>;
 };
 
@@ -18,24 +18,23 @@ export default function AIResponseComponent({
   selectedVoice,
   isInitializing,
   hasPermissionError,
-  isInterviewEnd,
+  isGreeting,
+  isIntroGreetingFinished,
+  setIsIntroGreetingFinished,
   handleSpeak,
 }: AIResponseProps) {
-  const setEndAt = interviewStore((state) => state.setEndAt);
   const processedResponse = useRef('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     const speakFunction = async () => {
       if (aiResponse && aiResponse !== processedResponse.current) {
         processedResponse.current = aiResponse;
         await handleSpeak({ text: aiResponse, selectedVoice });
-        // if (isInterviewEnd) {
-        //   // Execute all UI logic after speaking and interview ends
-        //   // processedResponse.current = '';
-        //   // navigate('/user/dashboard', { replace: true });
-        //   setEndAt(new Date());
-        // }
+
+        // If it's greeting phase, mark intro greeting as finished after speaking
+        if (!isGreeting && !isIntroGreetingFinished) {
+          setIsIntroGreetingFinished(true);
+        }
       }
     };
     speakFunction();
