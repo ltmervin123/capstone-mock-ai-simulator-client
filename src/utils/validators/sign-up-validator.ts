@@ -8,6 +8,7 @@ export type ValidationErrors = {
   program?: string;
   email?: string;
   password?: string;
+  nameExtension?: string;
 };
 
 export function validateSignUpData(data: SignupFormData) {

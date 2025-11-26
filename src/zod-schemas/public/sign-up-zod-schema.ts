@@ -18,6 +18,11 @@ export const signupSchema = z.object({
     .min(12, { message: 'Student ID must be exactly 12 digits long' })
     .max(12, { message: 'Student ID must be exactly 12 digits long' }),
   program: z.string().min(1, { message: 'Program is required' }),
+  nameExtension: z
+    .string()
+    .max(10, { message: 'Name extension must be at most 10 characters long' })
+    .optional()
+    .or(z.literal('')),
   email: z
     .string()
     .email({ message: 'Invalid email address' })

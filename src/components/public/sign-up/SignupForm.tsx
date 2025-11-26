@@ -16,6 +16,7 @@ export default function SignupForm() {
     firstName: '',
     middleName: '',
     lastName: '',
+    nameExtension: '',
     studentId: '',
     program: '',
     email: '',
@@ -59,6 +60,7 @@ export default function SignupForm() {
       firstName: '',
       middleName: '',
       lastName: '',
+      nameExtension: '',
       studentId: '',
       program: '',
       email: '',
@@ -77,6 +79,12 @@ export default function SignupForm() {
     <div className="flex min-h-screen items-center justify-center bg-green-50 px-4 py-12 font-inter sm:px-6 lg:px-8">
       <div className="w-full max-w-2xl space-y-8 rounded-lg bg-white p-8 shadow-lg">
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <header className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900">Create Your Account</h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Join PrepWise and start practicing for your interviews today
+            </p>
+          </header>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <InputField
               label={'First Name'}
@@ -87,10 +95,11 @@ export default function SignupForm() {
               onChange={handleChange}
               error={validationErrors.firstName}
               disabled={isSubmitting}
+              className="md:col-span-2"
             />
 
             <InputField
-              label={'Middle Name'}
+              label="Middle Name (optional, use '.' if none)"
               name={'middleName'}
               type={'text'}
               placeholder={'Enter your middle name'}
@@ -98,6 +107,7 @@ export default function SignupForm() {
               onChange={handleChange}
               error={validationErrors.middleName}
               disabled={isSubmitting}
+              className="md:col-span-2"
             />
 
             <InputField
@@ -109,6 +119,19 @@ export default function SignupForm() {
               onChange={handleChange}
               error={validationErrors.lastName}
               disabled={isSubmitting}
+              className="md:col-span-2"
+            />
+
+            <InputField
+              label={'Name Extension (optional)'}
+              name={'nameExtension'}
+              type={'text'}
+              placeholder={'e.g., Jr., Sr., III'}
+              value={formData.nameExtension}
+              onChange={handleChange}
+              error={validationErrors.nameExtension}
+              disabled={isSubmitting}
+              className="md:col-span-2"
             />
 
             <InputField
@@ -121,9 +144,10 @@ export default function SignupForm() {
               error={validationErrors.studentId}
               maxLength={12}
               disabled={isSubmitting}
+              className="md:col-span-2"
             />
 
-            <div>
+            <div className="md:col-span-2">
               <label
                 htmlFor="program"
                 className={`mb-1 block font-inter text-sm font-medium text-gray-700 ${validationErrors.program ? 'text-red-500' : ''}`}
@@ -152,17 +176,18 @@ export default function SignupForm() {
               onChange={handleChange}
               error={validationErrors.email}
               disabled={isSubmitting}
+              className="md:col-span-2"
             />
 
-            <div className="md:col-span-2">
-              <PasswordField
-                value={formData.password}
-                onChange={handleChange}
-                error={validationErrors.password}
-                disabled={isSubmitting}
-                placeholder="Create a strong password"
-              />
-            </div>
+            <PasswordField
+              value={formData.password}
+              onChange={handleChange}
+              error={validationErrors.password}
+              disabled={isSubmitting}
+              placeholder="Create a strong password"
+              className="md:col-span-2"
+            />
+
             <div className="md:col-span-2">
               <p className="mt-1 text-xs text-gray-500">
                 Choose a strong password (at least 8 characters, including letters and numbers)
