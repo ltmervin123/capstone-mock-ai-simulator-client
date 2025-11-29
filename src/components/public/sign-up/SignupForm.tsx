@@ -131,6 +131,7 @@ export default function SignupForm() {
               onChange={handleChange}
               error={validationErrors.nameExtension}
               disabled={isSubmitting}
+              maxLength={20}
               className="md:col-span-2"
             />
 
@@ -138,11 +139,11 @@ export default function SignupForm() {
               label={'Student ID'}
               name={'studentId'}
               type={'text'}
-              placeholder={'Enter your NMCI Student ID'}
+              placeholder={'Enter your NORMI Student ID'}
               value={formData.studentId}
               onChange={handleChange}
               error={validationErrors.studentId}
-              maxLength={12}
+              maxLength={20}
               disabled={isSubmitting}
               className="md:col-span-2"
             />
