@@ -9,6 +9,7 @@ export const useGetUnViewedInterviewCount = (user: User) => {
     enabled: !!user,
     staleTime: 10 * 1000,
     refetchInterval: 10 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 

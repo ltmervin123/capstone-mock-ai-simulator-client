@@ -9,5 +9,6 @@ export const useGetDashboardStat = (user: User) => {
     enabled: !!user,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 5 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
