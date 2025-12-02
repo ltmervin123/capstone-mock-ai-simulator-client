@@ -11,6 +11,7 @@ export const useGetBehavioralCategory = () => {
     queryFn: () => BehavioralQuestionService.getBehavioralCategories(),
     staleTime: 5 * 60 * 1000,
     refetchInterval: 50 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 
@@ -21,5 +22,6 @@ export const useGetBehavioralQuestion = (questionId: string) => {
     enabled: !!questionId,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 50 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };

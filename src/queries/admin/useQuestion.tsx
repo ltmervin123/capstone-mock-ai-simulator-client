@@ -15,6 +15,7 @@ export const useGetBehavioralCategories = (user: User) => {
     enabled: !!user,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 5 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 
@@ -25,6 +26,7 @@ export const useGetBehavioralCategory = (user: User, categoryId: string) => {
     enabled: !!user && !!categoryId,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 5 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 
@@ -74,6 +76,7 @@ export const useGetQuestionConfigs = (user: User) => {
     enabled: !!user,
     staleTime: 10 * 60 * 1000,
     refetchInterval: 10 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 

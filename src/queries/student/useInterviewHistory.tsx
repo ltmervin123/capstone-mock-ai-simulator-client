@@ -14,6 +14,7 @@ export const useGetInterviewHistory = (user: User, filterBy: InterviewHistoryFil
     enabled: !!user,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 50 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 
@@ -24,5 +25,6 @@ export const useGetInterviewDetail = (interviewId: string) => {
     enabled: !!interviewId,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 50 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };

@@ -12,16 +12,21 @@ export const useGetPendingStudents = (
     enabled: !!user,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 5 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 
-export const useGetAcceptedStudents = (user: User, filterOptions: Record<string, string | undefined>) => {
+export const useGetAcceptedStudents = (
+  user: User,
+  filterOptions: Record<string, string | undefined>
+) => {
   return useQuery<AcceptedStudent[], Error>({
     queryKey: ['accepted-students', user, filterOptions],
     queryFn: () => StudentService.getAcceptedStudents(filterOptions),
     enabled: !!user,
     staleTime: 5 * 60 * 1000,
     refetchInterval: 5 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
 
