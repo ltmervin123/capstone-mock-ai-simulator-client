@@ -6,6 +6,7 @@ type ControlPanelProps = {
   questions: string[];
   isSpeakingLoading: boolean;
   isAISpeaking: boolean;
+  finalAnswer: string;
   isSendingGreetingResponse: boolean;
   isGeneratingQuestion: boolean;
   isInitializing: boolean;
@@ -43,8 +44,19 @@ export default function ControlPanel({
   hasPermissionError,
   isSanitizing,
   isIntroGreetingFinished,
+  finalAnswer,
 }: ControlPanelProps) {
   const isNotGreeting = !isGreeting && questions.length === 0;
+  const hasNoAnswer = finalAnswer.trim() === '' && isRecording;
+
+  const handleOnClick = () => {
+    if (isRecording) {
+      stopRecording();
+      nextQuestion();
+    } else {
+      startRecording();
+    }
+  };
 
   if (isInitializing || hasPermissionError) {
     return (
@@ -90,14 +102,7 @@ export default function ControlPanel({
             </button>
 
             <button
-              onClick={() => {
-                if (isRecording) {
-                  stopRecording();
-                  nextQuestion();
-                } else {
-                  startRecording();
-                }
-              }}
+              onClick={handleOnClick}
               className={`rounded-full p-4 text-white shadow-lg transition-all duration-200 hover:shadow-xl disabled:opacity-50 ${
                 isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
               }`}
@@ -108,7 +113,8 @@ export default function ControlPanel({
                 isSendingGreetingResponse ||
                 isGeneratingQuestion ||
                 isNotGreeting ||
-                isSanitizing
+                isSanitizing ||
+                hasNoAnswer
               }
             >
               {isRecording ? (
