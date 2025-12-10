@@ -7,8 +7,10 @@ type PreviewSectionProps = {
   isCameraOn: boolean;
   isInterviewActive: boolean;
   videoRef: React.RefObject<HTMLVideoElement>;
-  isAISpeaking?: boolean;
-  isUserSpeaking?: boolean;
+  isAISpeaking: boolean;
+  isUserSpeaking: boolean;
+  isAIListening: boolean;
+  isAIThinking: boolean;
   realTimeTranscription: string;
   stopRecording: () => void;
   nextQuestion: () => void;
@@ -112,12 +114,22 @@ function CandidateVideo({
   );
 }
 
-function AIInterviewer({ isAISpeaking }: { isAISpeaking: boolean }) {
+function AIInterviewer({
+  isAISpeaking,
+  isListening = true,
+  isAIThinking = false,
+  isInterviewActive,
+}: {
+  isAISpeaking: boolean;
+  isListening: boolean;
+  isAIThinking: boolean;
+  isInterviewActive: boolean;
+}) {
   const interviewOption = interviewStore((state) => state.interviewOption);
 
   return (
     <div
-      className={`relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-2xl transition-all duration-300 ${isAISpeaking ? 'animate-borderPulse border-4' : ''}`}
+      className={`relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-2xl transition-all duration-300 ${isAISpeaking ? 'animate-borderPulse border-4 border-blue-500' : ''}`}
     >
       <div className="flex h-full w-full items-center justify-center">
         <div className="text-center">
@@ -134,6 +146,51 @@ function AIInterviewer({ isAISpeaking }: { isAISpeaking: boolean }) {
       <div className="absolute bottom-2 left-2 rounded-lg bg-blue-900/80 px-2 py-1 backdrop-blur-sm sm:bottom-4 sm:left-4 sm:px-3 sm:py-1.5">
         <span className="text-xs font-medium text-white sm:text-sm">AI Interviewer</span>
       </div>
+
+      {isInterviewActive && !isAISpeaking && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-lg bg-black/60 px-2 py-1 backdrop-blur-sm sm:bottom-4 sm:px-4 sm:py-2">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {isAIThinking ? (
+              <div className="flex gap-1">
+                <div
+                  className="h-1.5 w-1.5 animate-bounce rounded-full bg-white sm:h-2 sm:w-2"
+                  style={{ animationDelay: '0ms' }}
+                ></div>
+                <div
+                  className="h-1.5 w-1.5 animate-bounce rounded-full bg-white sm:h-2 sm:w-2"
+                  style={{ animationDelay: '150ms' }}
+                ></div>
+                <div
+                  className="h-1.5 w-1.5 animate-bounce rounded-full bg-white sm:h-2 sm:w-2"
+                  style={{ animationDelay: '300ms' }}
+                ></div>
+              </div>
+            ) : isListening ? (
+              <div className="flex items-center gap-0.5 sm:gap-1">
+                <div className="h-2 w-1 animate-pulse rounded-full bg-white sm:h-3 sm:w-1.5"></div>
+                <div
+                  className="h-3 w-1 animate-pulse rounded-full bg-white sm:h-5 sm:w-1.5"
+                  style={{ animationDelay: '75ms' }}
+                ></div>
+                <div
+                  className="h-4 w-1 animate-pulse rounded-full bg-white sm:h-3 sm:w-1.5"
+                  style={{ animationDelay: '150ms' }}
+                ></div>
+                <div
+                  className="h-2 w-1 animate-pulse rounded-full bg-white sm:h-4 sm:w-1.5"
+                  style={{ animationDelay: '225ms' }}
+                ></div>
+              </div>
+            ) : (
+              <div className="h-1.5 w-1.5 rounded-full bg-white sm:h-2 sm:w-2"></div>
+            )}
+
+            <span className={`text-[10px] font-medium text-white sm:text-xs`}>
+              {isAIThinking ? 'Thinking...' : isListening ? 'Listening...' : 'Idle'}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -145,6 +202,8 @@ export default function PreviewSection({
   isRecording,
   isAISpeaking,
   isUserSpeaking,
+  isAIListening,
+  isAIThinking,
   realTimeTranscription,
   stopRecording,
   nextQuestion,
@@ -160,9 +219,17 @@ export default function PreviewSection({
         realTimeTranscription={realTimeTranscription}
         stopRecording={stopRecording}
         nextQuestion={nextQuestion}
+        isAISpeaking={false}
+        isAIListening={false}
+        isAIThinking={false}
       />
 
-      <AIInterviewer isAISpeaking={isAISpeaking!} />
+      <AIInterviewer
+        isAISpeaking={isAISpeaking}
+        isListening={isAIListening}
+        isAIThinking={isAIThinking}
+        isInterviewActive={isInterviewActive}
+      />
     </div>
   );
 }
