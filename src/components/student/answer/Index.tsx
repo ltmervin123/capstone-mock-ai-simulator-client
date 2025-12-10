@@ -186,6 +186,8 @@ const Index = () => {
           realTimeTranscription={realTimeTranscription}
           stopRecording={stopRecording}
           nextQuestion={nextQuestion}
+          isAIListening={isRecording}
+          isAIThinking={isGeneratingQuestion || isSanitizing || isSendingGreetingResponse}
         />
 
         {/* AI Response Area */}
@@ -225,6 +227,7 @@ const Index = () => {
           isGreeting={isGreeting}
           isSanitizing={isSanitizing}
           isIntroGreetingFinished={isIntroGreetingFinished}
+          finalAnswer={finalAnswer}
         />
 
         {!isInterviewActive && <GettingStarted />}
