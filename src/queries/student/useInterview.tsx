@@ -44,5 +44,6 @@ export const useGetQuestionConfigs = (user: User) => {
     enabled: !!user,
     staleTime: 3 * 60 * 1000,
     refetchInterval: 3 * 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 };
